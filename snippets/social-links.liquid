@@ -1,0 +1,34 @@
+{% if settings.social_links_show %}
+<ul class="social-links plain">
+  {% if settings.social_twitter_url != blank %}
+  <li><a title="Twitter" class="icon-twitter" target="_blank" href="{{ settings.social_twitter_url }}"><span>Twitter</span></a></li>
+  {% endif %}
+  {% if settings.social_facebook_url != blank %}
+  <li><a title="Facebook" class="icon-facebook" target="_blank" href="{{ settings.social_facebook_url }}"><span>Facebook</span></a></li>
+  {% endif %}
+  {% if settings.social_tumblr_url != blank %}
+  <li><a title="Tumblr" class="icon-tumblr" target="_blank" href="{{ settings.social_tumblr_url }}"><span>Tumblr</span></a></li>
+  {% endif %}
+  {% if settings.social_rss_url != blank %}
+  <li><a title="RSS" class="icon-rss" target="_blank" href="{{ settings.social_rss_url }}"><span>RSS</span></a></li>
+  {% endif %}
+  {% if settings.social_youtube_url != blank %}
+  <li><a title="Youtube" class="icon-youtube" target="_blank" href="{{ settings.social_youtube_url }}"><span>YouTube</span></a></li>
+  {% endif %}
+  {% if settings.social_vimeo_url != blank %}
+  <li><a title="Vimeo" class="icon-vimeo" target="_blank" href="{{ settings.social_vimeo_url }}"><span>Vimeo</span></a></li>
+  {% endif %}
+  {% if settings.social_instagram_url != blank %}
+  <li><a title="Instagram" class="icon-instagram" target="_blank" href="{{ settings.social_instagram_url }}"><span>Instagram</span></a></li>
+  {% endif %}
+  {% if settings.social_pinterest_url != blank %}
+  <li><a title="Pinterest" class="icon-pinterest" target="_blank" href="{{ settings.social_pinterest_url }}"><span>Pinterest</span></a></li>
+  {% endif %}
+  {% if settings.social_flickr_url != blank %}
+  <li><a title="Flickr" class="icon-flickr" target="_blank" href="{{ settings.social_flickr_url }}"><span>Flickr</span></a></li>
+  {% endif %}
+  {% if settings.social_google_url != blank %}
+  <li><a title="Google+" class="icon-googleplus" target="_blank" href="{{ settings.social_google_url }}"><span>Google Plus</span></a></li>
+  {% endif %}
+</ul>
+{% endif %}

@@ -1,0 +1,61 @@
+{% layout 'none' %}
+<div id="cart-summary">
+  <div class="inner">
+    <p>
+      <a href="/cart" style="float:left"><i class="icon-cart slim"></i></a>
+      REVIEW YOUR CART
+      <a class="toggle-cart-summary"  style="float:right" href="#">x</a>
+    </p>
+    {% if cart.items.size > 0 %}
+    <h5 class="cart-summary-title shippingmsg" style="display:none;">YOU HAVE EARNED FREE SHIPPING</h5>
+    <h5 class="cart-summary-title shippingmsg err">ADD $75 FOR FREE SHIPPING</h5>
+    <div class="cart-summary-item-list ft ftw">
+      {% for item in cart.items %}
+      <div class="cart-summary-item ftr cf">
+        <span class="image ftc">{{ item | img_url: 'small' | img_tag: item.title | link_to: item.url }}</span>
+        <span class="title-variant ftc">
+          <a class="title" href="{{ item.url }}">{{ item.product.title }}</a>
+          {% unless item.variant.title contains 'Default' %}<span class="variant">{{ item.variant.title }}</span>{% endunless %}
+          <span class="price ftc">
+            {{ item.price | money }}
+          </span>
+          <a data-id="{{ item.id }}" class="remove feature-col">{{ 'cart.general.remove' | t }}</a>
+        </span>
+        <span class="qty ftc">
+          <input type="number" class="micro select-on-focus" value="{{ item.quantity }}" />
+        </span>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="cart-summary-footer">
+      <div class="cart-summary-subtotal">
+        {{ 'layout.cart_summary.subtotal' | t }}  <span class="amount">{{ cart.total_price | money }}</span>
+      </div>
+      <div class="cart-summary-buttons cf">
+        {% if settings.cart_side_onebutton %}
+        <a id="checkout" class="btn checkout" href="/cart">{{ 'layout.cart_summary.cart' | t }}</a>
+        {% else %}
+        <div class="a-button">
+          <a class="btn alt cart" href="/cart">{{ 'layout.cart_summary.cart' | t }}</a>
+        </div>
+        <div class="a-button align-right">
+          {% comment %} <form action="/cart" method="post" id="cartform">{% endcomment %}
+          <a class="btn checkout" href="/checkout">{{ 'layout.cart_summary.checkout' | t }}</a>
+          {% comment %} </form> {% endcomment %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% else %}
+    <h5 class="cart-summary-title shippingmsg err">ADD $75 FOR FREE SHIPPING</h5>
+    <div class="cart-summary-item-list ft ftw">
+      <h5 class="cart-summary-title empty">YOUR CART IS EMPTY</h5>
+    </div>
+    <div class="cart-summary-footer">
+      <div class="cart-summary-buttons cf">
+        <a href="/" class="btn checkout">CONTINUE SHIPPING</a>
+      </div>
+    </div>
+    {% endif %}
+  </div><!-- /#cart-summary -->
+</div>

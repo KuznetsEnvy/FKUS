@@ -1,0 +1,164 @@
+{% paginate article.comments by 20 %}
+<div class="container">
+  {% comment %}
+  <!-- Begin breadcrumbs -->
+  <div class="breadcrumbs">
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ shop.url }}" title="{{ shop.name | escape }}" itemprop="url"><span itemprop="title">{{ 'general.breadcrumbs.home' | t }}</span></a></span>
+
+    <span class="divider">{{ 'general.breadcrumbs.divider_html' | t }}</span>
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ blog.url }}" title="{{ blog.title | escape }}" itemprop="url"><span itemprop="title">{{ blog.title }}</span></a></span>
+
+    <span class="divider">{{ 'general.breadcrumbs.divider_html' | t }}</span> <strong>{{ article.title }}</strong>
+  </div>
+  <!-- End breadcrumbs -->
+  {% endcomment %}
+
+  <!-- Begin article -->
+  <div class="reading-column">
+    <h1 class="page-title">{{ article.title }}</h1>
+
+    <div class="rte">
+      {{ article.content | replace: 'fullwidth"', '" data-fullwidth="true"' }}
+    </div>
+
+    {% if settings.blog_tags and article.tags.size > 0 %}
+    <div class="tags plain spaced">
+      <label>{{ 'blogs.general.tagged' | t }}</label>
+      <ul>
+        {% for tag in article.tags %}
+        <li class="tag">
+          {{ tag | link_to_tag: tag }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <div class="reading-column section">
+      <div class="row">
+        <div class="third column">
+          {% if blog.previous_article %}
+          <a class="more-link" href="{{ blog.previous_article }}">{{ 'blogs.article.older_post' | t }}</a>
+          {% endif %}
+          &nbsp;
+        </div>
+
+        <div class="third column align-centre">
+          <a class="more-link" href="{{ blog.url }}">{{ 'blogs.article.back_to' | t: title: blog.title }}</a>
+        </div>
+
+        <div class="third column align-right">
+          {% if blog.next_article %}
+          <a class="more-link" href="{{ blog.next_article }}">{{ 'blogs.article.newer_post' | t }}</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="reading-column">
+      <div class="row">
+        <div class="half column">
+          {% if settings.show_gravatars %}
+          <span class="gravatar">
+            <img src="//www.gravatar.com/avatar/{{ article.user.email | remove: ' ' | strip_newlines | downcase | md5 }}" alt="{{ article.author }}" />
+          </span>
+          {% endif %}
+          <div class="article-meta">
+            {% assign published_at = article.published_at | date: format: 'month_date_year' %}
+            <div class="date">{{ 'blogs.article.posted_on_date' | t: date: published_at  }}</div>
+            {% if settings.blog_show_author %}<div class="author">{{ article.author }}</div>{% endif %}
+            {% if article.comments_enabled? %}
+            <div class="comments-count">{{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if settings.social_sharing_products %}
+        <div class="half column align-right-desktop">
+          {% include 'sharing' with article %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    
+{% if blog.comments_enabled? %}
+<!-- Begin comments -->
+<div class="border-top">
+  <div class="container">
+    <div id="comments" class="comments reading-column">
+
+      {% if article.comments.size > 0 or comment.created_at %}
+      <div class="section padless-bottom">
+        <h2 class="comment-title">{{ 'blogs.comments.title' | t }}</h2>
+
+        {% if comment and comment.created_at %}
+        {% include 'comment' %}
+        {% endif %}
+
+        {% for comment in article.comments %}
+        {% include 'comment' %}
+        {% endfor %}
+
+        {% include 'pagination' %}
+      </div>
+      {% endif %}
+
+      <div id="comment-form" class="comment-form section">
+        {% form "new_comment", article %}
+        <h2 class="comment-title">{{ 'blogs.comments.form_title' | t }}</h2>
+
+        {% if form.posted_successfully? %}
+        <script>location.hash='comment-form'</script>
+        {% if blog.moderated? %}
+        <p class="notification success">{{ 'blogs.comments.success_moderated' | t }}</p>
+        {% else %}
+        <p class="notification success">{{ 'blogs.comments.success' | t }}</p>
+        {% endif %}
+        {% endif %}
+
+        {% if form.errors %}
+        <script>location.hash='comment-form'</script>
+        <div class="notification errors">
+          {{ 'blogs.comments.error' | t }}
+          {{ form.errors | default_errors }}
+        </div>
+        {% endif %}
+
+        <div class="input-row">
+          <label for="comment_author">{{ 'blogs.comments.name' | t }}</label>
+          <input type="text" id="comment_author" name="comment[author]" size="40" class="text" />
+        </div>
+        <div class="input-row">
+          <label for="comment_email">{{ 'blogs.comments.email' | t }}</label>
+          <input type="text" id="comment_email" name="comment[email]" size="40" class="text" />
+        </div>
+        <div class="input-row">
+          <label for="comment_body">{{ 'blogs.comments.message' | t }}</label>
+          <textarea id="comment_body" name="comment[body]" cols="40" rows="5" class="text">{{form.body}}</textarea>
+        </div>
+
+        {% if blog.moderated? %}
+        <p><em>{{ 'blogs.comments.moderated' | t }}</em></p>
+        {% endif %}
+
+        <div class="input-row">
+          <input type="submit" value="{{ 'blogs.comments.post' | t }}" class="alt" id="comment-submit" />
+        </div>
+
+        {% endform %}
+      </div>
+    </div> 
+    <!-- End comments -->
+  </div>
+</div>
+{% endif %}
+    
+{% endpaginate %}

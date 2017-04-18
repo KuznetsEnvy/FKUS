@@ -1,0 +1,101 @@
+<div class="container">
+  
+  {% comment %}
+  <div class="inline-row cf">
+    <!-- Begin breadcrumbs -->
+    <div class="breadcrumbs inline-item left">
+      <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ shop.url }}" title="{{ shop.name | escape }}" itemprop="url"><span itemprop="title">{{ 'general.breadcrumbs.home' | t }}</span></a></span>
+      <span class="divider">{{ 'general.breadcrumbs.divider_html' | t }}</span>
+      <strong>{{ blog.title }}</strong>
+    </div>
+    <!-- End breadcrumbs -->
+    
+    <div class="inline-item right">
+      {% include 'sharing' with blog %}
+    </div>
+  </div>
+  {% endcomment %}
+  
+  <div class="page-title opposing-items">
+    <h1 class="left">
+      {{ blog.title }}
+      {% if settings.blog_rss %}<a target="_blank" href="{{ blog.url }}.atom" title="RSS"><i class="icon-rss"></i></a>{% endif %}
+    </h1>
+
+    {% if settings.blog_tags and blog.all_tags.size > 0 %}
+    <ul class="right last tags plain">
+      <li class="tag{% unless current_tags.size > 0 %} active{% endunless %}">{{ 'blogs.general.all_articles' | t | link_to: blog.url }}</li>
+      {% for tag in blog.all_tags %}
+      <li class="tag{% if current_tags contains tag %} active{% endif %}">
+        {{ tag | link_to_tag: tag }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+  
+  {% paginate blog.articles by 12 %}
+  
+  <div class="articles row grid">
+    
+    {% capture article_class %}{% if settings.blog_tile_mode contains 'tile' %}flex column max-cols-4{% else %}full column{% endif %}{% endcapture %}
+    
+    {% for article in blog.articles %}
+    {% include 'article-block' with article_class %}
+    {% endfor %}
+    
+  </div>
+  
+  {% if paginate.pages > 1 %}
+  <div class="inline-row cf">
+    <span class="inline-item left">{{ blog.articles_count }} results</span>
+    <div class="inline-item right">{% include 'pagination' %}</div>
+  </div>
+  {% endif %}
+    
+  {% endpaginate %}
+  
+</div>
+
+{% if settings.blog_tile_mode contains 'masonry' %}
+{{ 'masonry.pkgd.min.js' | asset_url | script_tag }}
+<script>
+  $(window).on('load', function(){
+    $('.articles').addClass('masonry').masonry({
+      itemSelector: '.article',
+      visibleStyle:   { opacity: 1, transform: 'translate3d(0,0,0)' },
+      hiddenStyle:    { opacity: 0, transform: 'translate3d(0,20px,0)' }
+    });
+    // needs a second run
+    setTimeout(function(){ $('.articles.masonry').masonry() }, 10);
+  });
+</script>
+{% endif %}
+
+{% if settings.blog_infiniscroll %}
+{{ 'jquery.infinitescroll.min.js' | asset_url | script_tag }}
+<script>
+  $(window).on('load', function(){
+    $('.articles').infinitescroll({
+      navSelector  : ".pagination",
+      nextSelector : ".pagination .next",
+      itemSelector : ".articles .article",
+      loading: {
+        img         : {{ 'loading.gif' | asset_url | json }},
+        msgText     : {{ 'blogs.infinite_scroll.loading' | t | json }},
+        finishedMsg : {{ 'blogs.infinite_scroll.no_more' | t | json }}
+      },
+      pathParse:function(path,nextPage){
+        return path.match(/^(.*page=)[0-9]*(&.*)?$/).splice(1);
+      }
+    }, function(newElements){
+      {% if settings.blog_masonry %}
+      $(newElements).hide().imagesLoaded(function(){
+        $(newElements).show();
+        $('.articles.masonry').masonry('appended', $(newElements), true);
+      });
+      {% endif %}
+    });
+  });
+</script>
+{% endif %}

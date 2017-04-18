@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="reading-column">    
+    <div class="rte">    	
+      <div class="wish-desc">
+        {% capture page %}{{ settings.select_winpage_content }}{% endcapture %}
+         {{ pages[page].content | replace: 'fullwidth"', '" data-fullwidth="true"' }}
+      </div>
+      <div class="win-form">
+        <form  action="#" method="post" id="" class="" >
+          <div class="inner-form">
+            <div class="input-row">        
+              <input type="text" placeholder="Your Name" value="" name="customer[name]" id="customer_name" class="text">
+            </div>
+            <div class="input-row">        
+              <input type="email" value="" placeholder="Email" name="customer[email]" id="customer_email" class="email">
+            </div>
+            <div class="input-row">            
+              <div class="check">
+                <input type="checkbox" value="" name="customer" id="customer_checkbox" class="checkbox">
+                
+              </div>
+              <p class="terms">I accept the <a href="/pages/terms-conditions">Terms & Conditions</a></p>
+            </div>
+          </div>
+          <div class="input-row">
+            <input class="btn enter" type="submit" value="Enter">
+          </div>          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

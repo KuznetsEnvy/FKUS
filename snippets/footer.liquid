@@ -1,0 +1,69 @@
+<footer id="page-footer" class="page-footer">
+  <div class="container">    
+    <div class="row section padless-top"> 
+      <div class="fourth column first">
+        {% if settings.use_logo and settings.show_footer_logo %}
+        <div class="logo-column column mobile-logo">
+          {{ 'footer_logo.png' | asset_url | img_tag | link_to: shop.url }}
+        </div>
+        {% endif %} 
+        <ul class="plain inline list-divide">
+          {% for link in linklists.footer-2.links %}
+          <li>{{ link.title | link_to: link.url }}</li>
+          {% endfor %}
+        </ul>   
+        <div class="copy">{{ 'layout.footer.copyright' | t }} &copy; {{ "now" | date: "%Y" }} {{ shop.name }}.</div>   
+      </div>     
+      <div class="fourth column">
+        {% if settings.footer_display_newsletter %}
+          {% if settings.newsletter_title %}<p class="newsletter-title">{{ settings.newsletter_title }}</p>{% endif %}
+          {% include 'mailing-signup' %}
+        {% else %}
+          <div class="competition">
+            <a class="title ftc" href="/pages/win-cash">WANT TO <span style="font-weight:bold;">WIN $5000 CASH</span></a>
+            <button class="buy-btn" onclick='window.location.href="/pages/win-cash"' >ENTER HERE</button>
+          </div>
+        {% endif %}
+      </div>
+      <div class="fifth column second">
+        <div class="social-column align-left-desktop {% if settings.footer_display_newsletter %}half column{% else %}full column{% endif %}">          
+          {% include 'social-links' %}
+        </div>
+      </div>
+    </div>
+    {% if settings.footer_complexity == 'kitchen_sink' %}
+    <div class="row section padless-top">
+      {% if settings.use_logo and settings.show_footer_logo %}
+      <div class="logo-column column mobile">
+        {{ 'footer_logo.png' | asset_url | img_tag | link_to: shop.url }}
+      </div>
+      {% endif %}
+      <div class="text-column {% unless settings.use_logo and settings.show_footer_logo %}occupies-logo{% endunless %} column rte">
+        {{ pages[settings.footer_page].content }}
+      </div>
+      <div class="links-column column">
+        <ul class="plain">
+          {% for link in linklists.footer.links %}
+          <li>{{ link.title | link_to: link.url }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="links-column column">
+        <ul class="plain">
+          {% for link in linklists[settings.footer_linklist2].links %}
+          <li>{{ link.title | link_to: link.url }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="links-column column">
+        <ul class="plain">
+          {% for link in linklists[settings.footer_linklist3].links %}
+          <li>{{ link.title | link_to: link.url }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  <a class="hash-link" href="#toolbar"><i class="icon-arrow3-up"></i></a>
+</footer>

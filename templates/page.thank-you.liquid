@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="reading-column">    
+    <div class="rte">    	
+      <div class="wish-desc">
+        {% capture page %}{{ settings.select_winpage_content }}{% endcapture %}
+        {{ pages[page].content | replace: 'fullwidth"', '" data-fullwidth="true"' }}
+      </div>
+      <div class="win-form">
+        {% include 'favorite-products' %}
+      </div>
+    </div>
+  </div>
+</div>

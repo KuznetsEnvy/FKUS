@@ -1,0 +1,930 @@
+$(function($){
+  /// Extensions
+  
+  $.fn.replaceImageWithOneOfNewSrc = function(newSrc) {
+    //Avoids blank.gif breaking imagesLoaded with Firefox event bug
+    var newTag = $(this).clone().wrap('<div />').parent().html();
+    newTag = newTag.replace(/(src=")([^"]*)/gi, "$1" + newSrc);
+    var $newTag = $(newTag);
+    $(this).after($newTag).remove();
+    return $newTag;
+  };
+  
+  //Fade out image, replace src, fade back in when loaded
+  $.fn.fadeToAnotherImage = function(newSrc, callback){
+    var $img = $(this);
+    var oldHeight = $img.height();
+    var doFade = !$img.parent().hasClass('heightkeeper') && $img.attr('src') != newSrc;
+    if(doFade) {
+      $img.wrap(
+        $('<div class="heightkeeper" />').css({ height: oldHeight, overflow: 'hidden' })
+      ).stop(true,true).animate({opacity:0}, 200, function(){
+        $img = $img.replaceImageWithOneOfNewSrc(newSrc);
+        $img.imagesLoaded(function(){
+          $img.stop(true,true).animate({opacity:1}, 200);
+          $img.parent().stop(true,true).animate({height: $img.height()}, 500, function(){
+            $img.unwrap();
+            if(callback) callback($img);
+          });
+        });
+      });
+      return true;
+    } else {
+      return false;
+    }
+  };
+  
+  function isMobile() {
+    return $(window).width() < 768; //blunt check for mobile view
+  }
+  
+  
+  /// Restyle any dropdowns
+  
+  $('select:not(#product-select)').selectReplace().closest('.selector-wrapper').addClass('has-pretty-select');
+  
+  
+  /// Toggle classes
+  
+  $(document).on('click', '[data-toggle-class]', function(e){
+    e.preventDefault();
+    var spl = $(this).data('toggle-class').split('|');
+    $(spl[1]).toggleClass(spl[0]);
+    $(window).trigger('resize');
+  });
+  
+  
+  /// Close side-modals
+  
+  function sideModTransOutHelper() {
+    //Speed up
+    $('body').addClass('sidepanel-transitioning');
+    setTimeout(function(){
+      $('body').removeClass('sidepanel-transitioning');
+    }, 410);
+  }
+
+  $('#page-overlay').on('click', function(){
+    sideModTransOutHelper();
+    $('body').removeClass('show-cart-summary show-mobile-nav');
+    return false;
+  });
+  
+  
+  /// Toggles for side-modals
+  
+  $(document).on('click', '.toggle-mob-nav, body.show-mobile-nav #docked-toolbar', function(){
+    //prep for reveal
+    $('#cart-summary').removeClass('active');
+    $('#mobile-nav').addClass('active');
+    //toggle
+    if(!$('body').toggleClass('show-mobile-nav').hasClass('show-mobile-nav')) {
+      sideModTransOutHelper();
+    }
+    return false;
+  });
+  {% if settings.use_side_cart_summary %}
+  /*$(document).on('click', 'body.show-cart-summary #docked-toolbar', function(){
+    //prep for reveal
+    $('#mobile-nav').removeClass('active');
+    $('#cart-summary').addClass('active');
+    //toggle
+    if(!$('body').toggleClass('show-cart-summary').hasClass('show-cart-summary')) {
+      sideModTransOutHelper();
+    }
+    return false;
+  });*/
+  $(document).on('click','.toggle-cart-summary', function(){
+    //prep for reveal
+    $('#overlay').toggleClass('is-active');
+    $('#cart-summary').toggle('slide',{direction:'right'},200);
+    if(isMobile()){
+      setTimeout(function(){ $('#overlay').toggleClass('is-active'); $('#cart-summary').toggle('slide',{direction:'right'},200); }, 5000);
+    }
+    return false;
+  });
+  $(document).on('click','#overlay.is-active', function(){
+    //prep for reveal
+    $('#overlay').toggleClass('is-active');
+    $('#cart-summary').toggle('slide',{direction:'right'},200);
+    if(isMobile()){
+      setTimeout(function(){ $('#overlay').toggleClass('is-active'); $('#cart-summary').toggle('slide',{direction:'right'},200); }, 5000);
+    }
+    return false;
+  });
+  {% endif %}
+  
+  
+  /// Mobile sub-nav
+  
+  var navStack = [];
+  $('#mobile-nav').on('click', '.open-sub-nav', function(){
+    // hide current & add to stack
+    navStack.push($('#mobile-nav .inner:not(.hide), #mobile-nav .sub-nav.show:not(.hide)').addClass('hide'));
+    // show new
+    $('#mobile-nav .sub-nav[data-is-subnav-for="'+$(this).data('sub-nav')+'"]').first().addClass('show');
+    return false;
+  }).on('click', '.close-sub-nav', function(){
+    // hide current
+    $(this).closest('.sub-nav').removeClass('show');
+    // reveal last seen & pop off stack
+    var popped = navStack.pop().removeClass('hide');
+    /*if($('#mobile-nav .sub-nav.show.hide').removeClass('hide').length == 0) {
+      $('#mobile-nav .inner').removeClass('hide');
+    }*/
+    return false;
+  }).on('click', 'a.nav-item-link[href=#]', function(){
+    // #-link opens child nav
+    $(this).closest('li').find('button').click();
+    return false;
+  });
+  
+  
+  /// Dropdowns that redirect
+  
+  $('select.redirect').on('change', function(){
+    window.location = $(this).val();
+  });
+  
+  
+  /// Slideshows
+  
+  $('.flexslider').each(function(){
+    var slideshowOpts = {
+     //  slideshow: !isMobile(), // animate slider automatically
+      animation: ( $(this).hasClass('slide')) ? 'slide' : 'fade',
+      controlNav: true,
+      slideshowSpeed: 7000, // ms delay between slides
+      smoothHeight: $(this).hasClass('smoothheight'),
+      fadeFirstSlide: false
+    };
+
+    var $slider = $(this).toggleClass('one-slide', $(this).find('.slides > li').length == 1);
+    
+    //Change this to false to prevent transitions on slideshow text
+    $(this).imagesLoaded(function(){
+      $('.flexslider .line-1, .flexslider .line-2, .flexslider .line-3').addClass('trans-out');
+      $.extend(slideshowOpts, {
+        before: function(slider) {
+          $(slider.slides[slider.animatingTo]).find('.line-1, .line-2, .line-3').addClass('trans-out');
+        },
+        after: function(slider){
+          setTimeout(function(){ $('.flexslider .line-1').removeClass('trans-out') }, 0);
+          setTimeout(function(){ $('.flexslider .line-2').removeClass('trans-out') }, 400);
+          setTimeout(function(){ $('.flexslider .line-3').removeClass('trans-out') }, 1000);
+        }
+      });
+      setTimeout(function(){ $('.flexslider .line-1').removeClass('trans-out') }, 500);
+      setTimeout(function(){ $('.flexslider .line-2').removeClass('trans-out') }, 900);
+      setTimeout(function(){ $('.flexslider .line-3').removeClass('trans-out') }, 1500);
+      $slider.flexslider(slideshowOpts);
+    });
+  });
+  
+  
+  /// Ensuring nav responds nicely to taps/clicks/hovers
+  
+  $('.main-nav li.dropdown > a').attr('aria-haspopup', 'true'); //ie
+  $('.main-nav > ul > li.dropdown').doubleTapToGo(); //other touchscreen taps
+  $('.main-nav').on('click', 'li.drop-uber .sub-nav-item:not(.has-dropdown) a', function(){
+    window.location = $(this).attr('href');
+  });
+  
+  // Sub sub nav
+  $('.main-nav').on('click', '.sub-nav-item.has-dropdown > a', function(){
+    $(this).siblings().slideToggle(250);
+    return false;
+  });
+  
+  
+  // Ensuring sub nav dropdown does not go off the RHS of page
+  $(window).on('debouncedresize load', function(){
+    setTimeout(function(){
+      var pw = $('#page-wrap-inner').width();
+      $('.main-nav .nav-item.drop-norm .sub-nav').each(function(){
+        var oob = pw - ($(this).parent().offset().left + $(this).outerWidth());
+        if(oob < 0) {
+          $(this).css('margin-left', oob);
+        } else {
+          $(this).css('margin-left', '');
+        }
+      });
+    }, 50);
+  });
+  
+  // Ensure no columns go over the per-column quota
+  var perCol = {{ settings.nav_col_limit | default: 0 }};
+  if(perCol > 0) {
+    $('.main-nav .nav-item.dropdown.drop-norm > .sub-nav').each(function(){
+      var $items = $(this).find('.sub-nav-list > .sub-nav-item');
+      var cols = Math.ceil($items.length / perCol);
+      for(var i=1; i<cols; i++) {
+		var $list = $('<ul class="sub-nav-list"/>').append($items.slice(perCol*i)).appendTo(this);
+      }
+      $(this).addClass('cols-'+cols);
+    });
+  }
+  
+
+  /// Nav images
+  
+  var ios = navigator.userAgent.toLowerCase().match(/(iphone|ipod|ipad)/); // have to skip on iOS; it detects dom-change on hover and prevents click
+  if (!(ios)) {
+    $('.main-nav').on('mouseenter loadimg', '.sub-nav.has-img .sub-nav-item-link', function(){
+      var $imgCont = $(this).closest('.sub-nav').find('.rep-img').empty();
+      if(typeof $(this).data('img') != 'undefined') { $imgCont.append('<img src="'+$(this).data('img')+'+"/>'); }
+    });
+  } else {
+    $('.main-nav .sub-nav.has-img').removeClass('has-img').find('.rep-img').remove();
+  }
+  //Preload sub-nav images on show, and load first one
+  $('.main-nav').on('mouseenter', '.nav-item.dropdown', function(){
+    $(this).find('.sub-nav-item-link[data-img]').each(function(){
+      $('<img/>')[0].src = $(this).data('img');
+    }).first().trigger('loadimg');
+  });
+  
+  
+  /// In-page links
+  
+  $(document).on('click', 'a[href^="#"]:not([href="#"])', function(){
+    var $target = $($(this).attr('href')).first();
+    if($target.length == 1) {
+      $('html:not(:animated),body:not(:animated)').animate({
+        scrollTop: $target.offset().top
+      }, 500 );
+    }
+    return false;
+  });
+  
+  
+  /// Revealables (sharing, cart in header, sidebar)
+  
+  $(document).on('click', '[data-revealable]', function(){
+    $(this).closest($(this).data('revealable')).toggleClass('show');
+    $(window).trigger('resize');
+    return false;
+  });
+  
+  
+  /// Show a short-lived text popup above an element
+  window.showQuickPopup = function(message, $origin){
+    var $popup = $('<div class="simple-popup"/>');
+    var offs = $origin.offset();
+    $popup.html(message).css({ 'left':offs.left, 'top':offs.top }).hide();
+    $('#page-wrap-inner').append($popup);
+    $popup.css({ marginTop: - $popup.outerHeight() - 10, marginLeft: -($popup.outerWidth()-$origin.outerWidth())/2});
+    $popup.fadeIn(200).delay(3500).fadeOut(400, function(){
+      $(this).remove();
+    });
+  };
+  
+  /// Ajax product forms
+  var shopifyAjaxAddURL = '/cart/add.js';
+  var shopifyAjaxCartURL = '/cart.js';
+  var shopifyAjaxStorePageURL = '/search';
+
+
+  
+  function updateCartSummaries() {
+    $('#cart-summary').addClass('updating');
+    $.get(shopifyAjaxStorePageURL, function(data){
+      var cartSummarySelector = '#cart-summary';
+      var $newCartObj = $($.parseHTML('<!-- cart-summary -->'+data.split('<!-- cart-summary -->')[1]+'<!-- cart-summary -->'))[2];
+      var $currCart = $(cartSummarySelector);
+      $currCart.html($newCartObj);
+      {% if settings.use_side_cart_summary %}
+      //Show cart dropdown, if on a product page
+      //$('body.template-product').addClass('show-cart-summary');
+      {% endif %}
+      $.getJSON('/cart.js', function (cart, textStatus) {
+        var total_price = cart.total_price;
+        var carttext=cart.item_count;
+        $(".cart-count").text(carttext);
+      });
+      $('#cart-summary.updating').removeClass('updating');
+    });
+
+  }
+  
+  {% if settings.prod_ajax == 'ajax' %} 
+  $(document).on('submit', 'form[action="/cart/add"]:not(.noAJAX)', function(e) {
+    //Skip on mobile
+    /*if($(window).width() < 768) {
+      return true;
+    }*/
+    var $form = $(this);
+    //Disable add button
+    $form.find(':submit').attr('disabled', 'disabled').each(function(){
+      var contentFunc = $(this).is('button') ? 'html' : 'val';
+      $(this).data('previous-value', $(this)[contentFunc]())[contentFunc]({{ 'products.product.adding_to_cart' | t | json }});
+    });
+    
+    //Add to cart
+    $.post(shopifyAjaxAddURL, $form.serialize(), function(itemData) {
+      //Enable add button
+      var $btn = $form.find(':submit').each(function(){
+        var $btn = $(this);
+        var contentFunc = $(this).is('button') ? 'html' : 'val';
+        //Set to 'DONE', alter button style, wait a few secs, revert to normal
+        $btn[contentFunc]({{ 'products.product.added_to_cart_btn' | t | json }});
+        setTimeout(function(){
+          $btn.removeAttr('disabled')[contentFunc]($btn.data('previous-value'));
+        }, 4000);
+      }).first();
+      
+      $('#overlay').toggleClass('is-active');
+      $('#cart-summary').toggle('slide',{direction:'right'},200);
+      //Update persistent cart summaries
+      updateCartSummaries();
+      if(isMobile()){
+        setTimeout(function(){ $('#overlay').toggleClass('is-active'); $('#cart-summary').toggle('slide',{direction:'right'},200); }, 5000);
+      }
+      
+    }, 'text').error(function(data) {
+      //Enable add button
+      var $firstBtn = $form.find(':submit').removeAttr('disabled').each(function(){
+        var $btn = $(this);
+        var contentFunc = $btn.is('button') ? 'html' : 'val';
+        $btn[contentFunc]($btn.data('previous-value'))
+      }).first();
+      
+      //Not added, show message
+      if(typeof(data) != 'undefined' && typeof(data.status) != 'undefined') {
+        var jsonRes = $.parseJSON(data.responseText);
+        window.showQuickPopup(jsonRes.description, $firstBtn);
+      } else {
+        //Some unknown error? Disable ajax and submit the old-fashioned way.
+        $form.addClass('noAJAX');
+        $form.submit();
+      }
+    });
+    return false;
+  });
+  {% endif %}
+
+  $(document).on('click','#cart-summary .remove',function (){
+	//var $statusDivs = $(this).closest('.cart-summary-item').add('#cart-summary').addClass('updating');
+    var id = $(this).data('id');
+    $.post('/cart/update.js', 'updates['+id+']=0');
+    updateCartSummaries();
+    //$statusDivs.removeClass('updating');
+  });
+
+  
+  $(document).bind('click', '#add', function(){
+    Shopify.onItemAdded = function(cart) {
+      jQuery.getJSON('/cart.js', function(cart) {
+        $('.cart-summary-item').html(updateCartSummaries());
+      });
+    };
+  });
+  
+  
+  /// Side-cart quantities
+  
+  $(document).on('change', '#cart-summary .cart-summary-item input', function(){
+    var $statusDivs = $(this).closest('.cart-summary-item').add('#cart-summary').addClass('updating');
+    var quantities = [];
+    $('#cart-summary .cart-summary-item input').each(function(){
+      quantities.push($(this).val());
+    });
+    $.post('/cart/update.js', { updates: quantities }, function(data){
+      //Update total
+      $('#cart-summary .cart-summary-subtotal .amount').html(Shopify.formatMoney(data.total_price, {{ shop.money_format | json }}));
+      //Remove if qty=0
+      $('#cart-summary .cart-summary-item input').filter(function(){ return $(this).val() == 0 }).closest('.cart-summary-item').animate({ opacity: 0 }, 250, function(){ $(this).remove() });
+      updateCartSummaries();
+    }, 'json').always(function(){
+        $statusDivs.removeClass('updating')
+   	});
+  });
+  
+  /// Heights in grids
+  
+  $(window).on('debouncedresize load', function(){
+    $('[data-normheights]').each(function(){
+      var $items = $(this).find($(this).data('normheights')),
+          childFilter = $(this).data('normheights-inner'),
+          tallest = 0,
+          lastYOffset = 0,
+          row = [];
+      $items.each(function(index){
+        var $img = $(this).find(childFilter);
+        var yOffset = $(this).position().top;
+        if(index == 0) {
+          lastYOffset = yOffset;
+        } else if(yOffset != lastYOffset) {
+          $(row).css('min-height', tallest);
+          yOffset = $(this).position().top;
+          row.length = 0;
+          tallest = 0;
+        }
+        lastYOffset = yOffset;
+        row.push(this);
+        var h = $img.height();
+        if(h > tallest) tallest = h;
+      });
+      $(row).css('min-height', tallest);
+    });
+  });
+  
+  
+  /// Product form
+  {% if template contains 'product' %}
+  //selectCallback - a function required by Shopify
+  window.selectCallback = function(variant, selector) {
+    jQuery('#price').removeClass('on-sale');
+    if (variant) {
+
+      // Selected a valid variant that is available.
+      if ( variant.compare_at_price > variant.price ) {
+        jQuery('#price').addClass('on-sale').html('<del>'+Shopify.formatMoney(variant.compare_at_price)+'</del> ' + Shopify.formatMoney(variant.price));
+      } else {
+        jQuery('#price').html(Shopify.formatMoney(variant.price));
+      }
+      
+      if (variant.available) {
+	
+        // Enabling add to cart button.
+        jQuery('#add').removeClass('disabled').removeAttr('disabled').html({{ 'products.product.add_to_cart_html' | t | json }});
+
+        // If item is backordered yet can still be ordered, we'll show special message.
+        if (variant.inventory_management && variant.inventory_quantity <= 0) {
+          jQuery('#selected-variant').html(selector.product.title{% unless hide_default_title %} + ' - ' + variant.title{% endunless %});
+          jQuery('#backorder').removeClass("hidden");
+        } else {
+          jQuery('#backorder').addClass("hidden");
+        }
+
+      } else {
+        // Variant is sold out.
+        jQuery('#backorder').addClass('hidden');
+        jQuery('#add').html({{ 'products.variant.out_of_stock' | t | json }}).addClass('disabled').attr('disabled', 'disabled');
+      }
+      
+    } else {
+      // variant doesn't exist.
+      var html = {{ 'products.variant.non_existent' | t | json }};
+      var anySelectsEmpty = $('.selector-wrapper select').filter(function(){ return $(this).val() == ''; }).length > 0;
+      if(anySelectsEmpty) {
+        html = {{ 'products.product.add_to_cart_html' | t | json }};
+      }
+      jQuery('#price del').remove();
+      jQuery('#backorder').addClass('hidden');
+      jQuery('#add').html(html).addClass('disabled').attr('disabled', 'disabled');
+    }
+
+
+    if (variant && variant.featured_image) {
+      var newImage = Shopify.Image.removeProtocol(variant.featured_image.src);
+      //Find and click matching thumb
+      $('.thumbnails a.thumbnail').filter('[href="' + newImage + '"]').trigger('click');
+    }
+    
+    $('#sku').html(!variant ? '' : variant.sku);
+  };
+  
+  //Initialise product form inputs
+  $(document).on('initproduct', '#product-form', function(){
+    var $select = $(this).find('#product-select');
+    if($select.length == 1) {
+      var productData = products['id'+$(this).data('product-id')];
+      new Shopify.OptionSelectors($select.attr('id'), { product: productData, onVariantSelected: selectCallback, enableHistoryState: {% if settings.show_prod_pick_a %}false{% else %}!$('#product-variants').hasClass('hidden'){% endif %} });
+
+      if(productData.options.length == 1 && productData.options[0] != 'Title') {
+        // Add label if only one product option and it isn't 'Title'.
+        $('.selector-wrapper:eq(0)').prepend('<label>'+ productData.options[0] +'</label>');
+      }
+
+      //Make sure dropdowns have labels with matching 'for' attribute
+      $(this).find('.selector-wrapper select').each(function(){
+        $(this).closest('.selector-wrapper').find('label').attr('for', $(this).attr('id'));
+      });
+
+      //Turn some inputs into clickable boxes
+      var toMakeClicky = ',' + {{ settings.prod_clicky_opt_names | json }} + ',';
+      $(this).find('.selector-wrapper select').filter(function(){
+        return toMakeClicky.indexOf(',' +$(this).siblings('label').html() + ',') >= 0;
+      }).clickyBoxes().parent().addClass('has-clickyboxes');
+      
+      //If only one variant option, add sold-out states to clicky boxes
+      if(productData.options.length == 1) {
+        for(var i=0; i<productData.variants.length; i++) {
+          if(!productData.variants[i].available) {
+            $('.selector-wrapper.has-clickyboxes .clickyboxes li:eq('+i+') a').addClass('unavailable');
+          }
+        }
+      }
+      
+      {% if settings.show_prod_pick_a %}
+      //Show the 'Pick a X' option
+      if(!$('#product-variants').hasClass('hidden')) {
+        for(var i=0; i<productData.options.length; i++) {
+          $('.selector-wrapper:not(.has-clickyboxes) #product-select-option-'+i).filter(function(){ return $(this).children().length > 1 }).prepend(['<option value="">',{{ 'products.product.pick_a' | t | json }},' ',productData.options[i],'</option>'].join('')).val('').trigger('change');
+        }
+      }
+      {% endif %}
+      
+      //Style other visible select dropdowns
+      $('select:not(#product-select)').selectReplace().closest('.selector-wrapper').addClass('has-pretty-select');
+    }
+  });
+  $('#product-form').trigger('initproduct'); // Trigger on page load
+  
+  
+  /// Product gallery zoom
+  {% if settings.enable_product_image_zoom %}
+  if(!isMobile()) {
+    $(document).on('initzoom', '.product-gallery .main .main-img-link', function(){
+      $(this).trigger('zoom.destroy');
+      $(this).zoom({ url: $(this).attr('href') });
+    });
+    $('.product-gallery .main .main-img-link').trigger('initzoom');
+  }
+  {% endif %}
+  
+  /// Product gallery lightbox
+  
+  $(document).on('click', '.product-gallery .main a.main-img-link', function(){
+    //Don't do anything if the screen isn't very large. Otherwise, lightbox ahoy...
+    if($(window).height() >= 580 && $(window).width() >= 768) {
+      var $prodPhotoCont = $(this).closest('.product-gallery');
+      if($prodPhotoCont.find('img:not(.zoomImg)').length == 1) {
+        //One image only?
+        $.colorbox({ href:$(this).attr('href'), minWidth: '200', maxWidth:'96%', maxHeight:'96%' });
+      } else {
+        //Many images. Dupe thumbs to create a faux-gallery
+        $('#gallery-cont').remove();
+        var $galleryCont = $('<div id="gallery-cont"/>').append(
+          $prodPhotoCont.find('.thumbnails a').clone().attr({ rel: 'gallery', title: '' })
+        ).hide().appendTo('body');
+        //Trigger box (on the right one)
+        $galleryCont.children().colorbox({minWidth: '200', maxWidth:'96%', maxHeight:'96%'}).filter('[href="'+$(this).attr('href')+'"]').first().click();
+      }
+    }
+    return false;
+  });
+  
+  
+  /// Product gallery
+  
+  $(document).on('click', '.product-gallery .thumbnails .thumbnail', function(e){
+    e.preventDefault();
+    var $photoCont = $(this).closest('.product-gallery');
+    var $imgToChange = $photoCont.find('.main img.main-img');
+    if($imgToChange.attr('alt', $(this).attr('title')).fadeToAnotherImage($(this).data('src'), function($img){
+      //After new image has loaded
+      $img.closest('.main-img-link').trigger('initzoom');
+      if($photoCont.closest('.quickbuy-form').length > 0) {
+        $.colorbox.resize();
+      }
+    })) {
+      $photoCont.find('.main .main-img-link').trigger('zoom.destroy').attr({ href: $(this).attr('href'), title: $(this).attr('title') });
+      $(this).addClass('active').siblings('.active').removeClass('active');
+    }
+  });
+  {% endif %}
+  
+  /// Quick buy
+  
+  $(document).on('click', '.product-block .quick-buy', function(){
+    var $prod = $(this).closest('.product-block');
+    var prevIndex = $prod.index('.product-block') - 1;
+    var nextIndex = $prod.index('.product-block') + 1;
+    if(nextIndex > $prod.siblings('.product-block').length) {
+      nextIndex = -1;
+    }
+    eval($prod.find('[id^=product-block-json-]').html());
+    var template = $prod.find('[id^=product-block-template-]').html();
+    $.colorbox({
+      closeButton: false,
+      html: ['<div class="action-icons">',
+         '<a href="#" class="prev-item action-icon" data-idx="',prevIndex,'"><span class="icon-arrow-left"></span></a>',
+         '<a href="#" class="next-item action-icon" data-idx="',nextIndex,'"><span class="icon-arrow-right"></span></a>',
+         '<a href="#" class="close-box action-icon"><span class="icon-cross"></span></a>',
+         '</div>', template].join(''),
+      onComplete: function(){
+        //Init product form, if required
+        $('#product-form').trigger('initproduct');
+        $.colorbox.resize();
+        $('.quickbuy-form').imagesLoaded(function(){
+          $.colorbox.resize();
+          $('.product-gallery .main .main-img-link').trigger('initzoom');
+        });
+      }
+    });
+    return false;
+  });
+  $(document).on('click', '#colorbox .action-icons .close-box', function(){
+    $.colorbox.close();
+    return false;
+  }).on('click', '#colorbox .action-icons .prev-item, #colorbox .action-icons .next-item', function(){
+    $('.product-block:eq('+$(this).data('idx')+') .quick-buy').click();
+    return false;
+  });
+  
+  
+  /// Wide blog images (done for images with class 'uncontain', or images with alt text ending 'fullwidth')
+  
+  $('.reading-column img[data-fullwidth]').addClass('uncontain');
+  if($('.reading-column .uncontain').length) {
+    $(window).on('resize load wideimgs', function(){
+      var contW = $('#page-wrap-inner').css('border-color') == 'rgb(255, 0, 1)' ? $(window).width() : $('.container:visible:first').width();
+      $('.reading-column .uncontain').each(function(){
+        var thisContW = $(this).closest('div, p').width();
+        $(this).css({
+          width: contW,
+          marginLeft: - (contW - thisContW) / 2.0,
+          maxWidth: 'none'
+        });
+      });
+    });
+  }
+  
+  
+  /// Image tile section
+  
+  $('.tile-group').on('render', function(){
+    //Vars
+    var $section = $(this);
+    var $imgs = $(this).find('img');
+    var rows = [], sectionHeight = 0, margin = {{ settings.homepage_feat_img_margin }}*1.0;
+    var margin_px = $section.width() * margin/100.0;
+    var row_size = $(this).width() >= 768 ? {{ settings.homepage_feat_img_row_size }} : Math.min(2, {{ settings.homepage_feat_img_row_size }});
+    if($(this).width() < 400) {
+      row_size = 1;
+    }
+    
+    //Split into rows
+    while ($imgs.length > 0) {
+      var $row = $($imgs.splice(0, row_size));
+      rows.push($row);
+    }
+    
+    //Only need to recalculate the widths and x-offsets if the layout changes
+    var recalcWidths = typeof $section.data('row_size') == 'undefined' || $section.data('row_size') != row_size;
+    if(recalcWidths) {
+      for(var r=0; r<rows.length; r++) {
+        var $rowImgs = rows[r];
+        //Calc ratios & % widths
+        var totalFracWidth = 0;
+        for(var i=0; i<$rowImgs.length; i++) {
+          var wh_ratio = $($rowImgs[i]).width() / $($rowImgs[i]).height();
+          $($rowImgs[i]).data('wh_ratio', wh_ratio);
+          totalFracWidth += wh_ratio;
+        }
+        //Add on margin
+        totalFracWidth += totalFracWidth * (($rowImgs.length-1) * margin / 100.0);
+        //Set vals
+        var xOffset = 0;
+        for(var i=0; i<$rowImgs.length; i++) {
+          var thisWidth = (($($rowImgs[i]).data('wh_ratio')/totalFracWidth) * 100);
+          $($rowImgs[i]).closest('.tile').css({
+            top: sectionHeight,
+            left: xOffset + '%',
+            width: thisWidth + '%'
+          });
+          xOffset += thisWidth + margin;
+        }
+        //Calc height
+        sectionHeight += $($rowImgs[0]).height() + margin_px;
+      }
+    } else {
+      //Adjust row tops and area height only
+      for(var r=0; r<rows.length; r++) {
+        var $rowImgs = rows[r];
+        if(r > 0) {
+          $rowImgs.closest('.tile').css({ top: sectionHeight });
+        }
+        sectionHeight += $($rowImgs[0]).height() + margin_px;
+      }
+    }
+    $section.height(sectionHeight - margin_px);
+    $section.data('row_size', row_size);
+  });
+  var $tileSections = $('.tile-group').on('init', function(){
+    var $section = $(this);
+    //Wait for all images to load, then render them and finally reveal them
+    $(this).find('img').imagesLoaded(function(e){
+      $(e.elements).closest('.tile').addClass('loaded');
+      $section.data('row_size', undefined).trigger('render');
+    });
+  }).trigger('init');
+  if($tileSections.length) {
+    $(window).on('debouncedresize', function(){ $('.tile-group').trigger('render'); });
+  }
+
+  /// Instagram
+
+  //Add to page like this: <div class="willousel willstagram" data-user_id="471995990" data-client_id="a71d3f8902ef4fd38a526f7bc4a6ee00"></div>
+  //only need to provide access_token if necessary
+  $('.willstagram').each(function(){
+    var user_id = $(this).data('user_id');
+    var tag = $(this).data('tag');
+    var client_id = $(this).data('client_id') || '4d67d884d71a4c7fb59e73aeb2270e59';
+    var access_token = $(this).data('access_token');
+    var count = $(this).data('count');
+    var $willstagram = $(this);
+    var url = '';
+    if(typeof user_id != 'undefined') {
+      url = 'https://api.instagram.com/v1/users/' + user_id + '/media/recent?client_id=' + client_id;
+    } else if(typeof tag != 'undefined') {
+      url = 'https://api.instagram.com/v1/tags/' + tag + '/media/recent?client_id=' + client_id;
+    }
+    $.ajax({
+      type: "GET",
+      dataType: "jsonp",
+      cache: false,
+      url: url
+      + (typeof access_token == 'undefined'? '' : ('&access_token='+access_token))
+      + (typeof count == 'undefined'? '' : ('&count='+count)),
+      success: function(res) {
+        if(typeof res.data != 'undefined') {
+          var $itemContainer = $('<ul class="items">').appendTo($willstagram);
+          var limit = Math.min(20, res.data.length);
+          for(var i = 0; i < limit; i++) {
+            var photo_url = res.data[i].images.low_resolution.url.replace('http:', '');
+            var link = res.data[i].link;
+            var caption = res.data[i].caption != null ? res.data[i].caption.text : '';
+            $itemContainer.append($('<li />').append('<div class="item"><a target="_blank" href="'+link+'"><img src="'+photo_url+'" /></a><div class="desc">'+caption+'</div></div>'));
+          }
+        }
+      }
+    });
+  });
+
+  /// General lightbox popups
+
+$('a[rel=lightbox]').colorbox({ minWidth: '200', maxWidth: '96%', maxHeight: '96%' });
+
+
+  /// Select contents on focus
+
+  $(document).on('focusin click', 'input.select-on-focus', function(){
+    $(this).select();
+  }).on('mouseup', 'input.select-on-focus', function(e){
+    e.preventDefault(); //Prevent mouseup killing select()
+  });
+
+
+  /// Custom share buttons
+
+  $(function(){
+    $('.sharing').on('click', 'a', function(e){
+      var $parent = $(this).parent();
+      if($parent.hasClass('twitter')) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        var width  = 575,
+            height = 450,
+            left   = ($(window).width()  - width)  / 2,
+            top    = ($(window).height() - height) / 2,
+            opts   = 'status=1, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0' +
+            ',width='  + width  +
+            ',height=' + height +
+            ',top='    + top    +
+            ',left='   + left;
+        window.open(url, 'Twitter', opts);
+
+      } else if($parent.hasClass('facebook')) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        var width  = 626,
+            height = 256,
+            left   = ($(window).width()  - width)  / 2,
+            top    = ($(window).height() - height) / 2,
+            opts   = 'status=1, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0' +
+            ',width='  + width  +
+            ',height=' + height +
+            ',top='    + top    +
+            ',left='   + left;
+        window.open(url, 'Facebook', opts);
+
+      } else if($parent.hasClass('pinterest')) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        var width  = 700,
+            height = 550,
+            left   = ($(window).width()  - width)  / 2,
+            top    = ($(window).height() - height) / 2,
+            opts   = 'status=1, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0' +
+            ',width='  + width  +
+            ',height=' + height +
+            ',top='    + top    +
+            ',left='   + left;
+        window.open(url, 'Pinterest', opts);
+
+      } else if($parent.hasClass('google')) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        var width  = 550,
+            height = 450,
+            left   = ($(window).width()  - width)  / 2,
+            top    = ($(window).height() - height) / 2,
+            opts   = 'status=1, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0' +
+            ',width='  + width  +
+            ',height=' + height +
+            ',top='    + top    +
+            ',left='   + left;
+        window.open(url, 'Google+', opts);
+
+      }
+    });
+  });
+
+
+  /// Set hash after page load, in case of js image stuff altering page height
+
+  if(location.hash.length == 0) {
+    $(window).load(function(){
+      var hash = location.hash;
+      setTimeout(function(){
+        location.hash = '';
+        location.hash = hash;
+      }, 50);
+    });
+  }
+
+  /// Search in header - for visual effect
+
+  $('.toolbar .search-form input').on('focus blur', function(e){
+    $(this).closest('.search-form').toggleClass('focus', e.type == 'focus');
+  });
+
+
+  /// Docked mobile nav
+
+  // Calculate as much as poss outside of scroll event
+  var $dockedMobNav = $('#toolbar').clone().addClass('docked').attr('id', 'docked-toolbar').prependTo('#page-wrap'),
+      prevScroll = $(window).scrollTop(),
+      prevNavMargin = 0;
+  var mobNavHeight = $dockedMobNav.outerHeight();
+  $(window).on('debouncedresize load', function(){ mobNavHeight = $dockedMobNav.outerHeight(); });
+
+  $(window).on('scroll', function(){
+    var scroll = $(window).scrollTop();
+    if(scroll < mobNavHeight) {
+      $dockedMobNav.css('top', -mobNavHeight);
+    } else {
+      prevNavMargin += prevScroll - scroll;
+      prevNavMargin = Math.min(Math.max(-mobNavHeight, prevNavMargin), 0);
+      $dockedMobNav.css('top', prevNavMargin);
+    }
+    prevScroll = scroll;
+  });
+
+
+
+  /// Resize nav when it doesn't fit on one line...
+
+  if($('.main-nav').length) $(window).on('debouncedresize load resizenav', function(){
+    //create invisible clone of nav list with no css tweaks
+    var $clone = $('.main-nav > ul').clone().addClass('clone').css({ position: 'absolute', visibility: 'hidden', pointerEvents: 'none', left: 0, width: '100%' }).appendTo('.main-nav');
+    var $samelineCheckA = $clone.children().first();
+    var $samelineCheckB = $clone.children().last();
+    var $cloneLinks = $clone.find('.nav-item-link').removeAttr('style');
+    var includesLogo = $clone.children('.logo-item').length > 0;
+    var sanity = 500;
+    var padR = Math.floor(parseInt($cloneLinks.first().css('padding-right')));
+    var fontSize = Math.floor(parseInt($cloneLinks.first().css('font-size')));
+    var setStyles = false;
+    var onSameLine;
+    if(includesLogo) {
+      onSameLine = function(){ return ($samelineCheckA.offset().top + $samelineCheckA.height()) != ($samelineCheckB.offset().top + $samelineCheckB.height()); };
+    } else {
+      onSameLine = function(){ return $samelineCheckA.offset().top != $samelineCheckB.offset().top; };
+    }
+    while(onSameLine() && sanity-- > 0) {
+      padR = Math.max(0, padR - 0.1);
+      fontSize = Math.max(12, fontSize - 0.05);
+      $cloneLinks.css({ paddingRight: padR, fontSize: fontSize });
+      setStyles = true;
+    }
+    if(!setStyles) {
+      padR = '';
+      fontSize = '';
+    }
+    //Shunt data back
+    $('.main-nav .nav-item-link').css({ paddingRight: padR, fontSize: fontSize });
+    $clone.remove();
+  });
+  $(window).trigger('resizenav'); //first run on dom ready
+
+
+  {% if settings.blog_crop_style != blank %}
+  /// Crop and scale images to a ratio
+  $(window).on('load', function(){
+    $('{{ settings.blog_image_display }} .article .header-image img').cropImageToRatio({ ratio: {{ settings.blog_crop_style }} });
+  });
+  {% endif %}
+  
+  
+  /// Page height assessment
+  
+  $(window).on('debouncedresize load setminheight', function(){
+    // inner wrap contains the border
+    var $innerWrap = $('#page-wrap-inner').css('min-height', $(window).height());
+  }).trigger('setminheight');
+
+});

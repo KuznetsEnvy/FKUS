@@ -1,0 +1,326 @@
+{% assign variant = product.selected_or_first_available_variant %}
+{% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+
+<div class="container" itemscope itemtype="http://schema.org/Product">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+  <meta itemprop="image" content="{{ product.featured_image | product_img_url: 'grande' }}" />
+  {% for variant in product.variants %}
+  <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+    <meta itemprop="price" content="{{ variant.price | money_without_currency | strip_html }}" />
+    <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+    {% if product.available %}
+    <link itemprop="availability" href="http://schema.org/InStock" />
+    {% else %}
+    <link itemprop="availability" href="http://schema.org/OutOfStock" />
+    {% endif %}  
+  </div>
+  {% endfor %}
+
+  <div class="inline-row">
+  </div>
+
+
+  <div class="row space-under">
+    <!-- begin gallery -->
+    <div class="product-gallery full column">
+      <div class="main">
+        <img id="zoom" data-zoom-image="{{ featured_image | img_url: '1024x1024' }}" class="main-img" src="{{ featured_image | img_url: '1024x1024' }}" alt="{{ featured_image.alt | escape }}" />
+      </div>
+    </div>
+    <!-- end gallery -->
+
+    <!-- begin product form and details -->
+    <div class="full column product-details">
+      <div class="parent">
+        <div class="border-bottom section padless-top cf product-title-row column">
+          {% if settings.prod_show_brand or settings.prod_show_type %}
+          <div class="brand-and-type feature-col">
+            {% if settings.prod_show_brand %}
+            {% assign product_vendor_handle = product.vendor | handle %}
+            {% if collections[product_vendor_handle].handle == product_vendor_handle %}
+            {% assign vendor_url = collections[product_vendor_handle].url %}
+            {% else %}
+            {% assign vendor_url = product.vendor | url_for_vendor %}
+            {% endif %}
+            <span class="brand" itemprop="brand">{{ product.vendor | link_to: vendor_url }}</span>
+            {% endif %}
+
+            {% if settings.prod_show_type and product.type != blank %}
+            {% if settings.prod_show_brand %}/{% endif %}
+
+            {% assign product_type_handle = product.type | handle %}
+            {% if collections[product_type_handle].handle == product_type_handle %}
+            {% assign type_url = collections[product_type_handle].url %}
+            {% else %}
+            {% assign type_url = product.type | url_for_type %}
+            {% endif %}
+            <span class="type">{{ product.type | link_to: type_url }}</span>
+            {% endif %}
+          </div>
+          {% endif %}
+
+          <div class="product-title">
+            <h1 class="product-title" itemprop="name">
+              {% if product.title contains 'Aaron Kai' %}
+              {% assign title = product.title | split: ' ' %}
+              {% assign s =  title | size %}
+              <span style="font-weight:bold;">
+                Aaron Kai
+              </span>
+              {% for i in (2..s) %}
+              {{ title[i] }}
+              {% endfor %}
+              {% else %}
+              {% assign title = product.title | split: ' ' %}
+              {% assign s =  title | size %}
+              <span style="font-weight:bold;">
+                {{ title[0] }}
+              </span>
+              {% for i in (1..s) %}
+              {{ title[i] }}
+              {% endfor %}
+              {% endif %}
+            </h1>
+          </div>
+          {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}
+          <!-- <p class="sale">ON SALE</p>-->
+          {% endif %}
+
+
+          <div id="price" class="product-price {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}on-sale{% endif %}">          
+            {{ product.price | money }}
+          </div>
+        </div>
+
+
+        <div class=" mobile1 section {% unless settings.prod_desc_loc == 'under' %}border-bottom{% endunless %}">
+          {% if settings.prod_show_sku and product.variants.first.sku != blank %}
+          <div class="space-under sku-row">{{ 'products.product.sku' | t }} <span id="sku">{{ product.variants.first.sku }}</span></div>
+          {% endif %}
+
+          {% if product.available %}
+          <form class="product-form" id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}">
+            {% assign hide_default_title = false %}
+            {% if product.variants.size == 1 %}
+            {% if product.variants.first.title contains 'Default' %}
+            {% assign hide_default_title = true %}
+            {% endif %}
+            {% unless settings.prod_singlevar_mode contains 'drop' %}
+            {% assign hide_default_title = true %}
+            {% endunless %}
+            {% endif %}
+
+            {% unless product.variants.size != 1 or product.variants.first.title contains 'Default' %}
+            {% if settings.prod_singlevar_mode contains 'text' %}
+            <div class="variant-info">
+              {% for option in product.options %}
+              {% assign option_key = 'option' | append: forloop.index %}
+              <span class="option">{% if settings.prod_singlevar_mode contains 'withlabel' %}<span class="label">{{ option }}:</span>{% endif %} {{ product.variants.first[option_key] }}</span>{% unless forloop.last %},{% endunless %}
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% endunless %}
+
+
+            <div id="product-variants" class="{% if hide_default_title %} hidden{% endif %}">
+              <select id="product-select" name="id" class="hidden">
+                {% for variant in product.variants %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+
+            {% if settings.prod_show_quantity_input %}
+            <div class="quantity">
+              <label for="quantity">{{ 'products.product.quantity' | t }}</label>
+              <input class="select-on-focus" type="text" size="3" id="quantity" name="quantity" value="1" />
+            </div>
+            {% else %}
+            <input type="hidden" name="quantity" value="1" />
+            {% endif %}
+			<div class="js-btn-daddy">
+            <button name="add" class="buy-now" id="add">{{ 'products.product.add_to_cart_html' | t }}</button>
+            </div>
+
+            <div id="backorder" class="hidden" style="padding-top:50px;">
+              <p><span id="selected-variant"></span> {{ 'products.product.backorder' | t }}</p>
+            </div>
+          </form>
+
+          {% else %}
+
+          <div class="rte">
+            {{ 'products.product.product_unavailable_html' | t }}
+          </div>
+          {% endif %}
+
+        </div>
+
+
+        <div class="mobile section {% unless settings.prod_desc_loc == 'under' %}border-bottom{% endunless %}">
+          {% if settings.prod_show_sku and product.variants.first.sku != blank %}
+          <div class="space-under sku-row">{{ 'products.product.sku' | t }} <span id="sku">{{ product.variants.first.sku }}</span></div>
+          {% endif %}
+
+          {% if product.available %}
+          <form class="product-form" id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}">
+            {% assign hide_default_title = false %}
+            {% if product.variants.size == 1 %}
+            {% if product.variants.first.title contains 'Default' %}
+            {% assign hide_default_title = true %}
+            {% endif %}
+            {% unless settings.prod_singlevar_mode contains 'drop' %}
+            {% assign hide_default_title = true %}
+            {% endunless %}
+            {% endif %}
+
+            {% unless product.variants.size != 1 or product.variants.first.title contains 'Default' %}
+            {% if settings.prod_singlevar_mode contains 'text' %}
+            <div class="variant-info">
+              {% for option in product.options %}
+              {% assign option_key = 'option' | append: forloop.index %}
+              <span class="option">{% if settings.prod_singlevar_mode contains 'withlabel' %}<span class="label">{{ option }}:</span>{% endif %} {{ product.variants.first[option_key] }}</span>{% unless forloop.last %},{% endunless %}
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% endunless %}
+
+
+            <div id="product-variants" class="{% if hide_default_title %} hidden{% endif %}">
+              <select id="product-select" name="id" class="hidden">
+                {% for variant in product.variants %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+
+            {% if settings.prod_show_quantity_input %}
+            <div class="quantity">
+              <label for="quantity">{{ 'products.product.quantity' | t }}</label>
+              <input class="select-on-focus" type="text" size="3" id="quantity" name="quantity" value="1" />
+            </div>
+            {% else %}
+            <input type="hidden" name="quantity" value="1" />
+            {% endif %}
+
+            <div class="js-btn-daddy-mobile">
+            <button name="add" class="buy-now" id="add">{{ 'products.product.add_to_cart_html' | t }}</button>
+            </div>
+
+            <div id="backorder" class="hidden">
+              <p><span id="selected-variant"></span> {{ 'products.product.backorder' | t }}</p>
+            </div>
+          </form>
+
+          {% else %}
+
+          <div class="rte">
+            {{ 'products.product.product_unavailable_html' | t }}
+          </div>
+          {% endif %}
+
+        </div>
+
+        <div class="child column two-thirds">
+          {% unless settings.prod_desc_loc == 'under' %}
+          <div class="symbols mobile">
+            <ul>
+              <li><img src="{{ 'icon_handmade.png' | asset_url }}" ></li>
+              <li><img src="{{ 'icon_highquality.png' | asset_url }}" ></li>
+              <li><img src="{{ 'icon_securecheckout.png' | asset_url }}" ></li>
+              <li><img src="{{ 'icon_fastshipping.png' | asset_url }}" ></li>
+            </ul>
+          </div>
+          <div class="product-description rte" itemprop="description">{{ product.description }}</div>
+          <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+
+          <div class="symbols mobile1">	
+            <ul>
+              <li><img src="{{ 'icon_handmade.png' | asset_url }}" ></li>
+              <li><img src="{{ 'icon_highquality.png' | asset_url }}" ></li>
+              <li><img src="{{ 'icon_securecheckout.png' | asset_url }}" ></li>
+              <li><img src="{{ 'icon_fastshipping.png' | asset_url }}" ></li>
+            </ul>
+          </div>
+        </div>  
+      </div>  
+
+
+
+      <div class="product-thamb" {% comment %}style="{% if product.handle contains 'swan-float' %}display:none{% endif %}{% endcomment %}">
+        {% if product.images.size > 1 %}
+        <ul>
+          {% for image in product.images  limit:2  offset:2 %}
+          <li><img src="{{ image | product_img_url: '1024x1024' }}" title="{{ image.alt | escape }}" /></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+
+      <div class="product-thamb1">
+
+        {% if product.images.size > 1 %}
+        <ul>
+          {% for image in product.images %}
+          {% if image.alt == 'desc-desktop' %}
+          <li class="desktop-visible"><img src="{{ image | product_img_url: '1024x1024' }}" title="{{ image.alt | escape }}" /></li>
+          {% elsif image.alt == 'desc-mobile' %}
+          <li class="mobile-visible"><img src="{{ image | product_img_url: '1024x1024' }}" title="{{ image.alt | escape }}" /></li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+      </div>
+      {% endunless %}
+    </div>
+    <!-- end product form and details -->
+  </div>
+  {% if settings.prod_desc_loc == 'under' %}
+  <div class="product-description rte spaced-row reading-column" itemprop="description">{{ product.description }}</div>
+  <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+  {% endif %}
+</div>
+
+<script>products.id{{ product.id }} = {{ product | json }};</script>
+<script type="text/javascript">
+  $(function($){
+    $('.willstagram').each(function(){
+      var user_id = $(this).data('user_id');
+      var tag = $(this).data('tag');
+      var client_id = $(this).data('client_id') || '4d67d884d71a4c7fb59e73aeb2270e59';
+      var access_token = $(this).data('access_token');
+      var count = $(this).data('count');
+      var $willstagram = $(this);
+      var url = '';
+      if(typeof user_id != 'undefined') {
+        url = 'https://api.instagram.com/v1/users/' + user_id + '/media/recent?client_id=' + client_id;
+      } else if(typeof tag != 'undefined') {
+        url = 'https://api.instagram.com/v1/tags/' + tag + '/media/recent?client_id=' + client_id;
+      }
+      $.ajax({
+        type: "GET",
+        dataType: "jsonp",
+        cache: false,
+        url: url
+        + (typeof access_token == 'undefined'? '' : ('&access_token='+access_token))
+        + (typeof count == 'undefined'? '' : ('&count='+count)),
+        success: function(res) {
+          if(typeof res.data != 'undefined') {
+            var $itemContainer = $('<ul class="items">').appendTo($willstagram);
+            var limit = Math.min(20, res.data.length);
+            for(var i = 0; i < limit; i++) {
+              var photo_url = res.data[i].images.low_resolution.url.replace('http:', '');
+              var link = res.data[i].link;
+              var caption = res.data[i].caption != null ? res.data[i].caption.text : '';
+              $itemContainer.append($('<li />').append('<div class="item"><a target="_blank" href="'+link+'"><img src="'+photo_url+'" /></a><div class="desc">'+caption+'</div></div>'));
+            }
+          }
+        }
+      });
+    });
+  });
+</script>
+{% include 'related-products' %}

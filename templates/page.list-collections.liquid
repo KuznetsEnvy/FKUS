@@ -1,0 +1,40 @@
+{% include 'split_images_from_content' with page.content %}
+
+{% if settings.collection_header_mode == 'fullw-image' and split_images contains 'img' %}
+<div class="fullwidth-image">{{ split_images }}</div>
+{% endif %}
+
+<div class="container">
+  {% if settings.collection_header_mode == blank and split_images contains 'img' %}
+  <div class="fullwidth-image">{{ split_images }}</div>
+  {% endif %}
+
+  <div class="collection-header {{ settings.collection_header_mode }} {% if split_images contains 'img' %}has-image{% endif %} handle-{{ page.handle }}">
+    {% if settings.collection_header_mode == 'coloured-split' %}
+    <div class="ft">
+      <div class="ftr">
+        <div class="ftc vb">
+          {% endif %}
+
+          <div class="header-text">
+            <h1 class="page-title">{{ page.title }}</h1>
+
+            {% if split_content != "" %}
+            <div class="rte">{{ split_content }}</div>
+            {% endif %}
+          </div>
+
+          {% if settings.collection_header_mode == 'coloured-split' %}
+        </div>
+
+        <div class="header-image ftc">
+          {% if split_images contains 'img' %}{{ split_images }}{% endif %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  {% include 'collection-listing' with page.handle %}
+  
+</div>

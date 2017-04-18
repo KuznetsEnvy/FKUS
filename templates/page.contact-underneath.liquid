@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="reading-column contact-1">
+    <h1 class="page-title">{{ page.title }}</h1>
+
+    <div class="page-with-contact-form">
+      <div class="rte">{{ page.content | replace: 'fullwidth"', '" data-fullwidth="true"' }}</div>
+
+      <div class="section">
+      <h1 class="page-title" style="text-align:left;margin: 0px;">Contact Us</h1>
+      <p>At your service and here to help. We man our inbox and do our best to respond to all inquiries within 24 hours.</p>
+        {% include 'contact-form' %}
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,18 @@
+/* Font-facing again in the body fixes IE8's no-fonts-on-first-page-load bug */
+@font-face {
+  font-family: 'icomoon';
+  src:url('{{ 'icomoon.eot' | asset_url }}');
+  src:url('{{ 'icomoon.eot' | asset_url | replace: '?', '?#iefix' }}') format('embedded-opentype'),
+    url('{{ 'icomoon.woff' | asset_url }}') format('woff'),
+    url('{{ 'icomoon.ttf' | asset_url }}') format('truetype'),
+    url('{{ 'icomoon.svg' | asset_url | append: '#icomoon' }}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.show-mobile-nav #page-wrap-inner {
+  left: 436px;
+}
+.show-cart-summary #page-wrap-inner {
+  left: -436px;
+}

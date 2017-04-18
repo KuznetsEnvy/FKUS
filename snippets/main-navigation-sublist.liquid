@@ -1,0 +1,26 @@
+<ul class="sub-nav-list">
+  {% if list_title != blank %}
+  <li class="sub-nav-item"><span class="sub-nav-item-title">{{ list_title }}</span></li>
+  {% assign list_title = '' %}
+  {% endif %}
+  {% for l in linklists[main-navigation-sublist].links %}
+
+  {% capture l_title %}{{ l.title | strip_html }}{% endcapture %}
+  {% include 'has-drop-down' with l_title %}
+
+  <li class="sub-nav-item{% if l.active %} active{% endif %}{% if has_drop_down %} has-dropdown{% endif %}">
+    <a class="sub-nav-item-link" href="{{ l.url }}"{% if l.type == 'collection_link' %}{% if l.object.image %} data-img="{{ l.object.image | img_url: 'large' }}"{% else %} data-img="{{ l.object.products.first.featured_image | img_url: 'large' }}"{% endif %}{% endif %}{% if l.type == 'product_link' and l.object.featured_image %} data-img="{{ l.object.featured_image | img_url: 'large' }}"{% endif %}>
+      {{ l.title }}
+    </a>
+
+    {% if has_drop_down %}
+    <ul class="sub-sub-nav-list">
+      {% for l2 in linklists[child_list_handle].links %}
+      <li class="sub-nav-item{% if l2.active %} active{% endif %}"><a class="sub-nav-item-link" href="{{ l2.url }}"{% if l2.type == 'collection_link' %}{% if l2.object.image %} data-img="{{ l2.object.image | img_url: 'large' }}"{% else %} data-img="{{ l2.object.products.first.featured_image | img_url: 'large' }}"{% endif %}{% endif %}{% if l2.type == 'product_link' and l2.object.featured_image %} data-img="{{ l2.object.featured_image | img_url: 'large' }}"{% endif %}>{{ l2.title }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </li>
+
+  {% endfor %}
+</ul>

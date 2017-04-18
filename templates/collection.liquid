@@ -1,0 +1,224 @@
+{% paginate collection.products by settings.pagination_limit %}
+<div class="container">
+  {% comment %}
+  <div class="inline-row cf">
+    <!-- Begin breadcrumbs -->
+    <div class="breadcrumbs inline-item left">
+      <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ shop.url }}" title="{{ shop.name | escape }}" itemprop="url"><span itemprop="title">{{ 'general.breadcrumbs.home' | t }}</span></a></span>
+      <span class="divider">{{ 'general.breadcrumbs.divider_html' | t }}</span>
+      <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ collection.url }}" title="{{ collection.title | escape }}" itemprop="url"><span itemprop="title">{{ collection.title }}</span></a></span>
+
+      {% if current_tags %}
+      {% for tag in current_tags %}
+      <span class="divider">{{ 'general.breadcrumbs.divider_html' | t }}</span>
+      <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/collections/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}" title="{{ tag | escape }}" itemprop="url"><span itemprop="title">{{ tag }}</span></a></span>
+      {% endfor %}
+      {% endif %}
+
+      {% if paginate.pages != 0 %}
+      <span class="divider">{{ 'general.breadcrumbs.divider_html' | t }}</span> <strong>{{ 'general.pagination.summary' | t: current_page: paginate.current_page, pages: paginate.pages }}</strong>
+      {% endif %}
+    </div>
+    <!-- End breadcrumbs -->
+    
+    <div class="inline-item right last">
+      {% include 'sharing' with collection %}
+    </div>
+  </div>
+  {% endcomment %}
+  
+{% if settings.collection_header_mode == 'fullw-image' and collection.image %}
+</div>
+<div class="fullwidth-image">{{ collection.image | img_url: 'master' | img_tag: collection.name }}</div>
+<div class="container">
+{% endif %}
+  
+  {% if settings.collection_header_mode == blank and collection.image %}
+  <div class="fullwidth-image">{{ collection.image | img_url: 'master' | img_tag: collection.name }}</div>
+  {% endif %}
+
+  <div class="collection-header {{ settings.collection_header_mode }} {% if collection.image %}has-image{% endif %} handle-{{ collection.handle }}">
+    {% if settings.collection_header_mode == 'coloured-split' %}
+    <div class="ft">
+      <div class="ftr">
+        <div class="ftc vb">
+          {% endif %}
+
+          <div class="header-text">
+            <h1 class="page-title">{{ collection.title }}</h1>
+
+            {% if collection.description != "" %}
+            <div class="rte">{{ collection.description }}</div>
+            {% endif %}
+          </div>
+
+          {% if settings.collection_header_mode == 'coloured-split' %}
+        </div>
+
+        <div class="header-image ftc">
+          {% if collection.image %}
+          {{ collection.image | img_url: 'grande' | img_tag: collection.name }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div id="collection" class="{% if settings.collection_side_show == 'show' %}show-sidebar{% endif %}">
+    {% if settings.collection_tags == 'boxes' %}
+    {% assign has_tags = false %}
+    {% capture tags_html %}
+    <ul class="tags plain">
+      <li class="tag{% unless current_tags.size > 0 %} active{% endunless %}">{{ 'collections.general.all_items' | t | link_to: collection.url }}</li>
+      {% for tag in collection.all_tags %}
+      {% unless tag contains 'meta-' %}
+      <li class="tag{% if current_tags contains tag %} active{% endif %}">
+        {{ tag | link_to_tag: tag }}
+      </li>
+      {% assign has_tags = true %}
+      {% endunless %}
+      {% endfor %}
+    </ul>
+    {% endcapture %}{% if has_tags %}{{ tags_html }}{% endif %} 
+    {% endif %}
+
+    <div class="inline-row">
+      <div class="inline-item right last">
+        <span class="results-count desktop">{{ 'collections.general.results' | t: count: collection.products_count }}</span>
+        
+        {% if settings.collection_tags == 'dropdown' %}
+        {% if collection.url.size == 0 %}
+          {% assign collection_url = '/collections/all' %}
+        {% else %}
+          {% assign collection_url = collection.url %}
+        {% endif %}
+        {% assign has_tags = false %}
+        {% capture tags_html %}
+        <span class="tags filter">
+          <label for="filter-by">{{ 'collections.general.filter_by' | t }}:</label>
+          <select id="filter-by" class="redirect">
+            <option value="{{ collection_url }}">{{ 'collections.general.all_items' | t }}</option>
+            {% for tag in collection.all_tags %}
+            {% unless tag contains 'meta-' %}
+            <option value="{{ collection_url }}/{{ tag | handle }}" {% if current_tags contains tag %}selected="selected"{% endif %}>{{ tag }}</option>
+            {% assign has_tags = true %}
+            {% endunless %}
+            {% endfor %}
+          </select>
+        </span>
+        {% endcapture %}{% if has_tags %}{{ tags_html }}{% endif %} 
+        {% endif %}
+        
+        {% if settings.collection_sort and collection.products_count > 0 %}
+        <span class="filter">
+          <label for="sort-by">{{ 'collections.sorting.title' | t }}:</label>
+          <select id="sort-by" class="sort-by">
+            {% if settings.collection_sort_show_featured %}<option value="manual">{{ 'collections.sorting.featured' | t }}</option>{% endif %}
+            <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+            <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+            <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
+            <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
+            <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
+            <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+            <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
+          </select>           
+        </span>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if settings.collection_side_show == 'show' %}
+    <div class="sidebar-cont cf">
+      <div class="sidebar">
+        <h2>{{ 'collections.sidebar.title' | t }}</h2>
+        <ul class="plain">
+          {% for link in linklists[settings.coll_side_list].links %}
+          <li{% if link.active %} class="active"{% endif %}>
+            {% if link.url == '#heading' %}
+            <h6 class="heading">{{ link.title }}</h6>
+            {% else %}
+            {{ link.title | link_to: link.url }}
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+
+        {{ pages[settings.coll_side_page].content }}
+      </div>
+
+      <div class="beside-sidebar">
+        {% endif %}
+        
+        {% if collection.products_count > 0 %}
+        <div class="product-list row grid" {% if settings.coll_align_heights %}data-normheights=".image" data-normheights-inner="img"{% endif %}>
+          {% for product in collection.products %}
+          {% include 'product-block' %}
+          {% endfor %}
+        </div>
+        {% else %}
+        <p>{{ 'collections.general.empty' | t }}</p>
+        {% endif %}
+        
+        {% if settings.collection_side_show == 'show' %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% if paginate.pages > 1 %}
+<div class="border-top">
+  <div class="container">
+    <div class="inline-row cf">
+      <p class="inline-item left"><span class="results-count">{{ 'collections.general.results' | t: count: collection.products_count }}</span></p>
+      <div class="inline-item right last">{% include 'pagination' %}</div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endpaginate %}
+
+<script>
+  Shopify.queryParams = {};
+  if (location.search.length) {
+    for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+      aKeyValue = aCouples[i].split('=');
+      if (aKeyValue.length > 1) {
+        Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+      }
+    }
+  }
+  jQuery('.sort-by')
+    .val('{{ collection.sort_by | default: collection.default_sort_by  }}')
+    .bind('change', function() {
+      Shopify.queryParams.sort_by = jQuery(this).val();
+      location.search = jQuery.param(Shopify.queryParams).replace(/\+/g, '%20');
+    });
+</script>
+
+{% if settings.coll_infiniscroll %}
+{{ 'jquery.infinitescroll.min.js' | asset_url | script_tag }}
+<script>
+  $(window).on('load', function(){
+    $('.product-list').infinitescroll({
+      navSelector  : ".pagination",
+      nextSelector : ".pagination .next",
+      itemSelector : ".product-list .product-block",
+      loading: {
+        img         : {{ 'loading.gif' | asset_url | json }},
+        msgText     : {{ 'collections.infinite_scroll.loading' | t | json }},
+        finishedMsg : {{ 'collections.infinite_scroll.no_more' | t | json }}
+      },
+      pathParse:function(path,nextPage){
+        return path.match(/^(.*page=)[0-9]*(&.*)?$/).splice(1);
+      }
+    }, function(newElements){
+      $(newElements).imagesLoaded(function(){
+        $(window).trigger('resize');
+      });
+    });
+  });
+</script>
+{% endif %}

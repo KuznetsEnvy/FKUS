@@ -1,0 +1,102 @@
+{% comment %}
+Be prepared to use this snippet to showcase collections specified in a link list as per this solution here: 
+"Featuring collections using a Link List" http://docs.shopify.com/support/your-store/collections/featuring-collections-using-link-lists
+If this snippet is called with an argument, we'll assume it is the handle of a link list, and we will use that list.
+If this snippet is not called with an argument, we'll assume we are on the /collections page and will list all collections
+in the shop, all except the 'frontpage' and 'all' collections.
+Merchants often create an 'all' collection to control their Catalog page at /collections/all as per these instructions:
+"Taking Control of your Catalog Page" http://docs.shopify.com/support/your-store/collections/taking-control-of-your-catalog-page
+and don't want that collection to appear on their /collections page.
+{% endcomment %}
+
+{% assign using_link_list = false %}
+
+{% if collection-listing != '' and linklists[collection-listing].handle == collection-listing and linklists[collection-listing].links.size > 0 %}
+  {% assign using_link_list = true %}
+{% endif %}
+
+
+<div id="collections" class="{% if settings.collection_list_side_show == 'show' %}show-sidebar{% endif %}">
+
+  {% if settings.collection_list_side_show == 'show' %}
+  <div class="sidebar-cont cf">
+    <div class="sidebar">
+      <h2>{{ 'collections.collection_list.sidebar_title' | t }}</h2>
+      <ul class="plain">
+        {% for link in linklists[settings.collection_list_side_list].links %}
+          <li{% if link.active %} class="active"{% endif %}>
+            {% if link.url == '#heading' %}
+            <h6 class="heading">{{ link.title }}</h6>
+            {% else %}
+            {{ link.title | link_to: link.url }}
+            {% endif %}
+          </li>
+          {% endfor %}
+      </ul>
+
+      {{ pages[settings.collection_list_side_page].content }}
+    </div>
+
+    <div class="beside-sidebar">
+	{% endif %}
+
+
+      {% if using_link_list %}
+      {% for link in linklists[collection-listing].links %}
+      {% if link.type == 'collection_link' %}
+      {% assign collection = link.object %}
+
+      <div class="section {% unless forloop.last %}border-bottom{% endunless %} {% if forloop.first and settings.collection_list_side_show != blank %}padless-top{% endif %}">
+        <div class="opposing-items">
+          <h2 class="left section-heading">{{ collection.title | link_to: collection.url }}</h2>
+          <a class="btn section-count" href="{{ collection.url }}">
+            <span class="not-tiny">{{ 'collections.general.view_all' | t }} ({{ collection.products_count }})</span>
+            <span class="tiny">{{ collection.products_count }}</span>
+          </a>
+        </div>
+
+        <div class="row grid one-row" data-normheights=".image" data-normheights-inner="img">
+          {% for product in collection.products limit: settings.products_per_row %}
+          {% include 'product-block' %}
+          {% endfor %}
+        </div>
+      </div>
+
+      {% endif %}
+      {% endfor %}
+
+      {% else %}
+      {% paginate collections by 24 %}
+
+      {% for collection in collections %}
+      <div class="section {% unless forloop.last %}border-bottom{% endunless %} {% if forloop.first and settings.collection_list_side_show != blank %}padless-top{% endif %}">
+        <div class="opposing-items">
+          <h2 class="left section-heading">{{ collection.title | link_to: collection.url }}</h2>
+          <a class="btn section-count" href="{{ collection.url }}">
+            <span class="not-tiny">{{ 'collections.general.view_all' | t }} ({{ collection.products_count }})</span>
+            <span class="tiny">{{ collection.products_count }}</span>
+          </a>
+        </div>
+
+        <div class="row grid one-row" {% if settings.coll_align_heights %}data-normheights=".image" data-normheights-inner="img"{% endif %}>
+          {% for product in collection.products limit: settings.products_per_row %}
+          {% include 'product-block' %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+
+      {% if paginate.pages > 1 %}
+      <div class="pagination align-right">
+        {{ paginate | default_pagination }}
+      </div>
+      {% endif %}
+
+      {% endpaginate %}
+      {% endif %}
+      
+      {% if settings.collection_list_side_show == 'show' %}
+    </div>
+  </div>
+  {% endif %}
+</div>

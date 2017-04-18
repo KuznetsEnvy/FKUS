@@ -1,0 +1,35 @@
+{% if settings.footer_display_newsletter %}
+<div id="mailing-list">
+  {% if settings.mailing_list_form_action == empty %}
+    {% form 'customer' %}
+      {% if form.posted_successfully? %}
+  		<div class="notification">
+          <h4 class="no-margin">{{ 'layout.signup.post_success' | t }}</h4>
+  		</div>
+        <script>location.hash='mailing-list'</script>
+      {% else %}
+        <input type="hidden" id="contact_tags" name="contact[tags]" value="prospect,newsletter"/>
+    	<div class="input-row inline-input-button">
+          <input type="email" placeholder="{{ 'layout.signup.email' | t }}" class="required" value="" id="mailinglist_email" name="contact[email]" />
+          <input type="submit" value="{{ 'layout.signup.button' | t }}" />
+        </div>
+        {% if form.errors %}
+  		<script>location.hash='mailing-list'</script>
+        <div class="notification errors">
+          {% for field in form.errors %}
+          <div>{{ form.errors.messages[field] }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      {% endif %}
+    {% endform %}
+  {% else %}
+    <form action="{{ settings.mailing_list_form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+      <div class="input-row inline-input-button">
+        <input type="email" class="required email" placeholder="{{ 'layout.signup.email' | t }}" value="" id="mce-EMAIL" required name="EMAIL" />
+        <input type="submit" name="subscribe" value="{{ 'layout.signup.button' | t }}" />
+      </div>
+    </form>
+  {% endif %}
+</div>
+{% endif %}

@@ -1,0 +1,15 @@
+<div id="comment-{{ comment.id }}" class="comment section border-bottom row">
+  <div class="half column">
+    {% if settings.show_gravatars %}
+    <div class="gravatar">
+      <img src="//www.gravatar.com/avatar/{{ comment.email | remove: ' ' | strip_newlines | downcase | md5 }}" alt="{{ article.author }}" />
+    </div>
+    {% endif %}
+    <div class="article-meta">
+      <div>{{ comment.author }}</div>
+      <div><time datetime="{{ comment.created_at | date: format: 'short' }}"/>{{ comment.created_at | date: format: 'short' }}</div>
+    </div>
+  </div>
+
+  <div class="half column">{{ comment.content }}</div>
+</div> <!-- /.comment -->

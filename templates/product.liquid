@@ -1,0 +1,378 @@
+{% assign variant = product.selected_or_first_available_variant %}
+{% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+
+<div  itemscope itemtype="http://schema.org/Product">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+  <meta itemprop="image" content="{{ product.featured_image | product_img_url: 'grande' }}" />
+  {% for variant in product.variants %}
+  <div class="container" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+    <meta itemprop="price" content="{{ variant.price | money_without_currency | strip_html }}" />
+    <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+    {% if product.available %}
+    <link itemprop="availability" href="http://schema.org/InStock" />
+    {% else %}
+    <link itemprop="availability" href="http://schema.org/OutOfStock" />
+    {% endif %}  
+  </div>
+  {% endfor %}
+
+  <div class="inline-row">
+  </div>
+
+
+  <div class="space-under">
+    <!-- begin gallery -->
+    <div class="container product-gallery full column">
+      <div class="main">
+        {% if product.images.size > 1 %}        
+        <ul class="bxslider">
+          {% for image in product.images %}
+          <li><img id="zoom" data-zoom-image="{{ image | product_img_url: 'original' }}" class="main-img" src="{{ image | product_img_url: '1024x1024' }}" alt="{{ image.alt | escape }}" /></li>
+          {% endfor %}
+        </ul>        
+        {% endif %}
+      </div>
+    </div>
+    <!-- end gallery -->
+
+    <!-- begin product form and details -->
+    <div class="full product-details">
+      <div class="container parent">
+        <form id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}">
+        <div class="border-bottom section padless-top cf product-title-row column">          
+          <div class="product-title">
+            <h1 class="title" itemprop="name">
+              {% if product.title contains 'Aaron Kai' %}
+              {% assign title = product.title | split: ' ' %}
+              {% assign s =  title | size %}
+              <span style="font-weight:bold;">
+                Aaron Kai
+              </span>
+              {% for i in (2..s) %}
+              {{ title[i] }}
+              {% endfor %}
+              {% else %}
+              {% assign title = product.title | split: ' ' %}
+              {% assign s =  title | size %}
+              <span style="font-weight:bold;">
+                {{ title[0] }}
+              </span>
+              {% for i in (1..s) %}
+              {{ title[i] }}
+              {% endfor %}
+              {% endif %}
+            </h1>
+          </div>
+          {% if product.available %}
+		  {% if settings.prod_show_quantity_input %}
+            <div class="quantity">
+                <input class="left" type="button" onclick="decrementValue(this)" value="-" />
+                <input class="select-on-focus" type="text" name="quantity" maxlength="2" value="1" max="10" size="1" id="number" />
+                <input class="right" type="button" onclick="incrementValue(this)" value="+" />              
+            </div>
+          {% else %}
+            <input type="hidden" name="quantity" value="1" />
+          {% endif %}
+          
+          <div id="price" class="product-price {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}on-sale{% endif %}">          
+            {{ product.price | money }}
+          </div>
+          {% endif %}
+        </div>
+        <div class="mobile1 section {% unless settings.prod_desc_loc == 'under' %}border-bottom{% endunless %}">
+          {% if settings.prod_show_sku and product.variants.first.sku != blank %}
+          <div class="space-under sku-row">{{ 'products.product.sku' | t }} <span id="sku">{{ product.variants.first.sku }}</span></div>
+          {% endif %}
+
+          {% if product.available %}
+            {% assign hide_default_title = false %}
+            {% if product.variants.size == 1 %}
+            {% if product.variants.first.title contains 'Default' %}
+            {% assign hide_default_title = true %}
+            {% endif %}
+            {% unless settings.prod_singlevar_mode contains 'drop' %}
+            {% assign hide_default_title = true %}
+            {% endunless %}
+            {% endif %}
+
+            {% unless product.variants.size != 1 or product.variants.first.title contains 'Default' %}
+            {% if settings.prod_singlevar_mode contains 'text' %}
+            <div class="variant-info">
+              {% for option in product.options %}
+              {% assign option_key = 'option' | append: forloop.index %}
+              <span class="option">{% if settings.prod_singlevar_mode contains 'withlabel' %}<span class="label">{{ option }}:</span>{% endif %} {{ product.variants.first[option_key] }}</span>{% unless forloop.last %},{% endunless %}
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% endunless %}
+
+
+            <div id="product-variants" class="{% if hide_default_title %} hidden{% endif %}">
+              <select id="product-select" name="id" class="hidden">
+                {% for variant in product.variants %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+
+            
+			<div class="js-btn-daddy">
+            <button name="add" class="buy-now" id="add">{{ 'products.product.add_to_cart_html' | t }}</button>
+            </div>
+
+            <div id="backorder" class="hidden" style="padding-top:50px;">
+              <p><span id="selected-variant"></span> {{ 'products.product.backorder' | t }}</p>
+            </div>
+          {% else %}
+
+          <div class="rte">
+            <a href="https://form.jotform.me/70724374625458" id="various1" style="text-align:center" class="add-to-cart notify button button--black-gradient cart-btn cart-btn-desktop unavailable"> {{'products.product.product_unavailable_html' | t }}</a>
+          </div>
+          {% endif %}
+
+        </div>
+        </form>
+        <div class="child column two-thirds">
+          {% unless settings.prod_desc_loc == 'under' %}
+          <div class="product-description rte" itemprop="description">{{ product.description }}</div>
+          <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+		  
+          <div class="symbols mobile1">	
+            <ul>
+              {% unless product.handle == 'super-pump-2000' %}
+              <li><img src="{{ 'hand-made.jpg' | asset_url }}" ></li>{% endunless %}
+              <li><img src="{{ 'high_quality.jpg' | asset_url }}" ></li>
+              <li><img src="{{ 'durable-material.jpg' | asset_url }}" ></li>
+              <li><img src="{{ 'easy-setup.jpg' | asset_url }}" ></li>
+              <li><img src="{{ 'secure-checkout.jpg' | asset_url }}" ></li>
+              <li><img src="{{ 'shipping.jpg' | asset_url }}" ></li>
+            </ul>
+          </div>
+        </div>
+      </div>  
+
+	  <div class="product-thamb1">
+        {% assign info = product.metafields.info %}
+        {% assign banner_desktop = info.banner_desktop %}
+        {% assign banner_mobile = info.banner_mobile %}
+
+          {% if banner_desktop != blank %}
+        <ul>
+          <li class="desktop-visible"><img src="{{ banner_desktop }}" title="{{ product.title | escape }}" /></li>
+        </ul>
+          {% endif %}
+          {% if banner_mobile != blank %}
+        <ul>
+          <li class="mobile-visible"><img src="{{ banner_mobile }}" title="{{ product.title | escape }}" /></li>
+        </ul>
+          {% endif %}
+
+      </div>	
+
+	  <div class="container parent">
+		<form id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}">
+        {% assign small_1_image = info.small_1_image %}
+        {% assign small_1_text = info.small_1_text %}
+        {% assign small_2_image = info.small_2_image %}
+        {% assign small_2_text = info.small_2_text %}
+        {% assign small_3_image = info.small_3_image %}
+        {% assign small_3_text = info.small_3_text %}
+        <div class="product-thamb">
+          <div class="row">
+          <div class="column flex fourth info-sec-small">
+            <ul>
+            	{% if small_1_image != blank and small_1_text != blank %}
+                <li class="info-sec-small-1">
+                	<img src="{{ small_1_image }}" title="{{ small_1_text | escape }}" />
+                    <span class="nn-secondary-middle">{{ small_1_text }}</span>
+                </li>
+                {% endif %}
+                {% if small_2_image != blank and small_2_text != blank %}
+                <li class="info-sec-small-2">
+                	<img src="{{ small_2_image }}" title="{{ small_2_text | escape }}" />
+                    <span class="nn-secondary-middle">{{ small_2_text }}</span>
+                </li>
+                {% endif %}
+                {% if small_3_image != blank and small_3_text != blank %}
+                <li class="info-sec-small-3">
+                	<img src="{{ small_3_image }}" title="{{ small_3_text | escape }}" />
+                    <span class="nn-secondary-middle">{{ small_3_text }}</span>
+                </li>
+                {% endif %}
+            </ul>
+          </div>
+          {% assign large = info.large %}
+          {% assign large_text = info.large_text %}
+          {% if large != blank %}
+          <div class="column flex sixth info-sec-large">
+	          <img src="{{ info.large }}" title="{{ product.title | escape }}" />
+			  <span class="nn-secondary-middle">{{ smallarge_textl_3_text }}</span>
+          </div>
+          {% endif %}
+        </div>
+       </div>  
+        <div class="border-bottom section padless-top cf product-title-row column">          
+          <div class="product-title">
+            <h1 class="title" itemprop="name">
+              {% if product.title contains 'Aaron Kai' %}
+              {% assign title = product.title | split: ' ' %}
+              {% assign s =  title | size %}
+              <span style="font-weight:bold;">
+                Aaron Kai
+              </span>
+              {% for i in (2..s) %}
+              {{ title[i] }}
+              {% endfor %}
+              {% else %}
+              {% assign title = product.title | split: ' ' %}
+              {% assign s =  title | size %}
+              <span style="font-weight:bold;">
+                {{ title[0] }}
+              </span>
+              {% for i in (1..s) %}
+              {{ title[i] }}
+              {% endfor %}
+              {% endif %}
+            </h1>
+          </div>
+          {% if product.available %}
+		  {% if settings.prod_show_quantity_input %}
+            <div class="quantity">
+                <input class="left" type="button" onclick="decrementValue(this)" value="-" />
+                <input class="select-on-focus" type="text" name="quantity" maxlength="2" value="1" max="10" size="1" id="number" />
+                <input class="right" type="button" onclick="incrementValue(this)" value="+" />              
+            </div>
+          {% else %}
+            <input type="hidden" name="quantity" value="1" />
+          {% endif %}
+          
+          
+          <div id="price" class="product-price {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}on-sale{% endif %}">          
+            {{ product.price | money }}
+          </div>
+          {% endif %}
+        </div>
+        <div class="mobile1 section {% unless settings.prod_desc_loc == 'under' %}border-bottom{% endunless %}">
+          {% if settings.prod_show_sku and product.variants.first.sku != blank %}
+          <div class="space-under sku-row">{{ 'products.product.sku' | t }} <span id="sku">{{ product.variants.first.sku }}</span></div>
+          {% endif %}
+
+          {% if product.available %}
+            {% assign hide_default_title = false %}
+            {% if product.variants.size == 1 %}
+            {% if product.variants.first.title contains 'Default' %}
+            {% assign hide_default_title = true %}
+            {% endif %}
+            {% unless settings.prod_singlevar_mode contains 'drop' %}
+            {% assign hide_default_title = true %}
+            {% endunless %}
+            {% endif %}
+
+            {% unless product.variants.size != 1 or product.variants.first.title contains 'Default' %}
+            {% if settings.prod_singlevar_mode contains 'text' %}
+            <div class="variant-info">
+              {% for option in product.options %}
+              {% assign option_key = 'option' | append: forloop.index %}
+              <span class="option">{% if settings.prod_singlevar_mode contains 'withlabel' %}<span class="label">{{ option }}:</span>{% endif %} {{ product.variants.first[option_key] }}</span>{% unless forloop.last %},{% endunless %}
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% endunless %}
+
+
+            <div id="product-variants" class="{% if hide_default_title %} hidden{% endif %}">
+              <select id="product-select" name="id" class="hidden">
+                {% for variant in product.variants %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+
+            
+			<div class="js-btn-daddy">
+            <button name="add" class="buy-now" id="add">{{ 'products.product.add_to_cart_html' | t }}</button>
+            </div>
+
+            <div id="backorder" class="hidden" style="padding-top:50px;">
+              <p><span id="selected-variant"></span> {{ 'products.product.backorder' | t }}</p>
+            </div>
+          {% else %}
+
+          <div class="rte">
+            <a href="https://form.jotform.me/70724374625458" id="various1" style="text-align:center" class="add-to-cart notify button button--black-gradient cart-btn cart-btn-desktop unavailable"> {{'products.product.product_unavailable_html' | t }}</a>
+          </div>
+          {% endif %}
+
+        </div>
+          </form>
+      </div>
+
+      
+      {% endunless %}
+    </div>
+    <!-- end product form and details -->
+  </div>
+  <div class="container">
+      {% if settings.prod_desc_loc == 'under' %}
+          <div class="product-description rte spaced-row reading-column" itemprop="description">{{ product.description }}</div>
+          <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+      {% endif %}
+  </div>
+</div>
+
+<script>products.id{{ product.id }} = {{ product | json }};</script>
+<script type="text/javascript">
+  $(function($){
+    $('.willstagram').each(function(){
+      var user_id = $(this).data('user_id');
+      var tag = $(this).data('tag');
+      var client_id = $(this).data('client_id') || '4d67d884d71a4c7fb59e73aeb2270e59';
+      var access_token = $(this).data('access_token');
+      var count = $(this).data('count');
+      var $willstagram = $(this);
+      var url = '';
+      if(typeof user_id != 'undefined') {
+        url = 'https://api.instagram.com/v1/users/' + user_id + '/media/recent?client_id=' + client_id;
+      } else if(typeof tag != 'undefined') {
+        url = 'https://api.instagram.com/v1/tags/' + tag + '/media/recent?client_id=' + client_id;
+      }
+      $.ajax({
+        type: "GET",
+        dataType: "jsonp",
+        cache: false,
+        url: url
+        + (typeof access_token == 'undefined'? '' : ('&access_token='+access_token))
+        + (typeof count == 'undefined'? '' : ('&count='+count)),
+        success: function(res) {
+          if(typeof res.data != 'undefined') {
+            var $itemContainer = $('<ul class="items">').appendTo($willstagram);
+            var limit = Math.min(20, res.data.length);
+            for(var i = 0; i < limit; i++) {
+              var photo_url = res.data[i].images.low_resolution.url.replace('http:', '');
+              var link = res.data[i].link;
+              var caption = res.data[i].caption != null ? res.data[i].caption.text : '';
+              $itemContainer.append($('<li />').append('<div class="item"><a target="_blank" href="'+link+'"><img src="'+photo_url+'" /></a><div class="desc">'+caption+'</div></div>'));
+            }
+          }
+        }
+      });
+    });
+  });
+</script>
+{% assign gallery = product.metafields.gallery %}
+{% assign s = gallery.size %}
+<div class="prod-galary">
+  <div class="container">
+    <h3><span class="bold">#FLOATLIFE</span> GALLERY</h3>
+    <ul>
+      {% for image in product.metafields.gallery %}
+      	{% if image != blank %}
+          <li class="column flex max-cols-4"><img src="//{{ image | split:'://' | last }}" alt="{{ product.title | escape }}" /></li>
+      	{% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% include 'related-products' %}
