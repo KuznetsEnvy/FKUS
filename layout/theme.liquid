@@ -223,15 +223,15 @@
   			
                 {% if template contains 'index' or template contains 'product' %}
                     {% if settings.home_show_slideshow %}
-                
+
                         <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
-                      <picture>
-                        <source media="(min-width: 64em)" srcset="{{ 'PC-Header.jpg' | asset_url }}">
-                        <source media="(min-width: 40em)" srcset="{{ 'Header-Mobile-Tablet.jpg' | asset_url }}">
-                        <source media="(min-width: 300px)" srcset="{{ 'Header-Mobile-Tablet.jpg' | asset_url }}">
-                        <img src="{{ 'PC-Header.jpg' | asset_url }}" alt="Homepage banner">
-                      </picture>
-                    </div>
+                            <picture>
+                                <source media="(min-width: 64em)" srcset="{{ 'PC-Header.jpg' | asset_url }}">
+                                <source media="(min-width: 40em)" srcset="{{ 'Header-Mobile-Tablet.jpg' | asset_url }}">
+                                <source media="(min-width: 300px)" srcset="{{ 'Header-Mobile-Tablet.jpg' | asset_url }}">
+                                <img src="{{ 'PC-Header.jpg' | asset_url }}" alt="Homepage banner">
+                            </picture>
+                        </div>
                     
                         <!-- countdown timer -->
                        {% comment %}   
@@ -416,6 +416,8 @@ ga('send', 'pageview');
         });
       });
     </script>
+      {% comment %}
 {% include 'geolizr-redirect' %}
+      {% endcomment %}
 </body>
 </html>
