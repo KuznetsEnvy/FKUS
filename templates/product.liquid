@@ -138,15 +138,16 @@
           <div class="product-description rte" itemprop="description">{{ product.description }}</div>
           <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
 		  
-          <div class="symbols mobile1">	
+          <div class="symbols mobile1">
             <ul>
-              {% unless product.handle == 'super-pump-2000' %}
-              <li><img src="{{ 'hand-made.jpg' | asset_url }}" ></li>{% endunless %}
-              <li><img src="{{ 'high_quality.jpg' | asset_url }}" ></li>
-              <li><img src="{{ 'durable-material.jpg' | asset_url }}" ></li>
-              <li><img src="{{ 'easy-setup.jpg' | asset_url }}" ></li>
-              <li><img src="{{ 'secure-checkout.jpg' | asset_url }}" ></li>
-              <li><img src="{{ 'shipping.jpg' | asset_url }}" ></li>
+                {% unless product.handle == 'super-pump-2000' %}
+              <li><img class="icon" src="{{ 'icon-handmade.svg' | asset_url }}" ><span>Hand</span><span>made</span></li>
+                {% endunless %}
+              <li><img class="icon" src="{{ 'icon-high-quality.svg' | asset_url }}" ><span>High</span><span>quality</span></li>
+              <li><img class="icon" src="{{ 'icon-durable-materials.svg' | asset_url }}" ><span>Durable</span><span>materials</span></li>
+              <li><img class="icon" src="{{ 'icon-easy-setup.svg' | asset_url }}" ><span>Easy</span><span>setup</span></li>
+              <li><img class="icon" src="{{ 'icon-secure-checkout.svg' | asset_url }}" ><span>Secure</span><span>checkout</span></li>
+              <li><img class="icon" src="{{ 'icon-fast-shipping.svg' | asset_url }}" ><span>Fast</span><span>shipping</span></li>
             </ul>
           </div>
         </div>

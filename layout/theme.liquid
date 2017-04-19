@@ -226,10 +226,14 @@
 
                         <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
                             <picture>
-                                <source media="(min-width: 64em)" srcset="{{ 'PC-Header.jpg' | asset_url }}">
-                                <source media="(min-width: 40em)" srcset="{{ 'Header-Mobile-Tablet.jpg' | asset_url }}">
-                                <source media="(min-width: 300px)" srcset="{{ 'Header-Mobile-Tablet.jpg' | asset_url }}">
-                                <img src="{{ 'PC-Header.jpg' | asset_url }}" alt="Homepage banner">
+                                <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-3-1920.jpg' | asset_url }}">
+                                <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-3-1400.jpg' | asset_url }}">
+                                <source media="(min-width: 1366px)" srcset="{{ 'PC-Header-3-1366.jpg' | asset_url }}">
+                                <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-3-1024.jpg' | asset_url }}">
+                                <source media="(min-width: 768px)" srcset="{{ 'PC-Header-3-768.jpg' | asset_url }}">
+                                <source media="(min-width: 480px)" srcset="{{ 'PC-Header-3-480.jpg' | asset_url }}">
+                                <source media="(min-width: 320px)" srcset="{{ 'PC-Header-3-320.jpg' | asset_url }}">
+                                <img src="{{ 'PC-Header-3-1920.jpg' | asset_url }}" alt="Homepage banner">
                             </picture>
                         </div>
                     
