@@ -158,12 +158,12 @@
         {% assign banner_desktop = info.banner_desktop %}
         {% assign banner_mobile = info.banner_mobile %}
 
-          {% if banner_desktop != blank %}
+          {% if banner_desktop != "blank" %}
         <ul>
           <li class="desktop-visible"><img src="{{ banner_desktop }}" title="{{ product.title | escape }}" /></li>
         </ul>
           {% endif %}
-          {% if banner_mobile != blank %}
+          {% if banner_mobile != "blank" %}
         <ul>
           <li class="mobile-visible"><img src="{{ banner_mobile }}" title="{{ product.title | escape }}" /></li>
         </ul>
@@ -212,8 +212,8 @@
           </div>
           {% endif %}
         </div>
-       </div>  
-        <div class="border-bottom section padless-top cf product-title-row column">          
+       </div>
+          <div class="border-bottom section padless-top cf product-title-row column">
           <div class="product-title">
             <h1 class="title" itemprop="name">
               {% if product.title contains 'Aaron Kai' %}
@@ -364,16 +364,24 @@
 </script>
 {% assign gallery = product.metafields.gallery %}
 {% assign s = gallery.size %}
-<div class="prod-galary">
-  <div class="container">
-    <h3><span class="bold">#FLOATLIFE</span> GALLERY</h3>
-    <ul>
-      {% for image in product.metafields.gallery %}
-      	{% if image != blank %}
-          <li class="column flex max-cols-4"><img src="//{{ image | split:'://' | last }}" alt="{{ product.title | escape }}" /></li>
-      	{% endif %}
-      {% endfor %}
-    </ul>
+{% assign hasphotos = "false" %}
+{% for image in product.metafields.gallery %}
+    {% if image.last != "blank" %}
+        {% assign hasphotos = "true" %}
+    {% endif %}
+{% endfor %}
+{% if hasphotos == "true" %}
+  <div class="prod-galary">
+    <div class="container">
+      <h3><span class="bold">#FLOATLIFE</span> GALLERY</h3>
+      <ul>
+        {% for image in product.metafields.gallery %}
+          {% if image != "blank" %}
+            <li class="column flex max-cols-4"><img src="{{ image.last }}" alt="{{ product.title | escape }}" /></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
   </div>
-</div>
+{% endif %}
 {% include 'related-products' %}
