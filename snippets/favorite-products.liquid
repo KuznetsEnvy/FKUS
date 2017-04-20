@@ -11,7 +11,7 @@
     {% capture product_collection_title %}product-collection-title{{ i }}{% endcapture %}
     {% capture featured_products_product %}featured-products-product{{ i }}{% endcapture %}
     {% if settings[cart_product] %}
-    <div class="product-block flex column max-cols-3 min-cols-2 {% if settings[best_deal_icon] %}green{% else %}black{% endif %}">
+    <div class="product-block flex column max-cols-3 min-cols-1 {% if settings[best_deal_icon] %}green{% else %}black{% endif %}">
       {% if settings[product_collection_title] != blank %}
       <span class="head">
         {% if settings[best_deal_icon] %}<span><img src="{{ 'persentage.png' | asset_url }}" alt="best-deal" /></span>{% endif %}
