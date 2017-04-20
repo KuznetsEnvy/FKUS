@@ -920,7 +920,27 @@ a#upsellclosebtn{bottom:80px;padding:5px 11px !important;width:44.6%;text-align:
   letter-spacing: 1px;
 }
 .nn-secondary-middle b{ color: #3ba73e; }
-@media (max-width: 400px){.flexslider ul.slides li{max-height:170px;background-size:125% !important}.flexslider ul.slides li{background-attachment: initial !important} .menu .menu-cart li a {font-size: 10pt} #header.cart .main-menu .menu { margin-top: 0} #header.cart{padding: 2px 0px}}
+
+@media (max-width: 400px) {
+  .flexslider ul.slides li {
+    max-height: 170px;
+    background-size: 125% !important
+  }
+  .flexslider ul.slides li {
+    background-attachment: initial !important
+  }
+  .menu .menu-cart li a {
+    font-size: 10pt
+  }
+  #header.cart .main-menu .menu {
+    margin-top: 0
+  }
+  #header.cart {
+    padding: 2px 0px;
+    position: fixed;
+    z-index: 99;
+  }
+}
 @media (max-width: 360px){.column.min-cols-2,.column.flex.min-cols-2{float:none;width:90%;margin:0px auto}}
 @media (max-width:1080px) {
   #facebox {

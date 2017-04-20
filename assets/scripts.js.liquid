@@ -927,4 +927,11 @@ $('a[rel=lightbox]').colorbox({ minWidth: '200', maxWidth: '96%', maxHeight: '96
     var $innerWrap = $('#page-wrap-inner').css('min-height', $(window).height());
   }).trigger('setminheight');
 
+  // Fixed header overlap handling
+    $(document).ready(function(){
+      if ($('#page-wrap').offset().top == 0){
+        $($('#page-wrap').animate({'padding-top': $('#header').height()}, 200));
+      }
+    });
+
 });
