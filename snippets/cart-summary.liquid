@@ -6,7 +6,7 @@
     <p>
       <a href="/cart" style="float:left;font-size: 15px;"><i class="icon-cart slim"></i></a>
       REVIEW YOUR CART
-      <a class="toggle-cart-summary"  style="float:right" href="#">x</a>
+      <a class="toggle-cart-summary"  style="float:right" href="#"><span class="fa fa-close"></span></a>
     </p>
     {% if cart.items.size > 0 %}
     {% assign c = cart.total_price | times:1 %}
