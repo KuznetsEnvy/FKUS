@@ -2338,18 +2338,33 @@ width: 40%;
 }
 .fix .buy-now { padding: 10px 0 10px;}
 .product-form #add { font-size: 18px;}
+
 @media only screen and (max-width: 767px) {
-  .btn-other.fix .other-data .product-price,.btn-other.fix .other-data .product-title{ font-size: 18px !important;}
-  .product-form #add { font-size: 15px;}
+  .btn-other.fix .other-data .product-price, .btn-other.fix .other-data .product-title {
+    font-size: 18px !important;
+  }
+  .product-form #add {
+    font-size: 15px;
+  }
   .shipping-banner {
     background-size: 120%;
     margin: 10px auto;
     width: 87%;
   }
-  .template-cart .cart-header {
-    margin-bottom: 0;
+  .template-cart {
+    .cart-header {
+      margin-bottom: 0;
+    }
+    .page-title {
+      font-size: 1.5em;
+    }
   }
-  .cart-thk{ font-size: 16px;    margin-bottom: 0;    padding: 20px 0px;}
+
+  .cart-thk {
+    font-size: 16px;
+    margin-bottom: 0;
+    padding: 20px 0px;
+  }
   #cartform ul.cart-items {
     margin: 0;
   }
