@@ -1039,6 +1039,7 @@ section.products-section-single.bottom .product-block .ftr{border-top:1px solid 
 .product-details .product-description p{letter-spacing: 0.3px;font-size:18px;color:#000;font-family:brandon-grotesque-regular;margin:0px auto; width: 70%; padding: 10px 0;}
 .product-details .product-description p b{ font-family:brandon-grotesque-medium; }
 .product-details .product-description h4 { font-family: "Have Heart One"; margin-top: 1rem; margin-bottom: 1rem; }
+
 .product-details .product-description {
   h4, h5, h6 { font-size: 4.5rem; }
 }
@@ -2689,6 +2690,7 @@ button.buy-now.black:hover { background: #fff; color: #211f21;}
   #page-footer .plain.list-divide{ margin: 10px 0px 0px 0px;}
   .symbols ul li{ display: flex; width: 33.33%; flex: initial;}
   .cart-items .price { width: 19.5%; }
+  .product-details .product-description h4 { font-size: 3.5rem; }
 }
 @media screen and (max-width: 767px) and (min-width: 640px){
 .product-thamb .info-sec-small ul li .nn-secondary-middle { font-size: 12px; }
@@ -2716,12 +2718,27 @@ button.buy-now.black:hover { background: #fff; color: #211f21;}
   .container { width: 95%;}
   .products-section .container { width: 100%; }
 }
-@media screen and (max-width: 640px){
-#page-footer .column, #page-footer .column.fifth { width: 100%; display: block; float: none;}
-#page-footer .social-links { text-align: center; }
-.product-block .image>.inner { min-height: inherit;}
-    .child.column.two-thirds .product-description.rte{ padding: 30px 0;}
-  .product-details .product-description p{ width: 80%;}
+
+@media screen and (max-width: 640px) {
+  #page-footer .column, #page-footer .column.fifth {
+    width: 100%;
+    display: block;
+    float: none;
+  }
+  #page-footer .social-links {
+    text-align: center;
+  }
+  .product-block .image > .inner {
+    min-height: inherit;
+  }
+  .child.column.two-thirds .product-description.rte {
+    padding: 30px 0;
+  }
+  .product-details .product-description p {
+    width: 98%;
+    text-align: justify;
+    text-align-last: center;
+  }
 }
 @media screen and (max-width: 639px){
  .product-thamb .column.fourth.info-sec-small {
