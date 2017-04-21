@@ -1034,7 +1034,12 @@ section.products-section-single.bottom .product-block .ftr{border-top:1px solid 
 .symbols ul li:first-child{margin-left:0px}
 .symbols ul li:last-child{margin-right:0px;background:none}
 .symbols ul li img.icon{ width: 4em; height: 4em; margin-bottom: 1em; }
-.symbols ul li span { font-family: brandon-grotesque-bold; font-size: 1.1em; text-transform:uppercase; }
+
+.symbols ul li span {
+  font-family: brandon-grotesque-bold;
+  font-size: 1.1em;
+  text-transform: uppercase;
+}
 .symbols ul{display:flex; flex-flow: row wrap; padding:0;margin-top:0}.product-title-row .product-price del{font-size:15pt;font-family:OpenSans;vertical-align:top}.template-product .product-gallery .product-title{text-transform:uppercase;padding-bottom:15px;margin-bottom:15px;border-bottom:1px dashed #515151;font-family:Opensans;font-size:35pt;text-align:center}.product-title-row .product-price.on-sale{font-size:50pt;font-family:OpenSans;color:#515151;margin-top:0px}.product-title-row .product-price{font-size:50pt;font-family:OpenSans;color:#515151;margin-top:0px}.template-product .products-section .ftr .price .amount{color:black;font-weight:bold;font-family:brandon-grotesque-regular;font-size:19px}#page-footer ul.list-divide li a{color:#000;font-size:11pt;text-transform:uppercase;font-family:OpenSans;letter-spacing:2px;font-weight:bold}
 .product-details .product-description p{letter-spacing: 0.3px;font-size:18px;color:#000;font-family:brandon-grotesque-regular;margin:0px auto; width: 70%; padding: 10px 0;}
 .product-details .product-description p b{ font-family:brandon-grotesque-medium; }
@@ -2795,6 +2800,10 @@ button.buy-now.black:hover { background: #fff; color: #211f21;}
   .product-title h1{font-size: 16px;}
 }
 @media screen and (max-width: 440px){
+  .symbols ul li span {
+    font-size: 0.8em;
+    line-height: 1.3em;
+  }
   .product-thamb .column.fourth.info-sec-small {
     width: 90%;
   }
@@ -2845,7 +2854,7 @@ button.buy-now.black:hover { background: #fff; color: #211f21;}
     font-size: 9px
   }
   .symbols ul li {
-    padding: 0 2px
+    padding: 1rem 2px;
   }
   footer ul.inline.list-divide li {
     margin-left: 2em;
