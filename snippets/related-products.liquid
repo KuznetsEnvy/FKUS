@@ -7,7 +7,7 @@
       
         <div class="related-product-list related-{{ settings.prod_rel_meth }} {% if settings.prod_rel_titles %}show-desc{% endif %}" data-normheights=".image-cont" data-normheights-inner="img">
             {% if settings.prod_rel_meth == 'collection' %}
-          	  <ul class="items"><!--
+          	  <ul class="items">
                 {% assign product_collection = collection %}
           		{% unless product_collection %}{% assign need_new_collection = true %}{% else %}{% assign need_new_collection = false %}{% endunless %}
                 {% if need_new_collection or product_collection.handle == 'all' or product_collection.handle contains 'frontpage' %}
@@ -25,7 +25,7 @@
                         {% if relprod.handle != product.handle and prod_rel_limit_int > prod_rel_count %}
                             {% assign prod_rel_count = prod_rel_count | plus: 1 %}
                             {% assign show_related = true %}
-                        --><li><div class="item products-section"><a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">{{ relprod.featured_image | product_img_url: related_product_image_size | img_tag: relprod.title }}</a>
+                        <li><div class="item products-section"><a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">{{ relprod.featured_image | product_img_url: related_product_image_size | img_tag: relprod.title }}</a>
                                     <div class="desc ftr">
                                        {% comment %} <a class="title ftc" href="{{ relprod.url | within: collection }}">{{ relprod.title }}</a>{% endcomment %}
                                        <a class="title ftc" href="{{ relprod.url | within: collection }}">
@@ -54,13 +54,13 @@
                                         </div>
                                     </div>
                                 </div>
-                          </li><!--
+                          </li>
                         {% endif %}
                     {% endfor %}
                 {% endpaginate %}
-              --></ul>
+              </ul>
             {% elsif settings.prod_rel_meth == 'tag-coll' %}
-          	  <ul class="items"><!--
+          	  <ul class="items" style="display:none;">
                 {% for tag in product.tags %}
                     {% if tag contains 'meta-related-collection-' %}
                         {% assign product_collection_handle = tag | remove: 'meta-related-collection-' %}
@@ -73,13 +73,13 @@
                                 {% if relprod.handle != product.handle and prod_rel_limit_int > prod_rel_count %}
                                     {% assign prod_rel_count = prod_rel_count | plus: 1 %}
                                     {% assign show_related = true %}
-									--><li><div class="item"><a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">{{ relprod.featured_image | product_img_url: related_product_image_size | img_tag: relprod.title }}</a><div class="desc"><a href="{{ relprod.url | within: collection }}">{{ relprod.title }}</a></div></div></li><!--
+									<li><div class="item"><a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">{{ relprod.featured_image | product_img_url: related_product_image_size | img_tag: relprod.title }}</a><div class="desc"><a href="{{ relprod.url | within: collection }}">{{ relprod.title }}</a></div></div></li>
                                 {% endif %}
                             {% endfor %}
                         {% endpaginate %}
                     {% endif %}
                 {% endfor %}
-              --></ul>
+              </ul>
             {% elsif settings.prod_rel_meth == 'tag-handle' %}
                 {% for tag in product.tags %}
                     {% if tag contains 'meta-related-product-' %}{% assign show_related = true %}{% endif %}

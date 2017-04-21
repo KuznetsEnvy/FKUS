@@ -933,11 +933,21 @@ $('a[rel=lightbox]').colorbox({ minWidth: '200', maxWidth: '96%', maxHeight: '96
     var $innerWrap = $('#page-wrap-inner').css('min-height', $(window).height());
   }).trigger('setminheight');
 
-  // Fixed header overlap handling
-    $(document).ready(function(){
-      if ($('#page-wrap').offset().top == 0){
-        $($('#page-wrap').animate({'padding-top': $('#header').height()}, 200));
+
+  $(document).ready(function () {
+      // Fixed header overlap handling
+      if ($('#page-wrap').offset().top == 0) {
+          $($('#page-wrap').animate({'padding-top': $('#header').height()}, 200));
       }
-    });
+
+      // "You might also be interested in" block number of elements limitation for mobile
+      if ($('#related-products').width() <= 769 ){
+          $('.related-product-list .item').not(':lt(2)').hide();
+      }
+
+  });
+
+
+
 
 });
