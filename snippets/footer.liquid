@@ -19,10 +19,15 @@
           {% if settings.newsletter_title %}<p class="newsletter-title">{{ settings.newsletter_title }}</p>{% endif %}
           {% include 'mailing-signup' %}
         {% else %}
-          <div class="competition">
-            <a class="title ftc" href="/pages/win-cash">WANT TO <span style="font-weight:bold;">WIN $5000 CASH</span></a>
-            <button class="buy-btn" onclick='window.location.href="/pages/win-cash"' >ENTER HERE</button>
-          </div>
+            {% if template != 'product' %}
+              <div class="competition">
+                <a class="title ftc" href="/pages/win-cash">WANT TO
+                  <span style="font-weight:bold;">WIN $5000 CASH</span></a>
+                <button class="buy-btn" onclick='window.location.href="/pages/win-cash"'>ENTER HERE</button>
+              </div>
+            {% else %}
+              &nbsp;
+            {% endif %}
         {% endif %}
       </div>
       <div class="fifth column second">
