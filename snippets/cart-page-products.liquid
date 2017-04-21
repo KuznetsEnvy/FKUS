@@ -20,15 +20,15 @@
       {% if settings[featured_products_product] != blank %}
         <div class="product-grid-item">
           <div class="image">
-            <div class="inner">                  
+            <div class="inner">
               <a class="none-hover" href="{{ all_products[product].url }}">
                 <img src="{{ all_products[product].featured_image | img_url: '1024x1024' }}" alt="{{ all_products[product].title }}" />
-              </a>  
+              </a>
             </div>
           </div>
           <div class="ftw ft-nm">
-            <div class="ftr"> 
-              <a class="title" href="{{ all_products[product].url }}"> 
+            <div class="ftr">
+              <a class="title" href="{{ all_products[product].url }}">
                 <span>{{ all_products[product].title }}</span>
               </a>
               <div class="price">
@@ -38,9 +38,16 @@
                 {% endif %}
                 <span class="amount">{{ all_products[product].price | money }}</span>
               </div>
-              <div class="cart-btn-home"> 
+              <div class="cart-btn-home">
                 {% if all_products[product].available %}
-                  <a href="/cart/add?id={{ all_products[product].first_available_variant.id }}&quantity=1" class="add-to-cart cart-btn buy-now select" >Select</a>
+                    {% assign selected = false %}
+                    {% for item in cart.items %}
+                        {% if item.id == all_products[product].first_available_variant.id %}
+                            {% assign selected = true %}
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+                  <a href="/cart/add?id={{ all_products[product].first_available_variant.id }}&quantity=1" class="add-to-cart cart-btn buy-now select {% if selected %}selected{% endif %}" >{% if selected %}Selected{% else %}Select{% endif %}</a>
                 {% else %}
                   <a href="https://form.jotform.me/70724374625458" id="various1" class="add-to-cart cart-btn buy-now select" >{{'products.product.product_unavailable_html' | t }}</a>
                 {% endif %}
@@ -56,5 +63,5 @@
     {% endfor %}
     <div class="clear"></div>
   </div>
-  <div class="clear"></div>          
+  <div class="clear"></div>
 </div>
