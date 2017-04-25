@@ -934,20 +934,23 @@ $('a[rel=lightbox]').colorbox({ minWidth: '200', maxWidth: '96%', maxHeight: '96
   }).trigger('setminheight');
 
 
-  $(document).ready(function () {
-      // Fixed header overlap handling
-      if ($('#page-wrap').offset().top == 0) {
-          $($('#page-wrap').animate({'padding-top': $('#header').height()}, 200));
-      }
 
-      // "You might also be interested in" block number of elements limitation for mobile
-      if ($('#related-products').width() <= 769 ){
-          $('.related-product-list .item').not(':lt(2)').hide();
-      }
+  // Fixed header overlap handling
+  function fixedHeaderCompensateOffset(){
+    console.log("Fixing header height");
+          if (parseInt($('#page-wrap').css('padding-top')) != parseInt($('#header').height())) {
+              $('#page-wrap').animate({'padding-top': $('#header').height()}, 200);
+          }
+  }
 
-  });
+    $(window).on('load', function(){
+        fixedHeaderCompensateOffset();
 
-
+        // "You might also be interested in" block number of elements limitation for mobile
+        if ($('#related-products').width() <= 769 ){
+            $('.related-product-list .item').not(':lt(2)').hide();
+        }
+    });
 
 
 });

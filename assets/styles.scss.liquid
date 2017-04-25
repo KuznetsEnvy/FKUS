@@ -126,7 +126,7 @@ table{border-collapse:collapse;border-spacing:0}
 #cboxLoadedContent{margin-bottom:28px}
 #cboxTitle{position:absolute;bottom:0;left:0;text-align:center;width:100%;color:#999}
 #cboxCurrent{display:none !important;position:absolute;bottom:0;left:100px;color:#999}
-#cboxLoadingOverlay{background:#fff url({{ 'loading_new.gif' | asset_url }}) no-repeat center 50px}
+#cboxLoadingOverlay{background:#fff url("{{ 'loading_new.gif' | asset_url }}") no-repeat center 50px}
 #cboxClose,#cboxNext,#cboxPrevious,#cboxSlideshow{border:1px solid #eee;padding:4px;margin:0;overflow:visible;width:auto;background:white}
 #cboxClose:active,#cboxNext:active,#cboxPrevious:active,#cboxSlideshow:active{outline:0}
 #cboxSlideshow{position:absolute;bottom:0;right:42px;color:#444}
@@ -1930,7 +1930,13 @@ a#upsellclosebtn{bottom:80px;padding:5px 11px !important;width:44.6%;text-align:
 .template-cart .cart-items .description .image,.template-cart .cart-items .description .left,.template-cart .cart-items .description,.template-cart .cart-items .quantity,.template-cart .cart-items .price{float:none;display:inline-block;vertical-align:middle}
 #header.cart .main-menu,#header.cart .logo-nav{float:none;display:inline-block;vertical-align:middle}
 #header.cart .logo-nav{margin:0px}
-#header.cart{background:#000;padding:5px 0px 5px 0px}
+
+#header.cart {
+  background: #000;
+  padding: 5px 0px 5px 0px;
+  position: fixed;
+  z-index: 99;
+}
 #header.cart .main-menu .menu{margin-top:5px}
 .reading-column{width:auto}
 .template-cart .cart-header{margin-bottom:30px}
@@ -2085,8 +2091,6 @@ a#upsellclosebtn{bottom:80px;padding:5px 11px !important;width:44.6%;text-align:
   }
   #header.cart {
     padding: 2px 0px;
-    position: fixed;
-    z-index: 99;
   }
   .products-section .column {
     padding-left: 8px;
@@ -2712,7 +2716,12 @@ a.current-cart.toggle-cart-summary .cart-count {
   color: inherit;
 }
 .section.pump .banner {
-  text-align: center; 
+  text-align: center;
+  background: url(//cdn.shopify.com/s/files/1/0934/6050/t/25/assets/bg-border.png?11377710161663578742) no-repeat center;
+  h4 {
+    font-family: "Have Heart One";
+    font-size: 5em;
+  }
 }
 #one-product .product-price.regular{
   color: #000;		  
@@ -3171,6 +3180,20 @@ input[type=number]::-webkit-outer-spin-button {
   width: 60%;
   padding: 10px 0;
 }
+@media screen and (max-width: 640px) {
+  .wish-desc p {
+    width: 98%;
+    text-align: justify;
+    text-align-last: center;
+  }
+  .win-form {
+    input {
+      font-size: 18px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+  }
+}
 b { font-family: brandon-grotesque-medium;}
 .win-form form{ margin-top: 20px; }
 .win-form form .input-row .check, .win-form form .input-row p.terms{ display: inline-block; vertical-align: middle; margin:0 }
@@ -3181,6 +3204,8 @@ b { font-family: brandon-grotesque-medium;}
   width: 100%;
   font-size: 18px;
   padding: 15px 4.7em 14px;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 .win-form .terms a {
   color: #000;

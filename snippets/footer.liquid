@@ -19,7 +19,7 @@
           {% if settings.newsletter_title %}<p class="newsletter-title">{{ settings.newsletter_title }}</p>{% endif %}
           {% include 'mailing-signup' %}
         {% else %}
-            {% if template != 'product' %}
+            {% if template != 'product' and template != 'cart' %}
               <div class="competition">
                 <a class="title ftc" href="/pages/win-cash">WANT TO
                   <span style="font-weight:bold;">WIN $5000 CASH</span></a>

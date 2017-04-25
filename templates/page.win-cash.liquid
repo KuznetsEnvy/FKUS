@@ -6,7 +6,7 @@
          {{ pages[page].content | replace: 'fullwidth"', '" data-fullwidth="true"' }}
       </div>
       <div class="win-form">
-        <form  action="#" method="post" id="" class="" >
+        <form  action="/pages/thank-you" method="post" id="" class="" >
           <div class="inner-form">
             <div class="input-row">        
               <input type="text" placeholder="Your Name" value="" name="customer[name]" id="customer_name" class="text">
@@ -16,10 +16,9 @@
             </div>
             <div class="input-row">            
               <div class="check">
-                <input type="checkbox" value="" name="customer" id="customer_checkbox" class="checkbox">
-                
+                <input type="hidden" value="true" name="customer" id="customer_checkbox" class="checkbox">
               </div>
-              <p class="terms">I accept the <a href="/pages/terms-conditions">Terms & Conditions</a></p>
+              <p class="terms">By entering I accept the <a href="/pages/terms-conditions">Terms & Conditions</a></p>
             </div>
           </div>
           <div class="input-row">

@@ -17,14 +17,14 @@
   {% if page_description %}
   <meta name="description" content="{{ page_description | escape }}" />
   {% endif %}
-<meta name="google-site-verification" content="7_hBlyoMBrJA-t3GikJzqVY1SlNa84j0gvInIV42WS0" />
+    <meta name="google-site-verification" content="7_hBlyoMBrJA-t3GikJzqVY1SlNa84j0gvInIV42WS0" />
   <meta name="google-site-verification" content="llbVWBEQ_JnNIeMNkq6UuWfaVcjN3TK1h45sbi7HRnA" />
   {% comment %}<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />{% endcomment %}
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=12.0, minimum-scale=.25, user-scalable=yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=yes"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="msvalidate.01" content="0C0638265DB078357F8582F42D67896E" />
   <link rel="canonical" href="{{ canonical_url }}" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+  <!--link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet"-->
   
   {% include 'fb-open-graph-tags' %}
   {% include 'twitter-card' %}
@@ -40,14 +40,18 @@
   {% endfor %}
   {% if gfonts != '' %}
   	{% assign gfonts = gfonts | remove_first: '|' | replace: ' ', '+' | replace: "'", ''  %}
-    <link href="//fonts.googleapis.com/css?family={{ gfonts }}" rel="stylesheet" type="text/css" >
+    <!--link href="//fonts.googleapis.com/css?family={{ gfonts }}" rel="stylesheet" type="text/css" -->
   {% endif %}
 
   {{ 'styles.scss.css' | asset_url | stylesheet_tag }}
+
   
-  {{ '//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js' | script_tag }}
-  {{ 'exitintent.js' | asset_url | script_tag }}
-  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  <!--{{ '//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js' | script_tag }}-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" async></script>
+  <!--{{ 'exitintent.js' | asset_url | script_tag }}-->
+    <script src="{{ 'exitintent.js' | asset_url }}" async></script>
+  <!--{{ 'api.jquery.js' | shopify_asset_url | script_tag }}-->
+    <!--script src="{{ 'api.jquery.js' | asset_url }}" async></script-->
   
   <!--[if lt IE 9]>
   {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
@@ -60,8 +64,9 @@
   {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
   {% endif %}
 
-  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
-  <script src="{{ 'jquery.bxslider.min.js' | asset_url }}"></script>
+  <!--{{ 'option_selection.js' | shopify_asset_url | script_tag }}-->
+    <script src="{{ 'option_selection.js' | asset_url }}" async></script>
+  <script src="{{ 'jquery.bxslider.min.js' | asset_url }}" async></script>
   {{ 'jquery.bxslider.css' | asset_url | stylesheet_tag }}
   
   {{ content_for_header }}
@@ -72,11 +77,13 @@
     Shopify.money_format = {{ shop.money_format | json }};
   </script>
   {% if template contains 'product' %}
-  	{{ 'jquery.elevatezoom.js' | asset_url | script_tag }}
+  	<!--{{ 'jquery.elevatezoom.js' | asset_url | script_tag }}-->
+      <!--script src="{{ 'jquery.elevatezoom.js' | asset_url }}" async></script-->
   {% endif %}
   {% comment %}{{ 'parallax.js' | asset_url | script_tag }}{% endcomment %}
    
-  {{ 'jquery.fancybox.js' | asset_url | script_tag }}
+  <!--{{ 'jquery.fancybox.js' | asset_url | script_tag }}-->
+  <script src="{{ 'jquery.fancybox.js' | asset_url }}" async></script>
   {{ 'jquery.fancybox.css' | asset_url | stylesheet_tag }}
   <!-- Pinterest Pixel Code -->
   <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
@@ -215,89 +222,94 @@
             </div>
             {% include 'cart-summary' %}
         </div>
-  
-  <div id="page-wrap">
-    <div id="page-wrap-inner">
-      <div id="page-wrap-content">        
-        <div id="content"> 
-  			
-                {% if template contains 'index' or template contains 'product' %}
-                    {% if settings.home_show_slideshow %}
 
-                        <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
-                            <picture>
-                                <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-3-1920.jpg' | asset_url }}">
-                                <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-3-1400.jpg' | asset_url }}">
-                                <source media="(min-width: 1366px)" srcset="{{ 'PC-Header-3-1366.jpg' | asset_url }}">
-                                <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-3-1024.jpg' | asset_url }}">
-                                <source media="(min-width: 768px)" srcset="{{ 'Mobile-Header-optimised.jpg' | asset_url }}">
-                                <source media="(min-width: 480px)" srcset="{{ 'Mobile-Header-optimised-480.jpg' | asset_url }}">
-                                <source media="(min-width: 320px)" srcset="{{ 'Mobile-Header-optimised-320.jpg' | asset_url }}">
-                                <img src="{{ 'PC-Header-3-1920.jpg' | asset_url }}" alt="Homepage banner">
-                            </picture>
-                        </div>
-                    
-                        <!-- countdown timer -->
-                       {% comment %}   
-                        [powr-countdown-timer id=9fd31ed4_1472213740]
-                       {% endcomment %}
-                        
-                        {% if settings.shipping-banner-enable %}
+  <div id="page-wrap">
+      <div id="page-wrap-inner">
+          <div id="page-wrap-content">
+              <div id="content" data-template="{{ template }}">
+
+                  {% if template contains 'index' or template contains 'product' %}
+                  {% if settings.home_show_slideshow %}
+
+                      <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
+                          <picture>
+                              <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-3-1920.jpg' | asset_url }}">
+                              <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-3-1400.jpg' | asset_url }}">
+                              <source media="(min-width: 1366px)" srcset="{{ 'PC-Header-3-1366.jpg' | asset_url }}">
+                              <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-3-1024.jpg' | asset_url }}">
+                              <source media="(min-width: 768px)" srcset="{{ 'Mobile-Header-optimised.jpg' | asset_url }}">
+                              <source media="only screen and (-webkit-min-device-pixel-ratio: 2)" srcset="{{ 'Mobile-Header-@2x.jpg' | asset_url }}">
+                              <source media="(min-width: 480px)" srcset="{{ 'Mobile-Header-optimised-480.jpg' | asset_url }}">
+                              <source media="(min-width: 320px)" srcset="{{ 'Mobile-Header-optimised-320.jpg' | asset_url }}">
+                              <img src="{{ 'PC-Header-3-1920.jpg' | asset_url }}" alt="Homepage banner">
+                          </picture>
+                      </div>
+
+                      <!-- countdown timer -->
+                      {% comment %}
+                      [powr-countdown-timer id=9fd31ed4_1472213740]
+                      {% endcomment %}
+
+                      {% if settings.shipping-banner-enable %}
                           {% unless template contains 'product' %}
                           <div class="shipping-banner">
-                            <div class="nn-secondary-middle">{{ settings.shipping-banner }}</div>
+                              <div class="nn-secondary-middle">{{ settings.shipping-banner }}</div>
                           </div>
                           {% endunless %}
-                        {% endif %}
-                   {% endif %}
-                {% else %}
-                    {% if template contains 'cart' or template contains 'page.support' or template contains 'page.win-cash' or template contains 'index' %}
-                                                                      
-                        <div class="cart-header">
-                            {% if template contains 'cart' %}
-                                {% if settings.cart_banner %}
-                                    {% comment %}<img src="{{ 'cart-banner.jpg' | asset_url }}" alt="cart-banner"/> {% endcomment %}
-                                    <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
-                                      <picture>
-                                        <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url }}">
-                                        <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url }}">
-                                        <img src="{{ 'cart-banner.jpg' | asset_url }}" alt="Sunglasses Original Bicolor">
-                                      </picture>
-                                    </div>                       	                        
-                                {% endif %}                        
-                            {% elsif template contains 'page.support' %}
-                                {% if settings.cart_banner %}
-                                    <img src="{{ 'support-banner.jpg' | asset_url }}" alt="support-banner"/>                        
-                                {% endif %}
-                            {% elsif template contains 'page.win-cash' %}
-                                {% if settings.win_banner %}
-                                    <img src="{{ 'win-cash.jpg' | asset_url }}" alt="{{ settings.win-cash-alt }}"/>
-                                {% endif %}    		
-                            {% endif %}
-                    {% else %}	
-                     	 <div class="header">
-                    {% endif %}
-                  
-                    {% if template contains 'page.win-cash' %}
-						    <div class="shipping-banner">
-                                <div class="nn-secondary-middle">{{ settings.win-cash-banner }}</div>			
-                            </div>                
-                    {% else %}
-                        {% if settings.shipping-banner-enable %}
-                            <div class="shipping-banner">
-                                <div class="nn-secondary-middle">{{ settings.shipping-banner }}</div>			
-                            </div>
-                        {% endif %}
-                    {% endif %}                  
-                            <div id="header" style="display:none;"></div>  
-                         </div> <!--   end header class  -->                
-        	{% endif %}
-          {{content_for_layout}}
-        </div><!-- /#content -->
-      </div><!-- /#page-wrap-content -->
-        {% include 'footer' %}      
-    </div> <!--  page-wrap-inner  -->
-  </div><!-- /#page-wrap -->
+                      {% endif %}
+                  {% endif %}
+                  {% else %}
+                  {% if template contains 'cart' or template contains 'page.support' or template contains 'page.win-cash' or template contains 'index' %}
+
+                  <div class="cart-header">
+                      {% if template contains 'cart' %}
+                          {% if settings.cart_banner %}
+                              {% comment %}<img src="{{ 'cart-banner.jpg' | asset_url }}" alt="cart-banner"/> {% endcomment %}
+                              <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
+                                  <picture>
+                                      <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url }}">
+                                      <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url }}">
+                                      <img src="{{ 'cart-banner.jpg' | asset_url }}" alt="Sunglasses Original Bicolor">
+                                  </picture>
+                              </div>
+                          {% endif %}
+                      {% elsif template contains 'page.support' %}
+                          {% if settings.cart_banner %}
+                              <img src="{{ 'support-banner.jpg' | asset_url }}" alt="support-banner"/>
+                          {% endif %}
+                      {% elsif template contains 'page.win-cash' %}
+                          {% if settings.win_banner %}
+                              <picture>
+                                  <source media="(min-width: 768px)" srcset="{{ 'win-cash.jpg' | asset_url }}">
+                                  <source media="(min-width: 200px)" srcset="{{ 'Mobile-Win-Header.jpg' | asset_url }}">
+                                  <img src="{{ 'win-cash.jpg' | asset_url }}" alt="{{ settings.win-cash-alt }}"/>
+                              </picture>
+                          {% endif %}
+                      {% endif %}
+                      {% else %}
+                      <div class="header">
+                          {% endif %}
+
+                          {% if template contains 'page.win-cash' %}
+                              <div class="shipping-banner">
+                                  <div class="nn-secondary-middle">{{ settings.win-cash-banner }}</div>
+                              </div>
+                          {% else %}
+                              {% if settings.shipping-banner-enable %}
+                                  <div class="shipping-banner">
+                                      <div class="nn-secondary-middle">{{ settings.shipping-banner }}</div>
+                                  </div>
+                              {% endif %}
+                          {% endif %}
+                          <div id="header" style="display:none;"></div>
+                      </div> <!--   end header class  -->
+                      {% endif %}
+                      {{ content_for_layout }}
+                  </div><!-- /#content -->
+              </div><!-- /#page-wrap-content -->
+              {% include 'footer' %}
+          </div> <!--  page-wrap-inner  -->
+      </div><!-- /#page-wrap -->
   
   {% include 'mobile-navigation' %}
 {% comment %} {% include 'popup' %} {% endcomment %} 
@@ -322,7 +334,8 @@
   {{ 'libs.js' | asset_url | script_tag }}
   {{ 'scripts.js' | asset_url | script_tag }}
   {{ 'instafeed.min.js' | asset_url | script_tag }}
-  {{ 'jquery.jscrollpane.min.js' | asset_url | script_tag }}
+  <!--{{ 'jquery.jscrollpane.min.js' | asset_url | script_tag }}-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.0.23/script/jquery.jscrollpane.min.js" async></script>
 
 <input type="hidden" name="_pc_params" value="{{ shop.permanent_domain }}:{{ customer.id }}" />
 {% if template contains 'product' %}
@@ -423,5 +436,17 @@ ga('send', 'pageview');
       {% comment %}
 {% include 'geolizr-redirect' %}
       {% endcomment %}
+      <script src="https://use.fontawesome.com/791a439b99.js"></script>
+
+      {% if gfonts != '' %}
+          <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+          <script>
+              WebFont.load({
+                  google: {
+                      families: ["{{ gfonts }}"]
+                  }
+              });
+          </script>
+      {% endif %}
 </body>
 </html>
