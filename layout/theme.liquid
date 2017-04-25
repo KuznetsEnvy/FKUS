@@ -47,11 +47,11 @@
 
   
   <!--{{ '//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js' | script_tag }}-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" async></script>
+    <script id="jquery" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" defer></script>
   <!--{{ 'exitintent.js' | asset_url | script_tag }}-->
-    <script src="{{ 'exitintent.js' | asset_url }}" async></script>
+    <script src="{{ 'exitintent.js' | asset_url | split:'?' | first }}" defer></script>
   <!--{{ 'api.jquery.js' | shopify_asset_url | script_tag }}-->
-    <!--script src="{{ 'api.jquery.js' | asset_url }}" async></script-->
+    <!--script src="{{ 'api.jquery.js' | asset_url }}" defer></script-->
   
   <!--[if lt IE 9]>
   {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
@@ -65,9 +65,9 @@
   {% endif %}
 
   <!--{{ 'option_selection.js' | shopify_asset_url | script_tag }}-->
-    <script src="{{ 'option_selection.js' | asset_url }}" async></script>
-  <script src="{{ 'jquery.bxslider.min.js' | asset_url }}" async></script>
-  {{ 'jquery.bxslider.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'option_selection.js' | shopify_asset_url }}" defer></script>
+  <script src="{{ 'jquery.bxslider.min.js' | asset_url | split:'?' | first }}" defer></script>
+  {{ 'jquery.bxslider.css' | asset_url | split:'?' | first | stylesheet_tag }}
   
   {{ content_for_header }}
   
@@ -78,13 +78,13 @@
   </script>
   {% if template contains 'product' %}
   	<!--{{ 'jquery.elevatezoom.js' | asset_url | script_tag }}-->
-      <!--script src="{{ 'jquery.elevatezoom.js' | asset_url }}" async></script-->
+      <script src="{{ 'jquery.elevatezoom.js' | asset_url }}" defer></script>
   {% endif %}
   {% comment %}{{ 'parallax.js' | asset_url | script_tag }}{% endcomment %}
    
   <!--{{ 'jquery.fancybox.js' | asset_url | script_tag }}-->
-  <script src="{{ 'jquery.fancybox.js' | asset_url }}" async></script>
-  {{ 'jquery.fancybox.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'jquery.fancybox.js' | asset_url | split:'?' | first }}" defer></script>
+  {{ 'jquery.fancybox.css' | asset_url | split:'?' | first | stylesheet_tag }}
   <!-- Pinterest Pixel Code -->
   <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
 
@@ -127,11 +127,13 @@
   <!-- Pinterest visitor -->
   <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
 
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-instagram/0.3.1/instagram.min.js"></script>
- {{ 'isotope.pkgd.min.js' | asset_url | script_tag }}
- {{ 'main-belen.js' | asset_url | script_tag }}     
-<!-- BeginConsistentCartAddon -->{{ "consistent_cart_addon.min.js" | asset_url | script_tag }}<script>{% if customer %}Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}' ;Shopify.customer_logged_in = true ; Shopify.customer_email = "{{ customer.email }}" ;{% else %}Shopify.customer_logged_in = false ; Shopify.customer_email = "" ;{% endif %}</script><!-- EndConsistentCartAddon -->
-  <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-instagram/0.3.1/instagram.min.js" defer></script>
+ <!--{{ 'isotope.pkgd.min.js' | asset_url | script_tag }}-->
+    <script src="{{ 'isotope.pkgd.min.js' | asset_url | split:'?' | first }}" defer></script>
+ <!--{{ 'main-belen.js' | asset_url | script_tag }}-->
+    <script src="{{ 'main-belen.js' | asset_url | split:'?' | first }}" defer></script>
+<!-- BeginConsistentCartAddon -->{{ "consistent_cart_addon.min.js" | asset_url | split:'?' | first | script_tag }}<script>{% if customer %}Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}' ;Shopify.customer_logged_in = true ; Shopify.customer_email = "{{ customer.email }}" ;{% else %}Shopify.customer_logged_in = false ; Shopify.customer_email = "" ;{% endif %}</script><!-- EndConsistentCartAddon -->
+  <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js" defer></script>
 </head>
 
 <body class="template-{{ template | split: '.' | first }} {{ page_title | handle }}">
@@ -142,7 +144,7 @@
                 <div id="toolbar" class="toolbar cf">
                     <div class="logo-nav">
                           <div class="logo">
-                            {% if settings.use_logo %}{{ 'cart-header-logo.png' | asset_url | img_tag | link_to: shop.url }}{% else %}{{ shop.name | link_to: shop.url }}{% endif %}
+                            {% if settings.use_logo %}{{ 'cart-header-logo.png' | asset_url | split:"?" | first | img_tag | link_to: shop.url }}{% else %}{{ shop.name | link_to: shop.url }}{% endif %}
                           </div>                     
         
                       {% unless settings.header_layout == 'nav' %}<div class="cf">{{ logo_html }}</div>{% endunless %}
@@ -233,15 +235,15 @@
 
                       <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
                           <picture>
-                              <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-3-1920.jpg' | asset_url }}">
-                              <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-3-1400.jpg' | asset_url }}">
-                              <source media="(min-width: 1366px)" srcset="{{ 'PC-Header-3-1366.jpg' | asset_url }}">
-                              <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-3-1024.jpg' | asset_url }}">
-                              <source media="(min-width: 768px)" srcset="{{ 'Mobile-Header-optimised.jpg' | asset_url }}">
-                              <source media="only screen and (-webkit-min-device-pixel-ratio: 2)" srcset="{{ 'Mobile-Header-@2x.jpg' | asset_url }}">
-                              <source media="(min-width: 480px)" srcset="{{ 'Mobile-Header-optimised-480.jpg' | asset_url }}">
-                              <source media="(min-width: 320px)" srcset="{{ 'Mobile-Header-optimised-320.jpg' | asset_url }}">
-                              <img src="{{ 'PC-Header-3-1920.jpg' | asset_url }}" alt="Homepage banner">
+                              <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-3-1920.jpg' | asset_url | split:"?" | first }}">
+                              <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-3-1400.jpg' | asset_url | split:"?" | first }}">
+                              <source media="(min-width: 1366px)" srcset="{{ 'PC-Header-3-1366.jpg' | asset_url | split:"?" | first }}">
+                              <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-3-1024.jpg' | asset_url | split:"?" | first }}">
+                              <source media="(min-width: 768px)" srcset="{{ 'Mobile-Header-optimised.jpg' | asset_url | split:"?" | first }}">
+                              <source media="only screen and (-webkit-min-device-pixel-ratio: 2)" srcset="{{ 'Mobile-Header-@2x.jpg' | asset_url | split:"?" | first }}">
+                              <source media="(min-width: 480px)" srcset="{{ 'Mobile-Header-optimised-480.jpg' | asset_url | split:"?" | first }}">
+                              <source media="(min-width: 320px)" srcset="{{ 'Mobile-Header-optimised-320.jpg' | asset_url | split:"?" | first }}">
+                              <img src="{{ 'PC-Header-3-1920.jpg' | asset_url | split:"?" | first }}" alt="Homepage banner">
                           </picture>
                       </div>
 
@@ -264,25 +266,25 @@
                   <div class="cart-header">
                       {% if template contains 'cart' %}
                           {% if settings.cart_banner %}
-                              {% comment %}<img src="{{ 'cart-banner.jpg' | asset_url }}" alt="cart-banner"/> {% endcomment %}
+                              {% comment %}<img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="cart-banner"/> {% endcomment %}
                               <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
                                   <picture>
-                                      <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url }}">
-                                      <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url }}">
-                                      <img src="{{ 'cart-banner.jpg' | asset_url }}" alt="Sunglasses Original Bicolor">
+                                      <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}">
+                                      <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url | split:"?" | first }}">
+                                      <img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="Sunglasses Original Bicolor">
                                   </picture>
                               </div>
                           {% endif %}
                       {% elsif template contains 'page.support' %}
                           {% if settings.cart_banner %}
-                              <img src="{{ 'support-banner.jpg' | asset_url }}" alt="support-banner"/>
+                              <img src="{{ 'support-banner.jpg' | asset_url | split:"?" | first }}" alt="support-banner"/>
                           {% endif %}
                       {% elsif template contains 'page.win-cash' %}
                           {% if settings.win_banner %}
                               <picture>
-                                  <source media="(min-width: 768px)" srcset="{{ 'win-cash.jpg' | asset_url }}">
-                                  <source media="(min-width: 200px)" srcset="{{ 'Mobile-Win-Header.jpg' | asset_url }}">
-                                  <img src="{{ 'win-cash.jpg' | asset_url }}" alt="{{ settings.win-cash-alt }}"/>
+                                  <source media="(min-width: 768px)" srcset="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}">
+                                  <source media="(min-width: 200px)" srcset="{{ 'Mobile-Win-Header.jpg' | asset_url | split:"?" | first }}">
+                                  <img src="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}" alt="{{ settings.win-cash-alt }}"/>
                               </picture>
                           {% endif %}
                       {% endif %}
@@ -331,29 +333,34 @@
     </script>
 {% endif %}
 
-  {{ 'libs.js' | asset_url | script_tag }}
-  {{ 'scripts.js' | asset_url | script_tag }}
-  {{ 'instafeed.min.js' | asset_url | script_tag }}
-  <!--{{ 'jquery.jscrollpane.min.js' | asset_url | script_tag }}-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.0.23/script/jquery.jscrollpane.min.js" async></script>
+  <!--{{ 'libs.js' | asset_url | split:"?" | first | script_tag }}-->
+      <script src="{{ 'libs.js' | asset_url | split:"?" | first }}" defer></script>
+  <!--{{ 'scripts.js' | asset_url | split:"?" | first | script_tag }}-->
+      <script src="{{ 'scripts.js' | asset_url | split:"?" | first }}" defer></script>
+  <!--{{ 'instafeed.min.js' | asset_url | split:"?" | first | script_tag }}-->
+      <script src="{{ 'instafeed.min.js' | asset_url | split:"?" | first }}" defer></script>
+  <!--{{ 'jquery.jscrollpane.min.js' | asset_url | split:"?" | first | script_tag }}-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.0.23/script/jquery.jscrollpane.min.js" defer></script>
 
 <input type="hidden" name="_pc_params" value="{{ shop.permanent_domain }}:{{ customer.id }}" />
 {% if template contains 'product' %}
   
     <script type="text/javascript">
-      $(document).ready(function(){
-        var wd = $(document).width();
-        if(wd > 768){
-          $("#zoom").elevateZoom({
-            zoomType: "inner",
-            cursor: "crosshair"
-          });
-        }
-        if(wd < 481){
-          var w = $('.product-gallery img').width();
-          $('.product-gallery').addClass('tablerow').height(w);
-        }
-      });
+        document.getElementById('jquery').addEventListener('load', function () {
+            $(document).ready(function(){
+                var wd = $(document).width();
+                if(wd > 768){
+                    $("#zoom").elevateZoom({
+                        zoomType: "inner",
+                        cursor: "crosshair"
+                    });
+                }
+                if(wd < 481){
+                    var w = $('.product-gallery img').width();
+                    $('.product-gallery').addClass('tablerow').height(w);
+                }
+            });
+        });
     </script>
     
 
@@ -422,16 +429,18 @@ ga('send', 'pageview');
 
 </script> 
     <script type="text/javascript">
-      $(document).ready(function(){
-        $("#various1").fancybox({
-          'width'			: '502px',
-          'height'			: '340px',
-          'titlePosition'	: 'inside',
-          'transitionIn'	: 'none',
-          'transitionOut'	: 'none',
-          'type'				: 'iframe'
+        document.getElementById('jquery').addEventListener('load', function () {
+            $(document).ready(function(){
+                $("#various1").fancybox({
+                    'width'			: '502px',
+                    'height'			: '340px',
+                    'titlePosition'	: 'inside',
+                    'transitionIn'	: 'none',
+                    'transitionOut'	: 'none',
+                    'type'				: 'iframe'
+                });
+            });
         });
-      });
     </script>
       {% comment %}
 {% include 'geolizr-redirect' %}

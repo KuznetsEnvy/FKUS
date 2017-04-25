@@ -12,8 +12,8 @@
     <div class="inner">
       
       
-      <a class="hover" href="{{product.url}}"><img src="{{ product.featured_image | product_img_url: 'grande' }}" /> </a>
-      <a class="none-hover" href="{{product.url}}"><img src="{{ product.images.last | product_img_url: 'large'}} "/></a>
+      <a class="hover" href="{{product.url}}"><img src="{{ product.featured_image | product_img_url: 'grande' | split:'?' | first }}" /> </a>
+      <a class="none-hover" href="{{product.url}}"><img src="{{ product.images.last | product_img_url: 'large' | split:'?' | first }} "/></a>
       
       {% if settings.prod_quick_buy_show %}
       <div class="quick-buy-wrap pos-{{ settings.prod_quick_buy_pos }}"><a class="quick-buy {% if settings.prod_quick_buy_pos == 'middle' %}giant{% else %}big{% endif %}-round-button" href="#">{{ 'products.general.quick_buy_html' | t }}</a></div>

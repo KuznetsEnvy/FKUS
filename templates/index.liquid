@@ -91,7 +91,7 @@
     <section id="aron-kai" class="border-top section bottom-banner">
     	<div class="container">
             <div class="banner">
-                <img src="{{ 'aaronKai-banner.png' | asset_url }}" alt="Home AaronKai Banner" />            
+                <img src="{{ 'aaronKai-banner.png' | asset_url | split:"?" | first }}" alt="Home AaronKai Banner" />
             </div>
         </div>    
 	</section> 
@@ -123,7 +123,7 @@
     <section class="border-top section bottom-banner">
     	<div class="container">
             <div class="banner">
-                <img src="{{ 'bottom-banner.png' | asset_url }}" alt="Home Banner" />            
+                <img src="{{ 'bottom-banner.png' | asset_url | split:"?" | first }}" alt="Home Banner" />
             </div>
         </div>    
 	</section> 
@@ -420,7 +420,7 @@ J: Custom HTML
       {% for i in (1..9) %}
           <div class="grid-item {% if i == 4 %} grid-item--width2 grid-item--height2 {% endif %}">
             <a href="https://www.instagram.com/{{ settings.homepage_insta_acct }}/" target="_blank">
-              <img class="js-backimg" src="https://cdn.shopify.com/s/files/1/0934/6050/files/newinstag_{{ i }}.jpg?12083866555664198198" alt="" >
+              <img class="js-backimg" src="https://cdn.shopify.com/s/files/1/0934/6050/files/newinstag_{{ i }}.jpg" alt="" >
             </a>
           </div>
       {% endfor %}
@@ -467,31 +467,34 @@ J: Custom HTML
       imagesInvisibles.splice(randTotal, 1);
       imagesInvisibles.push(targetIndex);
   }
-  
-  $(document).ready( function() {
-    $todasImg = $('.js-backimg');
-    
-   /*  Relleno la estructura con los SRC de las imagenes */
-    for (var c = 1; c <= numImages; c++) {
-		imagesRep[c] = new Object();
-		c = c + "";
-		switch( c.length ) {
-			case (0, 1): imagesRep[c].name = url1 + c + url3; break;
-			case (2): imagesRep[c].name = url1 + c + url3; break;
-			case (3): imagesRep[c].name = url1 + c + url3; break;
-		}
-	}
-    
-    /* Actualizo el array de invisibles */
-	for ( var d = numImages; d > $todasImg.length ; d-- ) {
-		imagesInvisibles.push(d);
-	}
-    
 
-	/*setInterval( function(){ 
-		cambioDeFoto();
-	}, 3000);*/
-    
+  document.getElementById('jquery').addEventListener('load', function () {
+      $(document).ready( function() {
+          $todasImg = $('.js-backimg');
+
+          /*  Relleno la estructura con los SRC de las imagenes */
+          for (var c = 1; c <= numImages; c++) {
+              imagesRep[c] = new Object();
+              c = c + "";
+              switch( c.length ) {
+                  case (0, 1): imagesRep[c].name = url1 + c + url3; break;
+                  case (2): imagesRep[c].name = url1 + c + url3; break;
+                  case (3): imagesRep[c].name = url1 + c + url3; break;
+              }
+          }
+
+          /* Actualizo el array de invisibles */
+          for ( var d = numImages; d > $todasImg.length ; d-- ) {
+              imagesInvisibles.push(d);
+          }
+
+
+          /*setInterval( function(){
+           cambioDeFoto();
+           }, 3000);*/
+
+      });
   });
+
   
 </script>

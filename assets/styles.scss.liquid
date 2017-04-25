@@ -1,59 +1,59 @@
 .clearfix,.cf{zoom:1}.clearfix:before,.cf:before{content:"";display:table}.clearfix:after,.cf:after{content:"";display:table;clear:both}
 @font-face{
   font-family:"Have Heart One";
-  src:url("{{ 'Have Heart One.otf' | asset_url }}");
+  src:url("{{ 'Have Heart One.otf' }}");
 }
 @font-face{
   font-family: "Have Heart Two";
-  src:url("{{ 'Have Heart Two.otf' | asset_url }}");
+  src:url("{{ 'Have Heart Two.otf' }}");
 }
 @font-face{
   font-family: "Have Heart Swash";
-  src:url("{{ 'Have Heart Swash.otf' | asset_url }}");
+  src:url("{{ 'Have Heart Swash.otf' }}");
 }
 @font-face{
   font-family:brandon-grotesque;
-  src:url("{{ 'brandon-grotesque.otf' | asset_url }}");
+  src:url("{{ 'brandon-grotesque.otf' }}");
 }
 @font-face{
   font-family:OpenSans;
-  src:url("{{ 'OpenSans.ttf' | asset_url }}");
+  src:url("{{ 'OpenSans.ttf' }}");
 }
 @font-face{
   font-family:OpenSans-Light;
-  src:url("{{ 'OpenSans-Light.ttf' | asset_url }}");
+  src:url("{{ 'OpenSans-Light.ttf' }}");
 }
 @font-face{
   font-family:OpenSans-Bold;
-  src:url("{{ 'OpenSans-Bold.ttf' | asset_url }}");
+  src:url("{{ 'OpenSans-Bold.ttf' }}");
 }
 @font-face{
   font-family:Brandon_reg;
-  src:url("{{ 'Brandon_reg.otf' | asset_url }}");
+  src:url("{{ 'Brandon_reg.otf' }}");
 }
 @font-face{
   font-family:futura;
-  src:url("{{ 'futura-normal.ttf' | asset_url }}");
+  src:url("{{ 'futura-normal.ttf' }}");
 }
 @font-face{
   font-family:avenir-medium;
-  src:url("{{ 'avenir-medium.ttf' | asset_url }}");
+  src:url("{{ 'avenir-medium.ttf' }}");
 }
 @font-face{
   font-family:Avenir-Black;
-  src:url("{{ 'AvenirLTStd-Black.otf' | asset_url }}");
+  src:url("{{ 'AvenirLTStd-Black.otf' }}");
 }
 @font-face{
   font-family: brandon-grotesque-bold;
-  src:url("{{ 'brandon-grotesque-bold.otf' | asset_url }}");
+  src:url("{{ 'brandon-grotesque-bold.otf' }}");
 }
 @font-face{
   font-family:brandon-grotesque-medium;
-  src:url("{{ 'brandon-grotesque-medium.otf' | asset_url }}");
+  src:url("{{ 'brandon-grotesque-medium.otf' }}");
 }
 @font-face{
   font-family:brandon-grotesque-regular;
-  src:url("{{ 'brandon-grotesque-regular.otf' | asset_url }}");
+  src:url("{{ 'brandon-grotesque-regular.otf' }}");
 }
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block;*display:inline;*zoom:1}
@@ -310,7 +310,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 @font-face {
   font-family: 'theme-icons';
   src: url("//cdn.shopify.com/s/files/1/0934/6050/t/17/assets/theme-icons.eot?715719670659972549");
-  src: url("//cdn.shopify.com/s/files/1/0934/6050/t/17/assets/theme-icons.eot?#iefix715719670659972549") format("embedded-opentype"), url("{{ 'theme-icons.woff' | asset_url }}") format("woff"), url("{{ 'theme-icons.ttf' | asset_url }}") format("truetype"), url("//cdn.shopify.com/s/files/1/0934/6050/t/17/assets/theme-icons.svg?715719670659972549#icomoon") format("svg");
+  src: url("//cdn.shopify.com/s/files/1/0934/6050/t/17/assets/theme-icons.eot?#iefix715719670659972549") format("embedded-opentype"), url("{{ 'theme-icons.woff' | asset_url | split:'?' | first }}") format("woff"), url("{{ 'theme-icons.ttf' | asset_url }}") format("truetype"), url("//cdn.shopify.com/s/files/1/0934/6050/t/17/assets/theme-icons.svg?715719670659972549#icomoon") format("svg");
   font-weight: normal;
   font-style: normal
 }
