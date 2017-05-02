@@ -4,7 +4,7 @@
       <div class="fourth column first">
         {% if settings.use_logo and settings.show_footer_logo %}
         <div class="logo-column column mobile-logo">
-          {{ 'footer_logo.png' | asset_url | img_tag | link_to: shop.url }}
+          {{ 'footer_logo.png' | asset_url | split:"?" | first | img_tag | link_to: shop.url }}
         </div>
         {% endif %} 
         <ul class="plain inline list-divide">
@@ -19,10 +19,15 @@
           {% if settings.newsletter_title %}<p class="newsletter-title">{{ settings.newsletter_title }}</p>{% endif %}
           {% include 'mailing-signup' %}
         {% else %}
-          <div class="competition">
-            <a class="title ftc" href="/pages/win-cash">WANT TO <span style="font-weight:bold;">WIN $5000 CASH</span></a>
-            <button class="buy-btn" onclick='window.location.href="/pages/win-cash"' >ENTER HERE</button>
-          </div>
+            {% if template != 'product' and template != 'cart' %}
+              <div class="competition">
+                <a class="title ftc" href="/pages/win-cash">WANT TO
+                  <span style="font-weight:bold;">WIN $5000 CASH</span></a>
+                <button class="buy-btn" onclick='window.location.href="/pages/win-cash"'>ENTER HERE</button>
+              </div>
+            {% else %}
+              &nbsp;
+            {% endif %}
         {% endif %}
       </div>
       <div class="fifth column second">
@@ -35,7 +40,7 @@
     <div class="row section padless-top">
       {% if settings.use_logo and settings.show_footer_logo %}
       <div class="logo-column column mobile">
-        {{ 'footer_logo.png' | asset_url | img_tag | link_to: shop.url }}
+        {{ 'footer_logo.png' | asset_url | split:"?" | first | img_tag | link_to: shop.url }}
       </div>
       {% endif %}
       <div class="text-column {% unless settings.use_logo and settings.show_footer_logo %}occupies-logo{% endunless %} column rte">

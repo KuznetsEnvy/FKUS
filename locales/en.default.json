@@ -2,7 +2,7 @@
   "general": {
     "404": {
       "title": "Page not found",
-      "subtext_html": "Sorry, we couldn't find this page. <a href=\"\/\">Click here<\/a> to continue shopping."
+      "subtext_html": "Sorry, we couldn't find this page. <a href=\"\/\">Continue shopping<\/a> or <a href=\"\/pages\/support\">report a problem<\/a>."
     },
     "pagination": {
       "summary": "Page {{ current_page }} of {{ pages }}"

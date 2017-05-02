@@ -68,7 +68,7 @@
             <div class="quantity">
                 <input class="left" type="button" onclick="decrementValue(this)" value="-" />
                 <input class="select-on-focus" type="text" name="quantity" maxlength="2" value="1" max="10" size="1" id="number" />
-                <input class="right" type="button" onclick="incrementValue(this)" value="+" />              
+                <input class="right" type="button" onclick="incrementValue(this)" value="+" />
             </div>
           {% else %}
             <input type="hidden" name="quantity" value="1" />
@@ -138,15 +138,16 @@
           <div class="product-description rte" itemprop="description">{{ product.description }}</div>
           <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
 		  
-          <div class="symbols mobile1">	
+          <div class="symbols mobile1">
             <ul>
-              {% unless product.handle == 'super-pump-2000' %}
-              <li><img src="{{ 'hand-made.jpg' | asset_url }}" ></li>{% endunless %}
-              <li><img src="{{ 'high_quality.jpg' | asset_url }}" ></li>
-              <li><img src="{{ 'durable-material.jpg' | asset_url }}" ></li>
-              <li><img src="{{ 'easy-setup.jpg' | asset_url }}" ></li>
-              <li><img src="{{ 'secure-checkout.jpg' | asset_url }}" ></li>
-              <li><img src="{{ 'shipping.jpg' | asset_url }}" ></li>
+                {% unless product.handle == 'super-pump-2000' %}
+              <li><img class="icon" src="{{ 'icon-handmade.svg' | asset_url }}" ><span>Hand</span><span>made</span></li>
+                {% endunless %}
+              <li><img class="icon" src="{{ 'icon-high-quality.svg' | asset_url }}" ><span>High</span><span>quality</span></li>
+              <li><img class="icon" src="{{ 'icon-durable-materials.svg' | asset_url }}" ><span>Durable</span><span>materials</span></li>
+              <li><img class="icon" src="{{ 'icon-easy-setup.svg' | asset_url }}" ><span>Easy</span><span>setup</span></li>
+              <li><img class="icon" src="{{ 'icon-secure-checkout.svg' | asset_url }}" ><span>Secure</span><span>checkout</span></li>
+              <li><img class="icon" src="{{ 'icon-fast-shipping.svg' | asset_url }}" ><span>Fast</span><span>shipping</span></li>
             </ul>
           </div>
         </div>
@@ -157,12 +158,12 @@
         {% assign banner_desktop = info.banner_desktop %}
         {% assign banner_mobile = info.banner_mobile %}
 
-          {% if banner_desktop != blank %}
+          {% if banner_desktop != "blank" %}
         <ul>
           <li class="desktop-visible"><img src="{{ banner_desktop }}" title="{{ product.title | escape }}" /></li>
         </ul>
           {% endif %}
-          {% if banner_mobile != blank %}
+          {% if banner_mobile != "blank" %}
         <ul>
           <li class="mobile-visible"><img src="{{ banner_mobile }}" title="{{ product.title | escape }}" /></li>
         </ul>
@@ -211,8 +212,8 @@
           </div>
           {% endif %}
         </div>
-       </div>  
-        <div class="border-bottom section padless-top cf product-title-row column">          
+       </div>
+          <div class="border-bottom section padless-top cf product-title-row column">
           <div class="product-title">
             <h1 class="title" itemprop="name">
               {% if product.title contains 'Aaron Kai' %}
@@ -363,16 +364,24 @@
 </script>
 {% assign gallery = product.metafields.gallery %}
 {% assign s = gallery.size %}
-<div class="prod-galary">
-  <div class="container">
-    <h3><span class="bold">#FLOATLIFE</span> GALLERY</h3>
-    <ul>
-      {% for image in product.metafields.gallery %}
-      	{% if image != blank %}
-          <li class="column flex max-cols-4"><img src="//{{ image | split:'://' | last }}" alt="{{ product.title | escape }}" /></li>
-      	{% endif %}
-      {% endfor %}
-    </ul>
+{% assign hasphotos = "false" %}
+{% for image in product.metafields.gallery %}
+    {% if image.last != "blank" %}
+        {% assign hasphotos = "true" %}
+    {% endif %}
+{% endfor %}
+{% if hasphotos == "true" %}
+  <div class="prod-galary">
+    <div class="container">
+      <h3><span class="bold">#FLOATLIFE</span> GALLERY</h3>
+      <ul>
+        {% for image in product.metafields.gallery %}
+          {% if image != "blank" %}
+            <li class="column flex max-cols-4"><img src="{{ image.last }}" alt="{{ product.title | escape }}" /></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
   </div>
-</div>
+{% endif %}
 {% include 'related-products' %}

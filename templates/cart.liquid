@@ -62,25 +62,24 @@
       </ul>
       <div class="border-bottom">
         <div class="row">
-          <input type="submit" style="display:none;" class="alt" id="update-cart" name="update" value="{{ 'cart.general.update' | t }}" />
+          <input type="submit" style="display:none;" class="alt" id="update-cart" name="update" value="{{ 'cart.general.update' | t }}"/>
           <div class="full column align-right">
             <div class="cart_total_left">
-            <label for="checkout">{{ 'cart.label.subtotal' | t }}</label>
-            {% assign c = cart.total_price | times:1 %}
-            {% if c < 7500 %}
-            <div class="shippingmsg2">
-              <i class="fa fa-exclamation" aria-hidden="true"></i> You're almost there to qualify for FREE SHIPPING!
-            </div>
-            {% else %}
-            <div class="shippingmsg2" style="font-size:15px;">
-              <i class="fa fa-check-circle-o" aria-hidden="true"></i> FREE SHIPPING added!
-            </div>
-            {% endif %}
+              <label for="checkout">{{ 'cart.label.subtotal' | t }}</label>
             </div>
             <h2 class="cart_total_right">{{ cart.total_price | money }}</h2>
 
+            {% assign c = cart.total_price | times:1 %}
+            {% if c < 7500 %}
+              <div class="shippingmsg2">
+                <i class="fa fa-exclamation" aria-hidden="true"></i> You're almost there to qualify for FREE&nbsp;SHIPPING!
+              </div>
+            {% else %}
+              <div class="shippingmsg2" style="font-size:15px;">
+                <i class="fa fa-check-circle-o" aria-hidden="true"></i> FREE SHIPPING added!
+              </div>
+            {% endif %}
           </div>
-
         </div>
       </div>
       
