@@ -5,6 +5,9 @@
       var redirects = {{ shop.metafields.geolizr.redirects }};
       var countryToRedirect = {{ shop.metafields.geolizr.country_to_redirect }};
       var redirect = redirects[countryToRedirect[geoData.country.code]];
+      if(geoData.country.country == 'Russia')
+          return false;
+
       if(redirect) {
         var currentUrl = window.location.href;
         if(currentUrl.slice(-1) == '/') {
