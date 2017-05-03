@@ -1,52 +1,67 @@
 {% if settings.logotype-block %}
-<section class="border-top section logotype-section">
-	<div class="container">
-    	<h2 class="rit-title">{{ settings.home_logotype-section_title }}</h2>
-        <p>{{ settings.logotype-section-content }}</p>       
-    </div>
-</section>
+    <section class="border-top section logotype-section">
+        <div class="container">
+            <h2 class="rit-title">{{ settings.home_logotype-section_title }}</h2>
+            <p>{{ settings.logotype-section-content }}</p>
+        </div>
+    </section>
 {% endif %}
 {% for i in (1..4) %}
-
-{% capture show_setting_id %}home_show_product_row_{{ i }}{% endcapture %}
-{% capture coll_setting_id %}homepage_collection_{{ i }}{% endcapture %}
-{% capture max_count_setting_id %}homepage_collection_{{ i }}_count{% endcapture %}
-
-{% capture product_html %}
-{% if settings[show_setting_id] %}
-{% assign handle = settings[coll_setting_id] %}
-{% assign collection = collections[handle] %}
-{% endif %}
-{% endcapture %}
-{% if i == 1 %}{% assign product_1_html = product_html %}
-{% elsif i == 2 %}{% assign product_2_html = product_html %}
-{% elsif i == 3 %}{% assign product_3_html = product_html %}{% endif %}
-
-<!-- Start products -->
-<section class="border-top section products-section">
-  <div class="container	">
-    {% if collection.products.size == 0 %}
-    {% include 'onboarding-product-row' %}
-    {% else %}
-    {% comment %}
-    <div class="opposing-items">
-      <h1 class="section-heading left">{{ collection.title | link_to: collection.url }}</h1>
-      <a class="btn section-count" href="{{ collection.url }}">
-        <span class="not-tiny">{{ 'collections.general.view_all' | t }} ({{ collection.products_count }})</span>
-        <span class="tiny">{{ collection.products_count }}</span>
-      </a>
-    </div>
-    {% endcomment %}
-
-    <div class="row grid {% if settings[max_count_setting_id] == settings.homepage_products_per_row %}one-row{% endif %}" {% if settings.coll_align_heights %}data-normheights=".image" data-normheights-inner="img"{% endif %}>
-      {% for product in collection.products limit: settings[max_count_setting_id] %}
-        {% include 'product-block' %}
-      {% endfor %}
-    </div>
+    {% capture show_setting_id %}home_show_product_row_{{ i }}{% endcapture %}
+    {% capture coll_setting_id %}homepage_collection_{{ i }}{% endcapture %}
+    {% capture max_count_setting_id %}homepage_collection_{{ i }}_count{% endcapture %}
+    {% capture product_html %}
+    {% if settings[show_setting_id] %}
+        {% assign handle = settings[coll_setting_id] %}
+        {% assign collection = collections[handle] %}
     {% endif %}
-  </div>
-</section>
-<!-- End products -->
+    {% endcapture %}
+
+    {% if i == 1 %}
+        {% assign product_1_html = product_html %}
+        {% elsif i == 2 %}{% assign product_2_html = product_html %}
+        {% elsif i == 3 %}{% assign product_3_html = product_html %}
+    {% endif %}
+
+    <div class="debug" style="display:none;">
+        show_setting_id = {{ show_setting_id }}
+        coll_setting_id = {{ coll_setting_id }}
+        max_count_setting_id = {{ max_count_setting_id }}
+        settings[show_setting_id] = {{ settings[show_setting_id] }}
+        settings[coll_setting_id] = {{ settings[coll_setting_id] }}
+        collections = {{ collections | json }}
+        collections[handle] = {{ collections[handle] | json }}
+        product_html = {{ product_html }}
+    </div>
+    <!-- Start products -->
+    <section class="border-top section products-section">
+        <div class="container">
+            <div class="debug" style="display:none;">
+                Collection products size = {{ collection.products.size }}
+            </div>
+            {% if collection.products.size == 0 %}
+                {% include 'onboarding-product-row' %}
+            {% else %}
+                {% comment %}
+                <div class="opposing-items">
+                    <h1 class="section-heading left">{{ collection.title | link_to: collection.url }}</h1>
+                    <a class="btn section-count" href="{{ collection.url }}">
+                        <span class="not-tiny">{{ 'collections.general.view_all' | t }} ({{ collection.products_count }})</span>
+                        <span class="tiny">{{ collection.products_count }}</span>
+                    </a>
+                </div>
+                {% endcomment %}
+
+                <div class="row grid {% if settings[max_count_setting_id] == settings.homepage_products_per_row %}one-row{% endif %}" {% if settings.coll_align_heights %}data-normheights=".image" data-normheights-inner="img"{% endif %}>
+
+                    {% for product in collection.products limit: settings[max_count_setting_id] %}
+                        {% include 'product-block' %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    <!-- End products -->
 {% endfor %}
 
 {% comment %}
