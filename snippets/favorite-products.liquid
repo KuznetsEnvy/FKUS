@@ -1,8 +1,10 @@
 <div class="cart-products">
   {% if settings['product-heading'] != blank %}
+      {% unless template contains 'page.thank-you' %}
   <div class="prod-galary">
     <h3>{{ settings['product-heading'] }}</h3>
   </div>
+      {% endunless %}
   {% endif %}
   <div class="grid one-row">
     {% for i in (1..3) %}
