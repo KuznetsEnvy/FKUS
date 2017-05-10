@@ -325,42 +325,44 @@
 
 <script>products.id{{ product.id }} = {{ product | json }};</script>
 <script type="text/javascript">
-  $(function($){
-    $('.willstagram').each(function(){
-      var user_id = $(this).data('user_id');
-      var tag = $(this).data('tag');
-      var client_id = $(this).data('client_id') || '4d67d884d71a4c7fb59e73aeb2270e59';
-      var access_token = $(this).data('access_token');
-      var count = $(this).data('count');
-      var $willstagram = $(this);
-      var url = '';
-      if(typeof user_id != 'undefined') {
-        url = 'https://api.instagram.com/v1/users/' + user_id + '/media/recent?client_id=' + client_id;
-      } else if(typeof tag != 'undefined') {
-        url = 'https://api.instagram.com/v1/tags/' + tag + '/media/recent?client_id=' + client_id;
-      }
-      $.ajax({
-        type: "GET",
-        dataType: "jsonp",
-        cache: false,
-        url: url
-        + (typeof access_token == 'undefined'? '' : ('&access_token='+access_token))
-        + (typeof count == 'undefined'? '' : ('&count='+count)),
-        success: function(res) {
-          if(typeof res.data != 'undefined') {
-            var $itemContainer = $('<ul class="items">').appendTo($willstagram);
-            var limit = Math.min(20, res.data.length);
-            for(var i = 0; i < limit; i++) {
-              var photo_url = res.data[i].images.low_resolution.url.replace('http:', '');
-              var link = res.data[i].link;
-              var caption = res.data[i].caption != null ? res.data[i].caption.text : '';
-              $itemContainer.append($('<li />').append('<div class="item"><a target="_blank" href="'+link+'"><img src="'+photo_url+'" /></a><div class="desc">'+caption+'</div></div>'));
-            }
+    document.getElementById('jquery').addEventListener('load', function() {
+      $(function($){
+        $('.willstagram').each(function(){
+          var user_id = $(this).data('user_id');
+          var tag = $(this).data('tag');
+          var client_id = $(this).data('client_id') || '4d67d884d71a4c7fb59e73aeb2270e59';
+          var access_token = $(this).data('access_token');
+          var count = $(this).data('count');
+          var $willstagram = $(this);
+          var url = '';
+          if(typeof user_id != 'undefined') {
+            url = 'https://api.instagram.com/v1/users/' + user_id + '/media/recent?client_id=' + client_id;
+          } else if(typeof tag != 'undefined') {
+            url = 'https://api.instagram.com/v1/tags/' + tag + '/media/recent?client_id=' + client_id;
           }
-        }
+          $.ajax({
+            type: "GET",
+            dataType: "jsonp",
+            cache: false,
+            url: url
+            + (typeof access_token == 'undefined'? '' : ('&access_token='+access_token))
+            + (typeof count == 'undefined'? '' : ('&count='+count)),
+            success: function(res) {
+              if(typeof res.data != 'undefined') {
+                var $itemContainer = $('<ul class="items">').appendTo($willstagram);
+                var limit = Math.min(20, res.data.length);
+                for(var i = 0; i < limit; i++) {
+                  var photo_url = res.data[i].images.low_resolution.url.replace('http:', '');
+                  var link = res.data[i].link;
+                  var caption = res.data[i].caption != null ? res.data[i].caption.text : '';
+                  $itemContainer.append($('<li />').append('<div class="item"><a target="_blank" href="'+link+'"><img src="'+photo_url+'" /></a><div class="desc">'+caption+'</div></div>'));
+                }
+              }
+            }
+          });
+        });
       });
     });
-  });
 </script>
 {% assign gallery = product.metafields.gallery %}
 {% assign s = gallery.size %}

@@ -4,72 +4,13 @@
     Geolizr.getGeoData(function(geoData, refreshed) {
       var redirects = {{ shop.metafields.geolizr.redirects }};
       var countryToRedirect = {{ shop.metafields.geolizr.country_to_redirect }};
+
       var redirect = redirects[countryToRedirect[geoData.country.code]];
-      if(geoData.country.country == 'Russia')
-          return false;
+      var regionRedirect = redirects[countryToRedirect[geoData.country.code + '-' + geoData.region]];
+      if(regionRedirect)
+          redirect = regionRedirect;
 
-      if(redirect) {
-        var currentUrl = window.location.href;
-        if(currentUrl.slice(-1) == '/') {
-          currentUrl = currentUrl.substring(0, currentUrl.length - 1);
-        }
-
-        var currentUrlWithoutParams = currentUrl.split('?')[0];
-        if(currentUrlWithoutParams.slice(-1) == '/') {
-          currentUrlWithoutParams = currentUrlWithoutParams.substring(0, currentUrlWithoutParams.length - 1);
-        }
-
-       	var targetUrl = redirect.redirectUrl.replace('/%path%', '%path%');
-        if(targetUrl.slice(-1) == '/') {
-          targetUrl = targetUrl.substring(0, targetUrl.length - 1);
-        }
-        if(targetUrl.indexOf('%path%') > -1) {
-		  var path = window.location.href.replace(window.location.protocol + '//' + window.location.hostname, '');
-          targetUrl = targetUrl.replace('%path%', path);
-        } else {
-          var geolizrCountry = Geolizr.getURLParameter('geolizr_country');
-          var geolizrIP = Geolizr.getURLParameter('geolizr_ip');
-          if(geolizrCountry && geolizrIP) {
-			targetUrl = targetUrl + '/?geolizr_country=' + geolizrCountry + "&geolizr_ip=" + geolizrIP;
-          } else {
-            if(geolizrCountry) {
-              targetUrl = targetUrl + '/?geolizr_country=' + geolizrCountry;
-            }
-            if(geolizrIP) {
-              targetUrl = targetUrl + '/?geolizr_ip=' + geolizrIP;
-            }
-          }
-        }
-        if(targetUrl.slice(-1) == '/') {
-          targetUrl = targetUrl.substring(0, targetUrl.length - 1);
-        }
-
-        if(redirect.filterlistType != 'none' && redirect.filterlistUrls != "") {
-            var filterUrls = redirect.filterlistUrls.replace(/ /g,'').split(",");
-            if(Geolizr.listCheck(redirect, filterUrls, currentUrlWithoutParams))
-              return;
-        }
-
-        if(document.referrer && document.referrer != '') {
-          var tmpAnchor = document.createElement('a');
-		  tmpAnchor.href = document.referrer;
-          var referrer = tmpAnchor.host;
-          if(redirect.redirectIgnoreReferrers) {
-            var ignoreReferrers = redirect.redirectIgnoreReferrers.replace(/ /g,'').split(',');
-            if($.inArray(referrer, ignoreReferrers) == -1 && currentUrl != targetUrl) {
-              window.location.replace(targetUrl);
-            }
-          } else {
-            if(currentUrl != targetUrl) {
-              window.location.replace(targetUrl);
-            }
-          }
-        } else {
-          if(currentUrl != targetUrl) {
-            window.location.replace(targetUrl);
-          }
-        }
-      }
+      Geolizr.redirect(redirect, false);
     }, true);
   });
 </script>

@@ -346,50 +346,20 @@
 {% if template contains 'product' %}
     {% comment %}{% include 'fixed-product' %}{% endcomment %}
     <script>
-        var stateModule = (function () {
-            var jqueryDone = false;
-            var bxsliderDone = false;
-
-            var pub = {};// public object - returned at end of module
-
-            pub.changeState = function (module) {
-                if (module == 'jquery') jqueryDone = true;
-                if (module == 'bxslider') bxsliderDone = true;
-            };
-
-            pub.getState = function(module) {
-                if (module == 'jquery') return jqueryDone;
-                if (module == 'bxslider') return bxsliderDone;
-            }
-
-            return pub; // expose externally
-        }());
-
-        function securelyEnableBxSlider(module) {
-            if (module == 'jquery') stateModule.changeState('jquery');
-            if (module == 'bxslider') stateModule.changeState('bxslider');
-
-            console.log("jqueryDone == "+stateModule.getState('jquery'));
-            console.log("bxsliderDone == "+stateModule.getState('bxslider'));
-
-
-            if(stateModule.getState('jquery') && stateModule.getState('bxslider')) {
-                $(function() {
-                    $('.bxslider').bxSlider({
-                        responsive: true,
-                        touchEnabled: true,
-                        auto: true,
-                        autoStart: true,
-                        pager: true,
-                        controls: false,
-                        speed: 1000
-                    });
+        document.getElementById('bxslider').addEventListener('load', function () {
+            $(function () {
+                $('.bxslider').bxSlider({
+                    responsive: true,
+                    touchEnabled: true,
+                    auto: true,
+                    autoStart: true,
+                    pager: true,
+                    controls: false,
+                    speed: 1000
                 });
-            }
+            });
+        });
 
-        }
-        document.getElementById('jquery').addEventListener('load', securelyEnableBxSlider('jquery'));
-        document.getElementById('bxslider').addEventListener('load', securelyEnableBxSlider('bxslider'));
     </script>
 {% endif %}
 
