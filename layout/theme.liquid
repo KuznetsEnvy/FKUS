@@ -3,6 +3,8 @@
 <!--[if IE 9]><html class="no-js ie9" lang="en"> <![endif]-->
 <!--[if (gt IE 10)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
+{{ 'geolizr-lib.js' | asset_url | script_tag }}
+{{ 'geolizr-lib.css' | asset_url | stylesheet_tag }}
     <!-- Canopy v1.0.10 -->
     <meta charset="utf-8"/>
 
@@ -157,7 +159,8 @@
 </head>
 
 <body class="template-{{ template | split: '.' | first }} {{ page_title | handle }}">
-{% include 'geolizr-lib' %}
+
+
 <div id="header" class="cart" style="width:100%;">
     <div class="container">
         <div class="page-header">
@@ -480,8 +483,6 @@
     });
 </script>
 
-{% include 'geolizr-redirect' %}
-
 <script src="https://use.fontawesome.com/791a439b99.js"></script>
 
 {% if gfonts != '' %}
@@ -494,5 +495,8 @@
         });
     </script>
 {% endif %}
+<!-- geolizr redirect included here -->
+{% include 'geolizr-redirect' %}
+<!-- end geolizr redirect included here -->
 </body>
 </html>

@@ -10,6 +10,8 @@
       if(regionRedirect)
           redirect = regionRedirect;
 
+      console.log("redirect");
+      console.log(redirect);
       Geolizr.redirect(redirect, false);
     }, true);
   });
