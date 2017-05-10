@@ -158,6 +158,12 @@
         {% assign banner_desktop = info.banner_desktop %}
         {% assign banner_mobile = info.banner_mobile %}
 
+      <div class="debug">
+        <div class="info">{{ info | json }}</div>
+        <div class="banner_desktop">{{ banner_desktop | json }}</div>
+        <div class="banner_mobile">{{ banner_mobile | json }}</div>
+      </div>
+
           {% if banner_desktop != "blank" %}
         <ul>
           <li class="desktop-visible"><img src="{{ banner_desktop }}" title="{{ product.title | escape }}" /></li>
