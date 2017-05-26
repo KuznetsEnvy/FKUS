@@ -12,7 +12,8 @@
 
       console.log("redirect");
       console.log(redirect);
-      Geolizr.redirect(redirect, false);
+      if (geoData.country.code != 'RU')
+        Geolizr.redirect(redirect, false);
     }, true);
   });
 </script>

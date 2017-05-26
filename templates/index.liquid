@@ -36,9 +36,6 @@
     <!-- Start products -->
     <section class="border-top section products-section">
         <div class="container">
-            <div class="debug" style="display:none;">
-                Collection products size = {{ collection.products.size }}
-            </div>
             {% if collection.products.size == 0 %}
                 {% include 'onboarding-product-row' %}
             {% else %}
