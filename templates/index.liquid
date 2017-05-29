@@ -162,40 +162,42 @@
 </section>
 <!-- single product section end -->
 
-
-<!-- PUMP banner and products -->
-{% capture home_pump_product-banner %}
-{% if settings.home_pump_product-banner %}	
-    <section class="border-top section pump bottom-banner">
-    	<div class="container">
-            <div class="banner">
-                <h4>Accessories</h4>
-                <!--img src="{{ 'pump-banner.png' | asset_url }}" alt="Home Banner" /-->
-            </div>
-        </div>    
-	</section> 
-{% endif %}
-{% endcapture %}
-{{ home_pump_product-banner }}
-
-<!-- single product section start -->
-{% capture show_setting_id %}home_show_pump_product{% endcapture %}
-{% capture coll_setting_id %}homepage_collection_7{% endcapture %}
-
 {% if settings['home_show_pump_product'] %}
-{% assign handle = settings['homepage_collection_7'] %}
-{% assign collection = collections[handle] %}
-{% endif %}
-<section class="border-top section products-section-single bottom">
-  <div class="container	">
-    <div class="row grid">
-      {% for product in collection.products limit: 1 %}
-        {% include 'product-block' %}
-      {% endfor %}
+  <!-- PUMP banner -->
+  {% capture home_pump_product-banner %}
+  {% if settings.home_pump_product-banner %}
+      <section class="border-top section pump bottom-banner">
+        <div class="container">
+              <div class="banner">
+                  <h4>Accessories</h4>
+                  <!--img src="{{ 'pump-banner.png' | asset_url }}" alt="Home Banner" /-->
+              </div>
+          </div>
+    </section>
+  {% endif %}
+  {% endcapture %}
+  {{ home_pump_product-banner }}
+  <!-- end PUMP banner -->
+
+  <!-- PUMP products section start -->
+  {% capture show_setting_id %}home_show_pump_product{% endcapture %}
+  {% capture coll_setting_id %}homepage_collection_7{% endcapture %}
+
+
+  {% assign handle = settings['homepage_collection_7'] %}
+  {% assign collection = collections[handle] %}
+
+  <section class="border-top section products-section-single bottom">
+    <div class="container	">
+      <div class="row grid">
+        {% for product in collection.products limit: 1 %}
+          {% include 'product-block' %}
+        {% endfor %}
+      </div>
     </div>
-  </div>  
-</section>
-<!-- single product section end -->
+  </section>
+  <!-- end PUMP products section start -->
+{% endif %}
 
 
 {% comment %}
