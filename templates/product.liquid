@@ -29,7 +29,11 @@
           {% for image in product.images %}
           <li><img id="zoom" data-zoom-image="{{ image | product_img_url: 'original' }}" class="main-img" src="{{ image | product_img_url: '1024x1024' }}" alt="{{ image.alt | escape }}" /></li>
           {% endfor %}
-        </ul>        
+        </ul>
+        {% else %}
+          <ul>
+            <li><img id="zoom" data-zoom-image="{{ featured_image | product_img_url: 'original' }}" class="main-img" src="{{ featured_image | product_img_url: '1024x1024' }}" alt="{{ featured_image.alt | escape }}" /></li>
+          </ul>
         {% endif %}
       </div>
     </div>
