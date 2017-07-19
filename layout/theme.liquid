@@ -167,7 +167,7 @@
             <div id="toolbar" class="toolbar cf">
                 <div class="logo-nav">
                     <div class="logo">
-                        {% if settings.use_logo %}{{ 'cart-header-logo.png' | asset_url | split:"?" | first | img_tag | link_to: shop.url }}{% else %}{{ shop.name | link_to: shop.url }}{% endif %}
+                        {% if settings.use_logo %}{{ 'cart-header-logo-black.png' | asset_url | split:"?" | first | img_tag | link_to: shop.url }}{% else %}{{ shop.name | link_to: shop.url }}{% endif %}
                     </div>
 
                     {% unless settings.header_layout == 'nav' %}
