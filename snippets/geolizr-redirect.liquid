@@ -10,9 +10,9 @@
       if(regionRedirect)
           redirect = regionRedirect;
 
-      console.log("redirect");
+      console.log("redirect " + geoData.country.code);
       console.log(redirect);
-      if (geoData.country.code != 'RU')
+      if (geoData.country.code != 'RU' && (geoData.country.code != 'LT' && new Date() < new Date('01/08/2017')))
         Geolizr.redirect(redirect, false);
     }, true);
   });

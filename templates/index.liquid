@@ -419,7 +419,7 @@ J: Custom HTML
 
 <section id="insta" class="border-top section instagram-section">
 
-  {% comment %}	<div class="opposing-items">
+  {% comment %}    <div class="opposing-items">
       <h1 class="section-heading left">Instagram</h1>  
       
       
@@ -438,6 +438,38 @@ J: Custom HTML
             </a>
           </div>
       {% endfor %}
+    </div>
+  
+   <!-- imageagram.com -->
+{% comment %}   <script src="{{ '4mkapps.insta.min.js' | asset_url }}" type="text/javascript"></script> {% endcomment %}
+{% comment %} <script src="//imageagram.com/js/imageagram.js"></script>
+<iframe id="instimg-iframe" src="//imageagram.com/grid.php?q=u&search=floatiekings&wt=in&s=150&h=4&w=2&b=no&c=&p=0&ho=fadeIn&sh=no&ww=450&as=on&at=" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:1200px" ></iframe>
+  <!--    <script src="//imageagram.com/js/imageagram.js"></script>-->
+  {% endcomment %}  
+  {% comment %}<script src="//imageagram.com/js/imageagram.js"></script>
+<iframe id="instimg-iframe" src="//imageagram.com/grid.php?q=u&search=floatiekings&wt=in&s=250&h=4&w=1&b=no&c=&p=5&ho=none&sh=yes&ww=450&as=on&at=2077099952.69c1145.aef5ef91f7d9494e9ceb1d7a672c1bfe" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:1026px" ></iframe>    
+ 
+    {% if settings.homepage_insta_acct != blank %}<span class="follow"><a target="_blank" href="https://instagram.com/{{ settings.homepage_insta_acct | remove: '@' }}" class="hash-link">FOLLOW FLOATIE KINGS</a></span>{% endif %}
+ 
+  {% endcomment %}
+</section>
+
+<section id="insta" class="border-top section instagram-section instagram-section-mobile">
+  <div class="opposing-items">
+      <h4 class="section-heading left">Follow us on instagram <br /><nobr><a target="_blank" href="https://www.instagram.com/floatiekings/"><span class="fa fa-instagram"></span>floatiekings</a></nobr></h4>
+
+    </div>
+    <div class="images-container-wrap"> 
+        <div class="images-container">   
+          <!-- div -->
+          {% for i in (1..9) %}
+              <div>
+                <a href="https://www.instagram.com/{{ settings.homepage_insta_acct }}/" target="_blank">
+                  <img class="js-backimg" src="https://cdn.shopify.com/s/files/1/0934/6050/files/newinstag_{{ i }}.jpg" alt="" >
+                </a>
+              </div>
+          {% endfor %}
+        </div>
     </div>
   
    <!-- imageagram.com -->

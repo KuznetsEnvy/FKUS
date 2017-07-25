@@ -92,55 +92,6 @@
     <!-- Pinterest Pixel Code -->
     <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
 
-    <!-- Facebook Pixel Code -->
-    <script>
-        !function (f, b, e, v, n, t, s) {
-            if (f.fbq)return;
-            n = f.fbq = function () {
-                n.callMethod ?
-
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            };
-            if (!f._fbq) f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = '2.0';
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s)
-        }(window,
-            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
-
-        fbq('init', '1034963433252089');
-        fbq('track', "PageView");
-
-        {% if template == 'cart' and cart.items.size > 0 %}
-        fbq('track', 'AddToCart', {
-            content_ids: [
-                {% for item in cart.items %}
-                '{{ item.sku }}'
-                {% unless forloop.last %}, {% endunless %}
-                {% endfor %}
-            ],
-            content_type: 'product'
-        });
-
-        {% elsif template == "product" %}
-        fbq('track', 'ViewContent', {
-            content_ids: ['{{ product.variants[0].sku }}'],
-            content_type: 'product'
-        });
-        {% endif %}
-
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=1034963433252089&ev=PageView&noscript=1"
-        /></noscript>
-    <!-- End Facebook Pixel Code -->
-
     <!-- Pinterest visitor -->
     <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
 
@@ -262,15 +213,12 @@
 
                         <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
                             <picture>
-                                <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-3-1920.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-3-1400.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 1366px)" srcset="{{ 'PC-Header-3-1366.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-3-1024.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 768px)" srcset="{{ 'Mobile-Header-optimised.jpg' | asset_url | split:"?" | first }}">
-                                <source media="only screen and (-webkit-min-device-pixel-ratio: 2)" srcset="{{ 'Mobile-Header-@2x.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 480px)" srcset="{{ 'Mobile-Header-optimised-480.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 320px)" srcset="{{ 'Mobile-Header-optimised-320.jpg' | asset_url | split:"?" | first }}">
-                                <img src="{{ 'PC-Header-3-1920.jpg' | asset_url | split:"?" | first }}" alt="Homepage banner">
+                                <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-4-1920-sale.jpg' | asset_url | split:"?" | first }}">
+                                <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-4-1400-sale.jpg' | asset_url | split:"?" | first }}">
+                                <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-4-1024-sale.jpg' | asset_url | split:"?" | first }}">
+                                <source media="(min-width: 768px)" srcset="{{ 'PC-Header-4-1024-sale.jpg' | asset_url | split:"?" | first }}">
+                                <source srcset="{{ 'Mobile-Header-4-optimised-sale.jpg' | asset_url | split:"?" | first }}">
+                                <img src="{{ 'PC-Header-4-1920-sale' | asset_url | split:"?" | first }}" alt="Homepage banner">
                             </picture>
                         </div>
 

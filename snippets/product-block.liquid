@@ -54,7 +54,7 @@
         <span class="from">{{ 'products.general.from' | t }}</span>
         {% endif %}
         <span class="amount">{{ product.price | money }}</span>
-        {% if false and product.compare_at_price_max > product.price %}
+        {% if product.compare_at_price_max > product.price %}
         <del>{{ product.compare_at_price | money }}</del>
         {% endif %}
       </div>
