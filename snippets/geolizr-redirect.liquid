@@ -1,4 +1,5 @@
 {% if shop.metafields.geolizr.redirect_widget_enabled == 'true' %}
+  <script src="{{ 'js.cookies-2.1.4.js' | asset_url | split:"?" | first }}"></script>
 <script>
   Geolizr.init(function($) {
     Geolizr.getGeoData(function(geoData, refreshed) {
@@ -10,10 +11,39 @@
       if(regionRedirect)
           redirect = regionRedirect;
 
-      console.log("redirect " + geoData.country.code);
-      console.log(redirect);
-      if (geoData.country.code != 'RU' && (geoData.country.code != 'LT' && new Date() < new Date('01/08/2017')))
-        Geolizr.redirect(redirect, false);
+      // function to obtain GET parameter from the address line
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+
+        var no_redirect = getUrlParameter('no_redirect');
+        if (no_redirect){
+            Cookies.set('no_redirect', 'true');
+        }
+
+        no_redirect = Cookies.get('no_redirect');
+
+        console.log("redirect " + geoData.country.code);
+        console.log(redirect);
+        if (geoData.country.code == 'RU' || no_redirect) {
+            // Do nothing
+        } else {
+            // Perform redirect
+            Geolizr.redirect(redirect, false);
+        }
+
+
     }, true);
   });
 </script>

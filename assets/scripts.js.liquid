@@ -927,12 +927,10 @@ $('a[rel=lightbox]').colorbox({ minWidth: '200', maxWidth: '96%', maxHeight: '96
   
   
   /// Page height assessment
-  
   $(window).on('debouncedresize load setminheight', function(){
     // inner wrap contains the border
-    var $innerWrap = $('#page-wrap-inner').css('min-height', $(window).height());
+      var $innerWrap = $('#page-wrap-inner').css('min-height', $(window).height() - $('#page-footer').outerHeight() - $('#header').outerHeight() - 60);
   }).trigger('setminheight');
-
 
 
   // Fixed header overlap handling

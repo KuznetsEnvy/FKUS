@@ -110,7 +110,7 @@
 </head>
 
 <body class="template-{{ template | split: '.' | first }} {{ page_title | handle }}">
-
+<!-- Hello world! 2 -->
 
 <div id="header" class="cart" style="width:100%;">
     <div class="container">
@@ -213,12 +213,14 @@
 
                         <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
                             <picture>
-                                <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-4-1920-sale.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-4-1400-sale.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-4-1024-sale.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 768px)" srcset="{{ 'PC-Header-4-1024-sale.jpg' | asset_url | split:"?" | first }}">
-                                <source srcset="{{ 'Mobile-Header-4-optimised-sale.jpg' | asset_url | split:"?" | first }}">
-                                <img src="{{ 'PC-Header-4-1920-sale' | asset_url | split:"?" | first }}" alt="Homepage banner">
+                                <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-3-1920.jpg' | asset_url | split:"?" | first }}">
+                                <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-3-1400.jpg' | asset_url | split:"?" | first }}">
+                                <source media="(min-width: 1366px)" srcset="{{ 'PC-Header-3-1366.jpg' | asset_url | split:"?" | first }}">
+                                <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-3-1024.jpg' | asset_url | split:"?" | first }}">
+                                <source media="(min-width: 768px)" srcset="{{ 'PC-Header-3-768.jpg' | asset_url | split:"?" | first }}">
+                                <source media="(min-width: 480px)" srcset="{{ 'PC-Header-3-480.jpg' | asset_url | split:"?" | first }}">
+                                <source media="(min-width: 320px)" srcset="{{ 'PC-Header-3-320.jpg' | asset_url | split:"?" | first }}">
+                                <img src="{{ 'PC-Header-3-1920.jpg' | asset_url | split:"?" | first }}" alt="Homepage banner">
                             </picture>
                         </div>
 
@@ -317,7 +319,7 @@
 <!--{{ 'libs.js' | asset_url | split:"?" | first | script_tag }}-->
 <script src="{{ 'libs.js' | asset_url | split:"?" | first }}" defer></script>
 <!--{{ 'scripts.js' | asset_url | split:"?" | first | script_tag }}-->
-<script src="{{ 'scripts.js' | asset_url | split:"?" | first }}" defer></script>
+<script src="{{ 'scripts.js' | asset_url }}" defer></script>
 <!--{{ 'instafeed.min.js' | asset_url | split:"?" | first | script_tag }}-->
 <script src="{{ 'instafeed.min.js' | asset_url | split:"?" | first }}" defer></script>
 <!--{{ 'jquery.jscrollpane.min.js' | asset_url | split:"?" | first | script_tag }}-->
