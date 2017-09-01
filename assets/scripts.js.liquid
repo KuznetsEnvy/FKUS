@@ -950,5 +950,26 @@ $('a[rel=lightbox]').colorbox({ minWidth: '200', maxWidth: '96%', maxHeight: '96
         }
     });
 
+    function controlCartUpsell() {
+        var cartProducts = ['pink-swan-pump','donut-box-deal','donut-chocolate-deal','emoji-pack-deal','donut-box-deal'];
+        var cartProductsCount = 0;
+
+        jQuery.getJSON('/cart.js', function(cart) {
+
+            cart.items.forEach(function (item, i, arr) {
+                if (cartProducts.indexOf(item.handle) >= 0) {
+                    cartProductsCount++;
+                }
+            });
+
+            if (cart.items.length && cart.items.length == cartProductsCount) {
+                jQuery.getJSON('/cart/clear.js', function(cart) {
+                    location.reload();
+                });
+            }
+
+        });
+    };
+    controlCartUpsell();
 
 });
