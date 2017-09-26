@@ -219,12 +219,13 @@
           {% if settings.home_show_slideshow %}
           <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
             <picture>
-              <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-3-1920-sale.jpg' | asset_url | split:"?" | first }}">
-              <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-3-1400-sale.jpg' | asset_url | split:"?" | first }}">
-              <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-3-1024-sale.jpg' | asset_url | split:"?" | first }}">
-              <source media="(min-width: 751px)" srcset="{{ 'PC-Header-3-1024-sale.jpg' | asset_url | split:"?" | first }}">
-              <source media="(min-width: 300px)" srcset="{{ 'Mobile-Header-sale.jpg' | asset_url | split:"?" | first }}">
-              <img src="{{ 'PC-Header-3-1920-sale.jpg' | asset_url | split:"?" | first }}" alt="Homepage banner">
+              <source media="(min-width: 1920px)" srcset="{{ 'header_banner_textless_2336.png' | asset_url | split:"?" | first }}">
+              <source media="(min-width: 1650px)" srcset="{{ 'header_banner_textless_1920.png' | asset_url | split:"?" | first }}">
+              <source media="(min-width: 1400px)" srcset="{{ 'header_banner_textless_1650.png' | asset_url | split:"?" | first }}">
+              <source media="(min-width: 1024px)" srcset="{{ 'header_banner_textless_1440.png' | asset_url | split:"?" | first }}">
+              <source media="(min-width: 751px)" srcset="{{ 'header_banner_textless_1024.png' | asset_url | split:"?" | first }}">
+              <source media="(min-width: 300px)" srcset="{{ 'header_banner_textless_750.png' | asset_url | split:"?" | first }}">
+              <img src="{{ 'header_banner_textless_414.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
             </picture>
           </div>
 
