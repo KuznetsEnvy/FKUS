@@ -33,15 +33,15 @@
   "layout": {
     "header": {
       "search": "Search",
-      "menu": "Menu"
+      "menu": "Menu",
+      "secure_payment_html": "<nobr>Secure and<\/nobr> <nobr>encrypted payment<\/nobr>"
     },
     "cart_summary": {
       "continue_shopping": "Continue shopping",
       "title": "Your Order",
       "cart": "View Cart",
       "checkout": "Checkout",
-      "subtotal": "Subtotal:",
-      "empty_html": "You have no items in your cart"
+      "subtotal": "Subtotal:"
     },
     "customer": {
       "login": "Login",
@@ -61,6 +61,16 @@
     },
     "mobile_navigation": {
       "back": "Back to previous"
+    },
+    "banners": {
+      "memories_last_forever": "Make memories that last forever",
+      "memories_last_forever_html": "<span>Make memories that<\/span><br \/><em>last forever<\/em>",
+      "bring_best_friend_html": "<span>Bring your<\/span><br \/><em>best friend<\/em>"
+    },
+    "misc": {
+      "definite_article": "The",
+      "summer_story_html": "<nobr>Every summer has<\/nobr> <nobr>it’s own story ;)<\/nobr>",
+      "follow_us_html": "<em>Follow us<\/em> at"
     }
   },
   "blogs": {
@@ -100,19 +110,33 @@
   "cart": {
     "general": {
       "title": "My Cart",
+      "title_short": "Cart",
+      "review_cart": "REVIEW YOUR CART",
+      "empty": "YOUR CART IS EMPTY",
+      "no_items": "You have no items in your cart",
       "update": "Update",
-      "checkout": "Checkout",
-      "continue": "Continue shopping",
       "remove": "Remove",
-      "empty_title": "You have no items in your cart",
-      "empty_subtext_html": "<a href=\"\/\">Click here<\/a> to continue shopping."
+      "continue": "Continue shopping",
+      "keep": "Keep shopping",
+      "click_to_continue_html": "<a href=\"\/\">Click here<\/a> to continue shopping.",
+      "checkout": "Checkout",
+      "to_checkout": "PROCEED TO CHECKOUT"
     },
     "label": {
       "description": "Items",
       "price": "Price",
       "quantity": "Quantity",
       "note": "Add a note to your order",
-      "subtotal": "Subtotal before delivery"
+      "subtotal": "Subtotal before delivery",
+      "total": "Total"
+    },
+    "shipping": {
+      "shipping-banner_html": "<b>Free shipping<\/b> for all orders over",
+      "got_free_shipping": "YOU HAVE EARNED FREE SHIPPING",
+      "add_for_free_shipping": "Add {{ dif }} for Free shipping.",
+      "add_for_free_shipping_html": "Add {{ dif }} for <b>Free shipping<\/b>.",
+      "free_shipping_added": "FREE SHIPPING added!",
+      "almost_there": "You're almost there to qualify for FREE SHIPPING!"
     }
   },
   "collections": {
@@ -140,7 +164,8 @@
     },
     "collection_list": {
       "title": "Collections",
-      "sidebar_title": "Categories"
+      "sidebar_title": "Categories",
+      "pump_banner": "Accessories"
     },
     "sidebar": {
       "title": "Categories"
@@ -158,6 +183,36 @@
       "blog_instruction_html": "<a target=\"_blank\" href=\"\/admin\/articles\">Create some articles<\/a> to show in here.<br><br>After doing this, select the blog in <a target=\"_blank\" href=\"\/admin\/themes\">Customize Theme &gt; Homepage Blog<\/a><br><br><small>Alternatively, you can turn off this row in <a target=\"_blank\" href=\"\/admin\/themes\">Customize Theme &gt; Homepage Setup<\/a><\/small>"
     }
   },
+  "pages": {
+    "support": {
+      "here_to_help_html": "at <span>floatie kings<\/span> we are here to help you!",
+      "track_order": "track your order",
+      "email_support": "Email-support",
+      "wholesale": "wholesale",
+      "general_inquiries": "general inquiries"
+    },
+    "win_cash": {
+      "want_to_win_html": "WANT TO <strong>WIN $5000 CASH<\/strong>",
+      "enter_here": "ENTER HERE",
+      "submit_details_html": "<b>submit<\/b> your details to enter"
+    },
+    "upsell": {
+      "block_title_html": "<span class=\"content\">GOOD NEWS!<\/span> YOUR CART QUALIFIES FOR THESE <strong>ADD ONS<\/strong>",
+      "normal_price": "Normal Price"
+    },
+    "forms": {
+      "your_name": "Your Name",
+      "email": "Email",
+      "enter": "Enter"
+    },
+    "buttons": {
+      "enter": "Enter",
+      "select": "Select",
+      "selected": "Selected",
+      "see_more": "See more",
+      "shop_now": "Shop now"
+    }
+  },
   "products": {
     "general": {
       "from": "From",
@@ -168,6 +223,7 @@
       "back_to_html": "Back to:",
       "previous": "Previous",
       "next": "Next",
+      "product_unavailable": "Product unavailable",
       "product_unavailable_html": "Notify Me When In Stock",
       "quantity": "Quantity",
       "add_to_cart_html": "Add to Cart",
@@ -176,7 +232,13 @@
       "adding_to_cart": "Adding to cart...",
       "added_to_cart_btn": "Added",
       "sku": "SKU:",
-      "related_title": "YOU MIGHT ALSO BE INTERESTED IN"
+      "related_title": "YOU MIGHT ALSO BE INTERESTED IN",
+      "hand_made_html": "<span>Hand<\/span> <span>made<\/span>",
+      "high_quality_html": "<span>High<\/span> <span>quality<\/span>",
+      "durable_materials_html": "<span>Durable<\/span> <span>materials<\/span>",
+      "easy_setup_html": "<span>Easy<\/span> <span>setup<\/span>",
+      "secure_checkout_html": "<span>Secure<\/span> <span>checkout<\/span>",
+      "fast_shipping_html": "<span>Fast<\/span> <span>shipping<\/span>"
     },
     "variant": {
       "out_of_stock": "out of stock",

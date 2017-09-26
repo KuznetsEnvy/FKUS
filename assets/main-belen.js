@@ -12,29 +12,10 @@ $(document).ready( function() {
   	headerSub_limit = 54;
   }
   
-  $('#insta .grid').load( function() {
-    $(this).isotope({
-        itemSelector: '.grid-item',
-        percentPosition: true,
-        masonry: {
-          //columnWidth: 100,
-          isFitWidth: true
-        }
-      });
-  });
-  
 });
 
-$(window).load( function() {
-  $('#insta .grid').isotope({
-        itemSelector: '.grid-item',
-        percentPosition: true,
-        masonry: {
-          //columnWidth: 100,
-          isFitWidth: true
-        }
-      });
-});
+
+
 
 /*
 $(window).scroll( function() {
@@ -46,4 +27,3 @@ $(window).scroll( function() {
   st = $(this).scrollTop();
 });
 */
-

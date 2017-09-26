@@ -1,74 +1,40 @@
 <footer id="page-footer" class="page-footer">
-  <div class="container">    
-    <div class="row section padless-top"> 
+  <div class="container">
+    <div class="row section padless-top">
+      <!-- Logo and links -->
       <div class="fourth column first">
-        {% if settings.use_logo and settings.show_footer_logo %}
+        {% comment %}
         <div class="logo-column column mobile-logo">
-          {{ 'footer_logo.png' | asset_url | split:"?" | first | img_tag | link_to: shop.url }}
+          <a href="{{ shop.url }}" title=""><img src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-src="{{ 'footer_logo.png' | asset_url | split:'?' | first }}" alt=""></a>
         </div>
-        {% endif %} 
+        {% endcomment %}
+
         <ul class="plain inline list-divide">
           {% for link in linklists.footer-2.links %}
-          <li>{{ link.title | link_to: link.url }}</li>
+            <li>{{ link.title | link_to: link.url }}</li>
           {% endfor %}
-        </ul>   
-        <div class="copy">{{ 'layout.footer.copyright' | t }} &copy; {{ "now" | date: "%Y" }} {{ shop.name }}.</div>   
-      </div>     
-      <div class="fourth column">
-        {% if settings.footer_display_newsletter %}
-          {% if settings.newsletter_title %}<p class="newsletter-title">{{ settings.newsletter_title }}</p>{% endif %}
-          {% include 'mailing-signup' %}
-        {% else %}
-            {% if template != 'product' and template != 'cart' %}
-              <div class="competition">
-                <a class="title ftc" href="/pages/win-cash">WANT TO
-                  <span style="font-weight:bold;">WIN $5000 CASH</span></a>
-                <button class="buy-btn" onclick='window.location.href="/pages/win-cash"'>ENTER HERE</button>
-              </div>
-            {% else %}
-              &nbsp;
-            {% endif %}
-        {% endif %}
+        </ul>
+
       </div>
+
+      <!-- Social icons -->
       <div class="fifth column second">
-        <div class="social-column align-left-desktop {% if settings.footer_display_newsletter %}half column{% else %}full column{% endif %}">          
+        <div class="social-column align-left-desktop full column">
           {% include 'social-links' %}
         </div>
       </div>
+
+      <!-- Win cash line -->
+      <div class="fourth column">
+        {% if template != 'product' and template != 'cart' %}
+          <div class="competition">
+            <a class="title ftc" href="/pages/win-cash">WANT TO <strong>WIN $5000 CASH</strong></a>
+            <button class="buy-btn" onclick='window.location.href="/pages/win-cash"'>ENTER HERE</button>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="copy">{{ 'layout.footer.copyright' | t }} &copy; {{ "now" | date: "%Y" }} {{ shop.name }}.</div>
     </div>
-    {% if settings.footer_complexity == 'kitchen_sink' %}
-    <div class="row section padless-top">
-      {% if settings.use_logo and settings.show_footer_logo %}
-      <div class="logo-column column mobile">
-        {{ 'footer_logo.png' | asset_url | split:"?" | first | img_tag | link_to: shop.url }}
-      </div>
-      {% endif %}
-      <div class="text-column {% unless settings.use_logo and settings.show_footer_logo %}occupies-logo{% endunless %} column rte">
-        {{ pages[settings.footer_page].content }}
-      </div>
-      <div class="links-column column">
-        <ul class="plain">
-          {% for link in linklists.footer.links %}
-          <li>{{ link.title | link_to: link.url }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="links-column column">
-        <ul class="plain">
-          {% for link in linklists[settings.footer_linklist2].links %}
-          <li>{{ link.title | link_to: link.url }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="links-column column">
-        <ul class="plain">
-          {% for link in linklists[settings.footer_linklist3].links %}
-          <li>{{ link.title | link_to: link.url }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    {% endif %}
   </div>
-  <a class="hash-link" href="#toolbar"><i class="icon-arrow3-up"></i></a>
 </footer>

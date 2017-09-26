@@ -1,0 +1,8 @@
+<div class="product-block">
+  <a class="img-wrap" href="{{ product.url }}"><img src="{{ product.images.last | product_img_url: 'large' | split:'?' | first }} "/>
+    <div class="label {{ product.handle }}">
+      <div class="bestseller-title">{{ product.title }}</div>
+      <div class="bestseller-shop">{{ 'pages.buttons.shop_now' | t}}</div>
+    </div>
+  </a>
+</div>

@@ -1,546 +1,191 @@
-{% if settings.logotype-block %}
-    <section class="border-top section logotype-section">
-        <div class="container">
-            <h2 class="rit-title">{{ settings.home_logotype-section_title }}</h2>
-            <p>{{ settings.logotype-section-content }}</p>
-        </div>
-    </section>
-{% endif %}
-{% for i in (1..1) %}
-    {% capture show_setting_id %}home_show_product_row_{{ i }}{% endcapture %}
-    {% capture coll_setting_id %}homepage_collection_{{ i }}{% endcapture %}
-    {% capture max_count_setting_id %}homepage_collection_{{ i }}_count{% endcapture %}
-    {% capture product_html %}
-    {% if settings[show_setting_id] %}
-        {% assign handle = settings[coll_setting_id] %}
-        {% assign collection = collections[handle] %}
-    {% endif %}
-    {% endcapture %}
-
-    {% if i == 1 %}
-        {% assign product_1_html = product_html %}
-        {% elsif i == 2 %}{% assign product_2_html = product_html %}
-        {% elsif i == 3 %}{% assign product_3_html = product_html %}
-    {% endif %}
-
-    <div class="debug" style="display:none;">
-        show_setting_id = {{ show_setting_id }}
-        coll_setting_id = {{ coll_setting_id }}
-        max_count_setting_id = {{ max_count_setting_id }}
-        settings[show_setting_id] = {{ settings[show_setting_id] }}
-        settings[coll_setting_id] = {{ settings[coll_setting_id] }}
-        collections = {{ collections | json }}
-        collections[handle] = {{ collections[handle] | json }}
-        product_html = {{ product_html }}
+{% if settings.shipping-banner-enable %}
+  {% unless template contains 'product' %}
+  <div class="shipping-banner visible-mobile">
+    <div class="nn-secondary-middle">{{ 'cart.shipping.shipping-banner_html' | t }}
+      <nobr>{{ settings.free_shipping_from | money }}</nobr>
     </div>
-    <!-- Start products -->
-    <section class="border-top section products-section">
-        <div class="container">
-            {% if collection.products.size == 0 %}
-                {% include 'onboarding-product-row' %}
-            {% else %}
-                {% comment %}
-                <div class="opposing-items">
-                    <h1 class="section-heading left">{{ collection.title | link_to: collection.url }}</h1>
-                    <a class="btn section-count" href="{{ collection.url }}">
-                        <span class="not-tiny">{{ 'collections.general.view_all' | t }} ({{ collection.products_count }})</span>
-                        <span class="tiny">{{ collection.products_count }}</span>
-                    </a>
-                </div>
-                {% endcomment %}
+  </div>
+  {% endunless %}
+{% endif %}
 
-                <div class="row grid {% if settings[max_count_setting_id] == settings.homepage_products_per_row %}one-row{% endif %}" {% if settings.coll_align_heights %}data-normheights=".image" data-normheights-inner="img"{% endif %}>
 
-                    {% for product in collection.products limit: settings[max_count_setting_id] %}
-                        {% include 'product-block' %}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-    </section>
-    <!-- End products -->
-{% endfor %}
-
-{% comment %}
-<!-- Start products block D -->
-{{ settings['homepage_collection_4'] }}
-<section class="border-top section products-section bottom">
-  <div class="container	">
-    <div class="row grid {% if settings[max_count_setting_id] == settings.homepage_products_per_row %}one-row{% endif %}" {% if settings.coll_align_heights %}data-normheights=".image" data-normheights-inner="img"{% endif %}>
-      {% for product in collection.products limit: settings[max_count_setting_id] %}
+<section class="section products-section bestsellers visible-desktop">
+  <div class="header">#Floatie bestsellers</div>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['bestsellers'].products limit: settings[max_count_setting_id] limit: 2 %}
+        {% include 'product-bestseller' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section class="section products-section product-list visible-mobile">
+  <a name="bestsellers"></a>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['mobile-top'].products limit: settings[max_count_setting_id] limit: 6 %}
         {% include 'product-block' %}
       {% endfor %}
     </div>
-  </div>  
+  </div>
 </section>
-<!-- End products -->
-
 
 <!-- Start products -->
-{% if settings['home_show_product_row_4'] %}
-{% assign handle = settings['homepage_collection_4'] %}
-{% assign collection = collections[handle] %}
-<section class="border-top section products-section">
-  <div class="container	">
-    {% if collection.products.size == 0 %}
-    {% include 'onboarding-product-row' %}
-    {% else %}
-
-    <div class="row grid {% if settings['homepage_collection_4_count'] == settings.homepage_products_per_row %}one-row{% endif %}" {% if settings.coll_align_heights %}data-normheights=".image" data-normheights-inner="img"{% endif %}>
-      {% for product in collection.products limit: settings['homepage_collection_4_count'] %}
-        {% include 'product-block' %}
-      {% endfor %}
-    </div>
-    {% endif %}
+<div class="banners-2-wrap">
+  <div class="banner banner-best-friend visible-desktop">
+    <div>{{ 'layout.banners.bring_best_friend_html' | t }}</div>
   </div>
-</section>
-{% endif %}
-<!-- End products -->
-{% endcomment %}
-<!-- Kai banner and products -->
-{% capture home_AaronKai-banner %}
-{% if settings.home_AaronKai-banner %}	
-    <section id="aron-kai" class="border-top section bottom-banner">
-    	<div class="container">
-            <div class="banner">
-                <img src="{{ 'aaronKai-banner.png' | asset_url | split:"?" | first }}" alt="Home AaronKai Banner" />
-            </div>
-        </div>    
-	</section> 
-{% endif %}
-{% endcapture %}
-{{ home_AaronKai-banner }}
-
-<!-- single product section 2 start -->
-{% capture show_setting_id %}home_show_AaronKai_products{% endcapture %}
-{% capture coll_setting_id %}homepage_collection_6{% endcapture %}
-
-{% if settings['home_show_AaronKai_products'] %}
-{% assign handle = settings['homepage_collection_6'] %}
-{% assign collection = collections[handle] %}
-{% endif %}
-<section class="border-top section products-section bottom">
-  <div class="container	">
-    <div class="row grid">
-      {% for product in collection.products limit: 3 %}
-        {% include 'product-block' %}
-      {% endfor %}
-    </div>
-  </div>  
-</section>
-<!-- single product section 2 end -->
-
-{% capture home_bottom-banner %}
-{% if settings.home_bottom-banner %}	
-    <section class="border-top section bottom-banner">
-    	<div class="container">
-            <div class="banner">
-                <img src="{{ 'bottom-banner_new.png' | asset_url | split:"?" | first }}" alt="Home Banner" />
-            </div>
-        </div>    
-	</section> 
-{% endif %}
-{% endcapture %}
-{{ home_bottom-banner }}
-
-<!-- single product section start -->
-{% capture show_setting_id %}home_show_single_product{% endcapture %}
-{% capture coll_setting_id %}homepage_collection_5{% endcapture %}
-
-{% if settings['home_show_single_product'] %}
-{% assign handle = settings['homepage_collection_5'] %}
-{% assign collection = collections[handle] %}
-{% endif %}
-<section class="border-top section products-section-single bottom">
-  <div class="container	">
-    <div class="row grid">
-      {% for product in collection.products limit: 1 %}
-        {% include 'product-block' %}
-      {% endfor %}
-    </div>
-  </div>  
-</section>
-<!-- single product section end -->
-
-{% if settings['home_show_pump_product'] %}
-  <!-- PUMP banner -->
-  {% capture home_pump_product-banner %}
-  {% if settings.home_pump_product-banner %}
-      <section class="border-top section pump bottom-banner">
-        <div class="container">
-              <div class="banner">
-                  <h4>Accessories</h4>
-                  <!--img src="{{ 'pump-banner.png' | asset_url }}" alt="Home Banner" /-->
-              </div>
-          </div>
-    </section>
-  {% endif %}
-  {% endcapture %}
-  {{ home_pump_product-banner }}
-  <!-- end PUMP banner -->
-
-  <!-- PUMP products section start -->
-  {% capture show_setting_id %}home_show_pump_product{% endcapture %}
-  {% capture coll_setting_id %}homepage_collection_7{% endcapture %}
-
-
-  {% assign handle = settings['homepage_collection_7'] %}
-  {% assign collection = collections[handle] %}
-
-  <section class="border-top section products-section-single bottom">
-    <div class="container	">
-      <div class="row grid">
-        {% for product in collection.products limit: 1 %}
-          {% include 'product-block' %}
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-  <!-- end PUMP products section start -->
-{% endif %}
-
-
-{% comment %}
-{% if settings.home_box %}	
-    <section class="border-top section blog">
-	 <div class="box-content box-document box-content-large" id="box-document">
-            <div class="row mr0">
-                <div class="col-sm-6 col-md-6 bg">
-                    <div class="box-document-text">
-                    <h2 class="al-left rit-title rit-title-border-left">{{ settings.home_blog_title }}</h2>
-                    {{ settings.home_blog_text }}
-                    <a href="{{ settings.home_blog_button_url }}" class="rit-button rit-button-black">{{ settings.home_blog_button_text }}</a>
-                </div>
-                </div>
-                <div class="col-sm-6 col-md-6">
-                    <div class="img-document"></div>
-                </div>
-            </div>
-        </div>
-</section> 
-{% endif %}
-{% if settings.purchase %}
-	 <section class="border-top section blog">
-    	<div class="box-content box-purchase box-content-gray" id="box-purchase">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 col-sm-12 al-center">
-                        <h2 class="rit-title">{{ settings.home_purchase_title }}</h2>
-                        <a href="{{ settings.home_purchase_button_url }}" class="rit-button">{{ settings.home_purchase_button_text }}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-{% endif %}
-{% endcomment %}
-
-{% if settings.text-block %}
-	<section class="border-top section tect-block">
-    	<div class="box-content box-purchase box-content-gray" id="box-text-block">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6 col-md-6 al-right">
-                        <p>{{ settings.home_text-block_title }}</p>
-                        <h2 class="big rit-title">{{ settings.home_text-block_bigtitle }}</h2>
-                        <p>{{ settings.text-block-info }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-{% endif %}
-
-
-{% capture tiles_html %}
-{% if settings.home_show_tiles %}
-<!-- start image grid -->
-{% assign img_tiles_html = '' %}
-{% for i in (1..10) %}
-{% capture show_idx %}homepage_feat_img_{{i}}_show{% endcapture %}
-{% capture filename %}homepage_feat_img_{{i}}.jpg{% endcapture %}
-{% capture alt_idx %}homepage_feat_img_{{i}}_alt{% endcapture %}
-{% capture url_idx %}homepage_feat_img_{{i}}_url{% endcapture %}
-{% capture overlay_idx %}homepage_feat_img_{{i}}_overlay{% endcapture %}
-{% if settings[show_idx] %}
-{% capture img_tiles_html %}{{ img_tiles_html }}
-<div class="tile">
-  {% if settings[url_idx] != empty %}<a href="{{ settings[url_idx] | escape }}">{% endif %}
-  <img src="{{ filename | asset_url }}" alt="{{ settings[alt_idx] | escape }}" />
-  {% if settings[overlay_idx] != blank %}
-  <div class="overlay">
-    <div class="inner">
-      {{ settings[overlay_idx] }}
-    </div>
+  <div class="banner banner-memories-forever visible-desktop">
+    <div>{{ 'layout.banners.memories_last_forever_html' | t }}</div>
   </div>
-  {% endif %}
-  {% if settings[url_idx] != empty %}</a>{% endif %}
 </div>
-{% endcapture %}
-{% endif %}
-{% endfor %}
 
-<section class="border-top section tile-section">
+<div class="banner banner-memories-forever visible-mobile">
+  <div><span>{{ 'layout.banners.memories_last_forever' | t }}</span></div>
+</div>
+
+<section class="section products-section product-list visible-desktop">
+  <a name="fun-rides"></a>
   <div class="container">
-    <div class="tile-group">
-      {{ img_tiles_html }}
-    </div>
-  </div>
-</section>
-
-<!-- end image cluster -->
-{% endif %}
-{% endcapture %}
-
-
-
-{% capture blog_html %}
-<!-- start recent articles -->
-{% if settings.home_show_blog %}
-<section class="border-top section blog-section">
-  <div class="container">
-    {% if settings.homepage_blog == blank %}
-    {% include 'onboarding-blog-row' %}
-    {% else %}
-    <div class="opposing-items">
-      <h1 class="section-heading left">{{ blogs[settings.homepage_blog].title | link_to: blogs[settings.homepage_blog].url }}</h1>
-      <a class="btn" href="{{ blogs[settings.homepage_blog].url }}">{{ 'blogs.general.view_all' | t }}</a>
-    </div>
-    <div class="row">
-      {% for article in blogs[settings.homepage_blog].articles limit: 3 %}
-      {% include 'article-block' with 'third column' %}
+    <div class="row grid">
+      {% for product in collections['frontpage'].products limit: settings[max_count_setting_id] limit: 7 %}
+        {% include 'product-block' %}
       {% endfor %}
     </div>
-    {% endif %}
   </div>
 </section>
-{% endif %}
-<!-- end recent articles -->
-{% endcapture %}
 
-
-{% capture feature_image_html %}
-{% if settings.home_show_feat_img %}
-<!-- start feature image -->
-<section class="border-top section feature-section">
-  <div class="container fullwidth-image">
-    {% if settings.homepage_ad_url != blank %}<a href="{{ settings.homepage_ad_url }}">{% endif %}
-    <img src="{{ 'homepage_ad.jpg' | asset_url }}" alt="{{ settings.homepage_ad_alt | escape }}"/>
-    {% if settings.homepage_ad_url != blank %}</a>{% endif %}
-  </div>
-</section>
-<!-- end feature image -->
-{% endif %}
-{% endcapture %}
-
-
-{% capture page_html %}
-{% if settings.home_show_page %}
-<!-- start content page -->
-<section class="border-top section page-section">
-  <div class="container align-centre">
-    <h1 class="section-heading">{{ pages[settings.homepage].title }}</h1>
-    <div class="reading-column rte">{{ pages[settings.homepage].content | replace: 'fullwidth"', '" data-fullwidth="true"' }}</div>
-  </div>
-</section>
-<!-- end content page -->
-{% endif %}
-{% endcapture %}
-
-{% comment %}
-{% capture instagram_html %}
-{% if settings.home_show_instagram %}
-<!-- start instagram -->
-<section class="border-top section instagram-section">
+<section class="section products-section product-list visible-mobile">
+  <a name="fun-rides"></a>
   <div class="container">
-    <div class="opposing-items">
-      <h1 class="section-heading left">Instagram</h1>
-      {% if settings.homepage_insta_acct != blank %}<span class="follow">Follow <a href="https://instagram.com/{{ settings.homepage_insta_acct | remove: '@' }}" class="hash-link">@{{ settings.homepage_insta_acct | remove: '@' }}</a></span>{% endif %}
-    </div>
-    <div class="willstagram" {% if settings.homepage_insta_show == 'tag' %}data-tag="{{ settings.homepage_insta_tag }}"{% elsif settings.homepage_insta_show == 'user' %}data-user_id="{{ settings.homepage_insta_user_id }}"{% endif %} data-count="7"></div>
-  </div>
-</section>
-<!-- end instagram -->
-{% endif %}
-
-{% endcapture %}
-{% endcomment %}
-
-{% capture custom_html %}
-{% if settings.home_show_custom %}
-<!-- start custom -->
-<section class="border-top section custom-html-section">
-  <div class="container">
-    {{ settings.homepage_custom_html }}
-  </div>
-</section>
-<!-- end custom -->
-{% endif %}
-{% endcapture %}
-
-{% comment %}
-
-Display rows in the selected order.
-
-A: Slideshow
-B: Product row 1
-C: Product row 2
-D: Product row 3
-E: Image grid
-F: Feature Image
-G: Blog
-H: Page content
-I: Instagram
-J: Custom HTML
-
-{% endcomment %}
-
-{% if settings.homepage_row_order == empty %}
-    {% assign split_order = 'A-B-C-D-E-F-G-H-I-J-K-L' | split: '-' %}
-{% else %}
-    {% assign split_order = settings.homepage_row_order | split: '-' %}
-{% endif %}
-
-{% for item in split_order %}
-{% if item == 'A' %} <!-- Slot A --> {{ slideshow_html }}
-{% elsif item == 'B' %} <!-- Slot B --> {{ product_1_html }}
-{% elsif item == 'C' %} <!-- Slot C --> {{ product_2_html }}
-{% elsif item == 'D' %} <!-- Slot D --> {{ product_3_html }}
-{% elsif item == 'E' %} <!-- Slot E --> {{ tiles_html }}
-{% elsif item == 'F' %} <!-- Slot F --> {{ feature_image_html }}
-{% elsif item == 'G' %} <!-- Slot G --> {{ blog_html }}
-{% elsif item == 'H' %} <!-- Slot H --> {{ page_html }}
-{% elsif item == 'I' %} <!-- Slot I --> {{ instagram_html }}
-{% elsif item == 'J' %} <!-- Slot J --> {{ custom_html }}
-{% elsif item == 'K' %} <!-- Slot K --> {{ single_product }}
-{% elsif item == 'L' %} <!-- Slot L --> {{ single_product_2 }}
-{% endif %}
-{% endfor %}
-
-<section id="insta" class="border-top section instagram-section">
-
-  {% comment %}    <div class="opposing-items">
-      <h1 class="section-heading left">Instagram</h1>  
-      
-      
-    </div>{% endcomment %}
-  <div class="opposing-items">
-      <h4 class="section-heading left">Follow us on instagram <br /><nobr><a target="_blank" href="https://www.instagram.com/floatiekings/"><span class="fa fa-instagram"></span>floatiekings</a></nobr></h4>
-
-    </div>
-    <div class="grid grid--container">
-    <div class="grid-sizer"></div>
-      <!-- div -->
-      {% for i in (1..9) %}
-          <div class="grid-item {% if i == 4 %} grid-item--width2 grid-item--height2 {% endif %}">
-            <a href="https://www.instagram.com/{{ settings.homepage_insta_acct }}/" target="_blank">
-              <img class="js-backimg" src="https://cdn.shopify.com/s/files/1/0934/6050/files/newinstag_{{ i }}.jpg" alt="" >
-            </a>
-          </div>
+    <div class="row grid">
+      {% for product in collections['mobile-2'].products limit: settings[max_count_setting_id] limit: 6 %}
+        {% include 'product-block' %}
       {% endfor %}
     </div>
-  
-   <!-- imageagram.com -->
-{% comment %}   <script src="{{ '4mkapps.insta.min.js' | asset_url }}" type="text/javascript"></script> {% endcomment %}
-{% comment %} <script src="//imageagram.com/js/imageagram.js"></script>
-<iframe id="instimg-iframe" src="//imageagram.com/grid.php?q=u&search=floatiekings&wt=in&s=150&h=4&w=2&b=no&c=&p=0&ho=fadeIn&sh=no&ww=450&as=on&at=" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:1200px" ></iframe>
-  <!--    <script src="//imageagram.com/js/imageagram.js"></script>-->
-  {% endcomment %}  
-  {% comment %}<script src="//imageagram.com/js/imageagram.js"></script>
-<iframe id="instimg-iframe" src="//imageagram.com/grid.php?q=u&search=floatiekings&wt=in&s=250&h=4&w=1&b=no&c=&p=5&ho=none&sh=yes&ww=450&as=on&at=2077099952.69c1145.aef5ef91f7d9494e9ceb1d7a672c1bfe" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:1026px" ></iframe>    
- 
-    {% if settings.homepage_insta_acct != blank %}<span class="follow"><a target="_blank" href="https://instagram.com/{{ settings.homepage_insta_acct | remove: '@' }}" class="hash-link">FOLLOW FLOATIE KINGS</a></span>{% endif %}
- 
-  {% endcomment %}
+  </div>
 </section>
 
-<section id="insta" class="border-top section instagram-section instagram-section-mobile">
-  <div class="opposing-items">
-      <h4 class="section-heading left">Follow us on instagram <br /><nobr><a target="_blank" href="https://www.instagram.com/floatiekings/"><span class="fa fa-instagram"></span>floatiekings</a></nobr></h4>
-
-    </div>
-    <div class="images-container-wrap"> 
-        <div class="images-container">   
-          <!-- div -->
-          {% for i in (1..9) %}
-              <div>
-                <a href="https://www.instagram.com/{{ settings.homepage_insta_acct }}/" target="_blank">
-                  <img class="js-backimg" src="https://cdn.shopify.com/s/files/1/0934/6050/files/newinstag_{{ i }}.jpg" alt="" >
-                </a>
-              </div>
-          {% endfor %}
-        </div>
-    </div>
-  
-   <!-- imageagram.com -->
-{% comment %}   <script src="{{ '4mkapps.insta.min.js' | asset_url }}" type="text/javascript"></script> {% endcomment %}
-{% comment %} <script src="//imageagram.com/js/imageagram.js"></script>
-<iframe id="instimg-iframe" src="//imageagram.com/grid.php?q=u&search=floatiekings&wt=in&s=150&h=4&w=2&b=no&c=&p=0&ho=fadeIn&sh=no&ww=450&as=on&at=" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:1200px" ></iframe>
-  <!--	<script src="//imageagram.com/js/imageagram.js"></script>-->
-  {% endcomment %}  
-  {% comment %}<script src="//imageagram.com/js/imageagram.js"></script>
-<iframe id="instimg-iframe" src="//imageagram.com/grid.php?q=u&search=floatiekings&wt=in&s=250&h=4&w=1&b=no&c=&p=5&ho=none&sh=yes&ww=450&as=on&at=2077099952.69c1145.aef5ef91f7d9494e9ceb1d7a672c1bfe" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:1026px" ></iframe>    
- 
-    {% if settings.homepage_insta_acct != blank %}<span class="follow"><a target="_blank" href="https://instagram.com/{{ settings.homepage_insta_acct | remove: '@' }}" class="hash-link">FOLLOW FLOATIE KINGS</a></span>{% endif %}
- 
-  {% endcomment %}
-</section>
- 
+<div class="banner banner-best-friend visible-mobile">
+  <div>{{ 'layout.banners.bring_best_friend_html' | t }}</div>
+</div>
+{% comment %}
+<div id="countdown-stripe" class="visible-desktop"></div>
 <script>
+    // Set the date we're counting down to
+    var countDownDate = new Date("Sep 20, 2017 00:00:00").getTime();
 
-  var imagesRep = [];
-  var numImages = {{settings.manual-image-number}};
-  var imagesInvisibles = [];
-  var url1 = "https://cdn.shopify.com/s/files/1/0934/6050/files/instagram_";
-  var url3 = ".jpg";
-  var randTotal = 0, randInvisible, imgInvisible, targetIndex;
-  var randGrid = 0;
-  var $todasImg, $targetElem, srcTemp1;
-  
-  function cambioDeFoto() {
-      randTotal = Math.floor( (Math.random() * imagesInvisibles.length ) );
-      imgInvisible = imagesRep[imagesInvisibles[randTotal]].name;
-      randGrid = Math.floor( (Math.random() * $todasImg.length) );
+    // Update the count down every 1 second
+    var x = setInterval(function() {
 
-      $targetElem = $($todasImg.get(randGrid - 1));
-      targetIndex = parseInt($($targetElem).attr('data-index'));
+        // Get todays date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now an the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        hours += days*24;
+        if (hours   < 10) {hours   = "0"+hours;}
+        if (minutes < 10) {minutes = "0"+minutes;}
+        if (seconds < 10) {seconds = "0"+seconds;}
+
+        // Display the result in the element with id="demo"
+        document.getElementById("countdown-stripe").innerHTML = "Hurry! <span>Sale</span> ends in <strong>" + hours + ":" + minutes + "</strong> hours!";
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("countdown-stripe").innerHTML = "EXPIRED";
+        }
+    }, 1000);
+</script>
+{% endcomment %}
+<section class="section products-section product-list">
+  <a name="emojis"></a>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['emojis'].products limit: settings[max_count_setting_id] limit: 3 %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="visible-mobile banner shop-collection" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
+  <a href="#emojis">
+    {% comment %}<div class="visible-mobile"><span>Shop emojis</span></div>{% endcomment %}
+  </a>
+</div>
+
+<section class="section products-section product-list">
+  <a name="donuts"></a>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['donuts'].products limit: settings[max_count_setting_id] limit: 6 %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="visible-mobile banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
+  <a href="#donuts">
+    {% comment %}<div class="red visible-mobile"><span>Shop donuts</span></div>{% endcomment %}
+  </a>
+</div>
+
+<section class="section products-section product-list">
+  <a name="donuts"></a>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['pump'].products limit: settings[max_count_setting_id] limit: 1 %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
 
 
-      $($targetElem).attr('data-index',imagesInvisibles[randTotal]);
-      $($targetElem).fadeOut(200, function() {
-        $(this).attr('src',imgInvisible).fadeIn();
-      });
-      imagesInvisibles.splice(randTotal, 1);
-      imagesInvisibles.push(targetIndex);
-  }
 
-  document.getElementById('jquery').addEventListener('load', function () {
-      $(document).ready( function() {
-          $todasImg = $('.js-backimg');
-
-          /*  Relleno la estructura con los SRC de las imagenes */
-          for (var c = 1; c <= numImages; c++) {
-              imagesRep[c] = new Object();
-              c = c + "";
-              switch( c.length ) {
-                  case (0, 1): imagesRep[c].name = url1 + c + url3; break;
-                  case (2): imagesRep[c].name = url1 + c + url3; break;
-                  case (3): imagesRep[c].name = url1 + c + url3; break;
-              }
-          }
-
-          /* Actualizo el array de invisibles */
-          for ( var d = numImages; d > $todasImg.length ; d-- ) {
-              imagesInvisibles.push(d);
-          }
+<!-- Here go product categories links -->
+<div class="banners-3-wrap visible-desktop">
+  <div class="banner shop-collection" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="#emojis"></a></div>
+  <div class="banner shop-collection" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="#fun-rides"></a></div>
+  <div class="banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="#donuts"></a></div>
+</div>
 
 
-          /*setInterval( function(){
-           cambioDeFoto();
-           }, 3000);*/
+<section id="insta">
+  <h4 class="center">{{ 'layout.misc.summer_story_html' | t }}</h4>
+  <div class="header">
+    {{ 'layout.misc.follow_us_html' | t }} <span class="fa fa-instagram"></span> <strong>floatie</strong>kings
+  </div>
 
-      });
-  });
+  <div id="instafeed" class="grid"></div>
+</section>
+<script type="text/javascript">
+    function instafeed_ig(callback) {
+      {% assign instafeed_template = '<a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="{{orientation}}" src="{{image}}" alt="{{caption}}" /></a>' %}
+        var feed = new Instafeed({
+            accessToken: '2077099952.1677ed0.9304752d4bff4ab49f5eabae56f5bec8',
+            target: 'instafeed',
+            get: 'user',
+            userId: '2077099952',
+            resolution: 'standard_resolution',
+            limit: 15,
+            sortBy: 'most-recent',
+            template: '{{ instafeed_template }}'
+        });
 
+        feed.run();
+        if(typeof callback === "function") callback();
+    }
+    window.addEventListener('load', function() { instafeed_ig() });
 
 </script>

@@ -1,162 +1,163 @@
 <!doctype html>
-<!--[if IE 8]><html class="no-js ie8" lang="en"> <![endif]-->
-<!--[if IE 9]><html class="no-js ie9" lang="en"> <![endif]-->
-<!--[if (gt IE 10)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if IE 8]>
+<html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if IE 9]>
+<html class="no-js ie9" lang="en"> <![endif]-->
+<!--[if (gt IE 10)|!(IE)]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-{{ 'geolizr-lib.js' | asset_url | script_tag }}
-{{ 'geolizr-lib.css' | asset_url | stylesheet_tag }}
-    <!-- Canopy v1.0.10 -->
-    <meta charset="utf-8"/>
+  {{ 'geolizr-lib.js' | asset_url | script_tag }}
+  {{ 'geolizr-lib.css' | asset_url | stylesheet_tag }}
+  <!-- Canopy v1.0.10 -->
+  <meta charset="utf-8"/>
 
-    <!--[if IE]>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/><![endif]-->
+  <!--[if IE]>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/><![endif]-->
 
-    <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png"/>
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png"/>
 
-    <title>
-        {{ page_title }}{% if current_tags %} &ndash; {{ 'general.meta.tagged' | t }} "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t }} {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
-    </title>
+  <title>
+    {{ page_title }}{% if current_tags %} &ndash; {{ 'general.meta.tagged' | t }} "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t }} {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
 
-    {% if page_description %}
-        <meta name="description" content="{{ page_description | escape }}"/>
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}"/>
+  {% endif %}
+  <meta name="google-site-verification" content="7_hBlyoMBrJA-t3GikJzqVY1SlNa84j0gvInIV42WS0"/>
+  <meta name="google-site-verification" content="llbVWBEQ_JnNIeMNkq6UuWfaVcjN3TK1h45sbi7HRnA"/>
+  {% comment %}
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>{% endcomment %}
+  <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="msvalidate.01" content="0C0638265DB078357F8582F42D67896E"/>
+  <link rel="canonical" href="{{ canonical_url }}"/>
+  <!--link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet"-->
+
+  {% include 'fb-open-graph-tags' %}
+  {% include 'twitter-card' %}
+
+  {% comment %} Google Fonts {% endcomment %}
+  {% assign gfonts = '' %}
+  {% assign setting_indexes = 'body_font|heading_font|nav_font|logo_font' | split: '|' %}
+  {% for index in setting_indexes %}
+    {% if settings[index] contains 'GWF' %}
+      {% assign custom_index = index | append: '_custom' %}
+      {% capture gfonts %}{{ gfonts }}|{% if settings[index] contains 'GWF|CUSTOM' %}{{ settings[custom_index] }}{% else %}{{ settings[index] | split: '|' | last }}{% endif %}{% endcapture %}
     {% endif %}
-    <meta name="google-site-verification" content="7_hBlyoMBrJA-t3GikJzqVY1SlNa84j0gvInIV42WS0"/>
-    <meta name="google-site-verification" content="llbVWBEQ_JnNIeMNkq6UuWfaVcjN3TK1h45sbi7HRnA"/>
-    {% comment %}
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>{% endcomment %}
-    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=yes"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="msvalidate.01" content="0C0638265DB078357F8582F42D67896E"/>
-    <link rel="canonical" href="{{ canonical_url }}"/>
-    <!--link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet"-->
+  {% endfor %}
+  {% if gfonts != '' %}
+    {% assign gfonts = gfonts | remove_first: '|' | replace: ' ', '+' | replace: "'", '' %}
+    <!--link href="//fonts.googleapis.com/css?family={{ gfonts }}" rel="stylesheet" type="text/css" -->
+  {% endif %}
 
-    {% include 'fb-open-graph-tags' %}
-    {% include 'twitter-card' %}
-
-    {% comment %} Google Fonts {% endcomment %}
-    {% assign gfonts = '' %}
-    {% assign setting_indexes = 'body_font|heading_font|nav_font|logo_font' | split: '|' %}
-    {% for index in setting_indexes %}
-        {% if settings[index] contains 'GWF' %}
-            {% assign custom_index = index | append: '_custom' %}
-            {% capture gfonts %}{{ gfonts }}|{% if settings[index] contains 'GWF|CUSTOM' %}{{ settings[custom_index] }}{% else %}{{ settings[index] | split: '|' | last }}{% endif %}{% endcapture %}
-        {% endif %}
-    {% endfor %}
-    {% if gfonts != '' %}
-        {% assign gfonts = gfonts | remove_first: '|' | replace: ' ', '+' | replace: "'", '' %}
-        <!--link href="//fonts.googleapis.com/css?family={{ gfonts }}" rel="stylesheet" type="text/css" -->
-    {% endif %}
-
-    {{ 'styles.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'styles.scss.css' | asset_url | stylesheet_tag }}
 
 
-    <!--{{ '//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js' | script_tag }}-->
-    <script id="jquery" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" defer></script>
-    <!--{{ 'exitintent.js' | asset_url | script_tag }}-->
-    <script src="{{ 'exitintent.js' | asset_url | split:'?' | first }}" defer></script>
-    <!--{{ 'api.jquery.js' | shopify_asset_url | script_tag }}-->
-    <!--script src="{{ 'api.jquery.js' | asset_url }}" defer></script-->
+  <!--{{ '//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js' | script_tag }}-->
+  <script id="jquery" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" defer></script>
+  <!--{{ 'exitintent.js' | asset_url | script_tag }}-->
+  <script src="{{ 'exitintent.js' | asset_url | split:'?' | first }}" defer></script>
+  <!--{{ 'api.jquery.js' | shopify_asset_url | script_tag }}-->
+  <!--script src="{{ 'api.jquery.js' | asset_url }}" defer></script-->
 
-    <!--[if lt IE 9]>
-    {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
-    {{ 'selectivizr-min.js' | asset_url | script_tag }}
-    {{ 'ie8.css' | asset_url | stylesheet_tag }}
-    <![endif]-->
+  <!--[if lt IE 9]>
+  {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
+  {{ 'selectivizr-min.js' | asset_url | script_tag }}
+  {{ 'ie8.css' | asset_url | stylesheet_tag }}
+  <![endif]-->
 
-    {% if template contains 'customers' %}
-        {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
-        {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
-    {% endif %}
+  {% if template contains 'customers' %}
+    {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+    {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}
 
-    <!--{{ 'option_selection.js' | shopify_asset_url | script_tag }}-->
-    <script src="{{ 'option_selection.js' | shopify_asset_url }}" defer></script>
-    <script id="bxslider" src="{{ 'jquery.bxslider.min.js' | asset_url | split:'?' | first }}" defer></script>
-    {{ 'jquery.bxslider.css' | asset_url | split:'?' | first | stylesheet_tag }}
+  <!--{{ 'option_selection.js' | shopify_asset_url | script_tag }}-->
+  <script src="{{ 'option_selection.js' | shopify_asset_url }}" defer></script>
+  <script id="bxslider" src="{{ 'jquery.bxslider.min.js' | asset_url | split:'?' | first }}" defer></script>
+  {{ 'jquery.bxslider.css' | asset_url | split:'?' | first | stylesheet_tag }}
 
-    {{ content_for_header }}
+  {{ content_for_header }}
 
-    <script>
-        document.documentElement.className = document.documentElement.className.replace('no-js', '');
-        products = {};
-        Shopify.money_format = {{ shop.money_format | json }};
-    </script>
-    {% if template contains 'product' %}
-        <!--{{ 'jquery.elevatezoom.js' | asset_url | script_tag }}-->
-        <script src="{{ 'jquery.elevatezoom.js' | asset_url }}" defer></script>
-    {% endif %}
-    {% comment %}{{ 'parallax.js' | asset_url | script_tag }}{% endcomment %}
+  <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', '');
+      products = {};
+      Shopify.money_format = {{ shop.money_format | json }};
+  </script>
+  {% if template contains 'product' %}
+    <!--{{ 'jquery.elevatezoom.js' | asset_url | script_tag }}-->
+    <script src="{{ 'jquery.elevatezoom.js' | asset_url }}" defer></script>
+  {% endif %}
+  {% comment %}{{ 'parallax.js' | asset_url | script_tag }}{% endcomment %}
 
-    <!--{{ 'jquery.fancybox.js' | asset_url | script_tag }}-->
-    <script src="{{ 'jquery.fancybox.js' | asset_url | split:'?' | first }}" defer></script>
-    {{ 'jquery.fancybox.css' | asset_url | split:'?' | first | stylesheet_tag }}
-    <!-- Pinterest Pixel Code -->
-    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
+  <!--{{ 'jquery.fancybox.js' | asset_url | script_tag }}-->
+  <script src="{{ 'jquery.fancybox.js' | asset_url | split:'?' | first }}" defer></script>
+  {{ 'jquery.fancybox.css' | asset_url | split:'?' | first | stylesheet_tag }}
+  <!-- Pinterest Pixel Code -->
+  <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
 
-    <!-- Pinterest visitor -->
-    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
+  <!-- Pinterest visitor -->
+  <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
 
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-instagram/0.3.1/instagram.min.js" defer></script>
-    <!--{{ 'isotope.pkgd.min.js' | asset_url | script_tag }}-->
-    <script src="{{ 'isotope.pkgd.min.js' | asset_url | split:'?' | first }}" defer></script>
-    <!--{{ 'main-belen.js' | asset_url | script_tag }}-->
-    <script src="{{ 'main-belen.js' | asset_url | split:'?' | first }}" defer></script>
-    <!-- BeginConsistentCartAddon -->{{ "consistent_cart_addon.min.js" | asset_url | split:'?' | first | script_tag }}
-    <script>{% if customer %}Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}';
-        Shopify.customer_logged_in = true;
-        Shopify.customer_email = "{{ customer.email }}";
-        {% else %}Shopify.customer_logged_in = false;
-        Shopify.customer_email = "";{% endif %}</script><!-- EndConsistentCartAddon -->
-    <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js" defer></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-instagram/0.3.1/instagram.min.js" defer></script>
+  <script src="{{ 'main-belen.js' | asset_url }}" defer></script>
+  <!-- BeginConsistentCartAddon -->{{ "consistent_cart_addon.min.js" | asset_url | split:'?' | first | script_tag }}
+  <script>{% if customer %}Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}';
+      Shopify.customer_logged_in = true;
+      Shopify.customer_email = "{{ customer.email }}";
+    {% else %}Shopify.customer_logged_in = false;
+      Shopify.customer_email = "";{% endif %}</script><!-- EndConsistentCartAddon -->
+  <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js" defer></script>
 </head>
 
 <body class="template-{{ template | split: '.' | first }} {{ page_title | handle }}">
 <!-- Hello world! 2 -->
 
 <div id="header" class="cart" style="width:100%;">
-    <div class="container">
-        <div class="page-header">
-            <div id="toolbar" class="toolbar cf">
-                <div class="logo-nav">
-                    <div class="logo">
-                        {% if settings.use_logo %}{{ 'cart-header-logo-black.png' | asset_url | split:"?" | first | img_tag | link_to: shop.url }}{% else %}{{ shop.name | link_to: shop.url }}{% endif %}
-                    </div>
+  <div class="page-header">
+    {% comment %}
+    <div id="toolbar" class="toolbar cf">
+      <div class="logo-nav">
+        <div class="logo">
+          {% if settings.use_logo %}{{ 'cart-header-logo-black.png' | asset_url | split:"?" | first | img_tag | link_to: shop.url }}{% else %}{{ shop.name | link_to: shop.url }}{% endif %}
+        </div>
 
-                    {% unless settings.header_layout == 'nav' %}
-                    <div class="cf">{{ logo_html }}</div>
-                    {% endunless %}
+        {% unless settings.header_layout == 'nav' %}
+        <div class="cf">{{ logo_html }}</div>
+        {% endunless %}
 
-                    {% unless settings.header_layout == 'mobile' %}
-                    {% include 'main-navigation' %}
-                    {% endunless %}
-                </div>
+        {% unless settings.header_layout == 'mobile' %}
+        {% include 'main-navigation' %}
+        {% endunless %}
+      </div>
 
 
-                {% unless settings.header_layout == 'mobile' %}
-                <span class="toolbar-links">
+      {% unless settings.header_layout == 'mobile' %}
+      <span class="toolbar-links">
                     {% if shop.customer_accounts_enabled %}
-                        {% if customer %}
-                            <a href="/account">{{ 'layout.customer.your_account' | t }}</a>
-                            <span class="divider">/</span> {{ 'layout.customer.logout' | t | customer_logout_link }}
+                      {% if customer %}
+                        <a href="/account">{{ 'layout.customer.your_account' | t }}</a>
+                        <span class="divider">/</span> {{ 'layout.customer.logout' | t | customer_logout_link }}
                         {% else %}
-                            {{ 'layout.customer.login' | t | customer_login_link }}
-                            {% if shop.customer_accounts_optional %}
-                                <span class="divider">/</span> {{ 'layout.customer.create_account' | t | customer_register_link }}
-                            {% endif %}
+                        {{ 'layout.customer.login' | t | customer_login_link }}
+                        {% if shop.customer_accounts_optional %}
+                          <span class="divider">/</span> {{ 'layout.customer.create_account' | t | customer_register_link }}
                         {% endif %}
+                      {% endif %}
                         {% if settings.show_header_search %}
-                        <span class="divider">/</span>
-                        {% endif %}
+                      <span class="divider">/</span>
                     {% endif %}
-                    {% if settings.show_header_search %}
-                        <form class="search-form" action="/search" method="get">
-                            {% if settings.search_prods_only %}<input type="hidden" name="type" value="product">{% endif %}
-                            <button class="icon-mag"></button>
+                    {% endif %}
+        {% if settings.show_header_search %}
+          <form class="search-form" action="/search" method="get">
+                            {% if settings.search_prods_only %}
+                              <input type="hidden" name="type" value="product">{% endif %}
+            <button class="icon-mag"></button>
                             <input type="text" name="q" placeholder="{{ 'layout.header.search' | t }}"/>
                         </form>
-                    {% endif %}
+        {% endif %}
                   </span>
-                {% endunless %}
-                <div style="display:none;">
+      {% endunless %}
+      <div style="display:none;">
                     <span class="toolbar-cart">
                     <span class="{% unless settings.show_cart_as_button %}no-{% endunless %}btn">
                         <a class="current-cart {% if template != 'cart' %}toggle-cart-summary{% endif %}" href="/cart">
@@ -164,154 +165,148 @@
                         </a>
                     </span>
                     </span>
-                </div>
-                <div class="main-menu">
-                    <nav class="menu">
-                        <ul class="site-nav" id="accessibleNav">
-                            {% for link in linklists.main-menu.links %}
-                                {% assign child_list_handle = link.title | handleize %}
-                                {% if linklists[child_list_handle].links != blank %}
-                                    {% comment %}
-                                <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
-                                    <a href="{{ link.url }}">{{ link.title }}</a>
-                                    <ul class="site-nav--dropdown">
-                                        {% for childlink in linklists[child_list_handle].links %}
-                                            <li {% if childlink.active %}class="site-nav--active"{% endif %}>
-                                                <a href="{{ childlink.url }}">{{ childlink.title | escape }}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                    </li>{% endcomment %}
-                                {% else %}
-                                    {% comment %}
-                                    <li {% if link.active %}class="site-nav--active"{% endif %}>
-                                        <a href="{{ link.url }}">{{ link.title }}</a>
-                                    </li>
-                                    {% endcomment %}
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                        <a class="current-cart {% if template != 'cart' %}toggle-cart-summary{% endif %}"><span class="cart-count">{{ cart.item_count }}</span>items
-                            <i class="icon-cart"></i></a>
-                    </nav>
-                </div>
-                {% unless settings.header_layout == 'mobile' %}
-                <span class="toolbar-social">{% include 'social-links' %}</span>
-                {% endunless %}
-            </div>
-        </div>
+      </div>
+      <div class="main-menu">
+        <nav class="menu">
+          <ul class="site-nav" id="accessibleNav">
+            {% for link in linklists.main-menu.links %}
+              {% assign child_list_handle = link.title | handleize %}
+              {% if linklists[child_list_handle].links != blank %}
+                {% comment %}
+              <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+                <a href="{{ link.url }}">{{ link.title }}</a>
+                <ul class="site-nav--dropdown">
+                  {% for childlink in linklists[child_list_handle].links %}
+                    <li {% if childlink.active %}class="site-nav--active"{% endif %}>
+                      <a href="{{ childlink.url }}">{{ childlink.title | escape }}</a></li>
+                  {% endfor %}
+                </ul>
+                </li>{% endcomment %}
+              {% else %}
+                {% comment %}
+                <li {% if link.active %}class="site-nav--active"{% endif %}>
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+                {% endcomment %}
+              {% endif %}
+            {% endfor %}
+          </ul>
+          <a class="current-cart {% if template != 'cart' %}toggle-cart-summary{% endif %}"><span class="cart-count">{{ cart.item_count }}</span>items
+            <i class="icon-cart"></i></a>
+        </nav>
+      </div>
+      {% unless settings.header_layout == 'mobile' %}
+      <span class="toolbar-social">{% include 'social-links' %}</span>
+      {% endunless %}
     </div>
-    {% include 'cart-summary' %}
+    {% endcomment %}
+    <div><!-- This div is needed for flexbox alignment --></div>
+    <a class="text-logo" href="{{ shop.url }}"><strong>Floatie</strong> Kings</a>
+    <div class="cart-wrap">
+      <a class="current-cart {% if template != 'cart' %}toggle-cart-summary{% endif %}">{{ cart.item_count }}</a>
+    </div>
+  </div>
+  {% include 'cart-summary' %}
 </div>
 
 <div id="page-wrap">
-    <div id="page-wrap-inner">
-        <div id="page-wrap-content">
-            <div id="content" data-template="{{ template }}">
+  <div id="page-wrap-inner">
+    <div id="page-wrap-content">
+      <div id="content" data-template="{{ template }}">
 
-                {% if template contains 'index' or template contains 'product' %}
-                    {% if settings.home_show_slideshow %}
+        {% if template contains 'index' or template contains 'product' %}
 
-                        <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
-                            <picture>
-                                <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-3-1920-sale.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-3-1400-sale.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-3-1024-sale.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 751px)" srcset="{{ 'PC-Header-3-1024-sale.jpg' | asset_url | split:"?" | first }}">
-                                <source media="(min-width: 300px)" srcset="{{ 'Mobile-Header-sale.jpg' | asset_url | split:"?" | first }}">
-                                <img src="{{ 'PC-Header-3-1920-sale.jpg' | asset_url | split:"?" | first }}" alt="Homepage banner">
-                            </picture>
-                        </div>
+          {% if settings.home_show_slideshow %}
+          <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
+            <picture>
+              <source media="(min-width: 1920px)" srcset="{{ 'PC-Header-3-1920-sale.jpg' | asset_url | split:"?" | first }}">
+              <source media="(min-width: 1400px)" srcset="{{ 'PC-Header-3-1400-sale.jpg' | asset_url | split:"?" | first }}">
+              <source media="(min-width: 1024px)" srcset="{{ 'PC-Header-3-1024-sale.jpg' | asset_url | split:"?" | first }}">
+              <source media="(min-width: 751px)" srcset="{{ 'PC-Header-3-1024-sale.jpg' | asset_url | split:"?" | first }}">
+              <source media="(min-width: 300px)" srcset="{{ 'Mobile-Header-sale.jpg' | asset_url | split:"?" | first }}">
+              <img src="{{ 'PC-Header-3-1920-sale.jpg' | asset_url | split:"?" | first }}" alt="Homepage banner">
+            </picture>
+          </div>
 
-                        <!-- countdown timer -->
-                        {% comment %}
-                        [powr-countdown-timer id=9fd31ed4_1472213740]
-                        {% endcomment %}
+        {% endif %}
 
-                        {% if settings.shipping-banner-enable %}
-                            {% unless template contains 'product' %}
-                            <div class="shipping-banner">
-                                <div class="nn-secondary-middle">{{ settings.shipping-banner }}</div>
-                            </div>
-                            {% endunless %}
-                        {% endif %}
-                    {% endif %}
+        {% else %}
+        {% if template contains 'cart' or template contains 'page.support' or template contains 'page.win-cash' or template contains 'page.thank-you' or template contains 'index' %}
+        <div class="cart-header">
+          {% if template contains 'cart' %}
+            {% if settings.cart_banner %}
+              {% comment %}
+              <img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="cart-banner"/> {% endcomment %}
+              <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
+                <picture>
+                  <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}">
+                  <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url | split:"?" | first }}">
+                  <img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="Sunglasses Original Bicolor">
+                </picture>
+              </div>
+            {% endif %}
+            {% elsif template contains 'page.support' %}
+            {% if settings.cart_banner %}
+              <img src="{{ 'support-banner.jpg' | asset_url | split:"?" | first }}" alt="support-banner"/>
+            {% endif %}
+            {% elsif template contains 'page.win-cash' or template contains 'page.thank-you' %}
+            {% if settings.win_banner %}
+              <picture>
+                <source media="(min-width: 768px)" srcset="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}">
+                <source media="(min-width: 200px)" srcset="{{ 'Mobile-Win-Header.jpg' | asset_url | split:"?" | first }}">
+                <img src="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}" alt="{{ settings.win-cash-alt }}"/>
+              </picture>
+            {% endif %}
+          {% endif %}
+          {% else %}
+          <div class="header">
+            {% endif %}
 
-                {% else %}
-                    {% if template contains 'cart' or template contains 'page.support' or template contains 'page.win-cash' or template contains 'page.thank-you' or template contains 'index' %}
-                        <div class="cart-header">
-                            {% if template contains 'cart' %}
-                                {% if settings.cart_banner %}
-                                    {% comment %}<img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="cart-banner"/> {% endcomment %}
-                                    <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
-                                        <picture>
-                                            <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}">
-                                            <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url | split:"?" | first }}">
-                                            <img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="Sunglasses Original Bicolor">
-                                        </picture>
-                                    </div>
-                                {% endif %}
-                            {% elsif template contains 'page.support' %}
-                                {% if settings.cart_banner %}
-                                    <img src="{{ 'support-banner.jpg' | asset_url | split:"?" | first }}" alt="support-banner"/>
-                                {% endif %}
-                            {% elsif template contains 'page.win-cash' or template contains 'page.thank-you' %}
-                                {% if settings.win_banner %}
-                                    <picture>
-                                        <source media="(min-width: 768px)" srcset="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}">
-                                        <source media="(min-width: 200px)" srcset="{{ 'Mobile-Win-Header.jpg' | asset_url | split:"?" | first }}">
-                                        <img src="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}" alt="{{ settings.win-cash-alt }}"/>
-                                    </picture>
-                                {% endif %}
-                            {% endif %}
-                            {% else %}
-                            <div class="header">
-                                {% endif %}
-
-                                {% if template contains 'page.win-cash' %}
-                                    <div class="shipping-banner">
-                                        <div class="nn-secondary-middle">{{ settings.win-cash-banner }}</div>
-                                    </div>
-                                {% else %}
-                                    {% unless template contains 'page.thank-you' %}
-                                        {% if settings.shipping-banner-enable %}
-                                            <div class="shipping-banner">
-                                                <div class="nn-secondary-middle">{{ settings.shipping-banner }}</div>
-                                            </div>
-                                        {% endif %}
-                                    {% endunless %}
-                                {% endif %}
-                                <div id="header" style="display:none;"></div>
-                            </div> <!--   end header class  -->
-                            {% endif %}
-                            {{ content_for_layout }}
-                        </div><!-- /.cart-header"-->
-            </div><!-- /#content -->
-        </div><!-- /#page-wrap-content -->
-        {% include 'footer' %}
-    </div> <!--  page-wrap-inner  -->
+            {% if template contains 'page.win-cash' %}
+              <div class="shipping-banner">
+                <div class="nn-secondary-middle">{{ settings.win-cash-banner }}</div>
+              </div>
+            {% else %}
+              {% unless template contains 'page.thank-you' %}
+              {% if settings.shipping-banner-enable %}
+                <div class="shipping-banner">
+                  <div class="nn-secondary-middle">{{ settings.shipping-banner }}</div>
+                </div>
+              {% endif %}
+              {% endunless %}
+            {% endif %}
+            <div id="header" style="display:none;"></div>
+          </div> <!--   end header class  -->
+          {% endif %}
+          {{ content_for_layout }}
+        </div><!-- /.cart-header"-->
+      </div><!-- /#content -->
+    </div><!-- /#page-wrap-content -->
+    {% include 'footer' %}
+  </div> <!--  page-wrap-inner  -->
 </div><!-- /#page-wrap -->
 
 {% include 'mobile-navigation' %}
 {% comment %} {% include 'popup' %} {% endcomment %}
 
 {% if template contains 'product' %}
-    {% comment %}{% include 'fixed-product' %}{% endcomment %}
-    <script>
-        document.getElementById('bxslider').addEventListener('load', function () {
-            $(function () {
-                $('.bxslider').bxSlider({
-                    responsive: true,
-                    touchEnabled: true,
-                    auto: true,
-                    autoStart: true,
-                    pager: true,
-                    controls: false,
-                    speed: 1000
-                });
-            });
-        });
+  {% comment %}{% include 'fixed-product' %}{% endcomment %}
+  <script>
+      document.getElementById('bxslider').addEventListener('load', function () {
+          $(function () {
+              $('.bxslider').bxSlider({
+                  responsive: true,
+                  touchEnabled: true,
+                  auto: true,
+                  autoStart: true,
+                  pager: true,
+                  controls: false,
+                  speed: 1000
+              });
+          });
+      });
 
-    </script>
+  </script>
 {% endif %}
 
 <!--{{ 'libs.js' | asset_url | split:"?" | first | script_tag }}-->
@@ -326,55 +321,56 @@
 <input type="hidden" name="_pc_params" value="{{ shop.permanent_domain }}:{{ customer.id }}"/>
 {% if template contains 'product' %}
 
-    <script type="text/javascript">
-        document.getElementById('jquery').addEventListener('load', function () {
-            $(document).ready(function () {
-                var wd = $(document).width();
-                if (wd > 768) {
-                    $("#zoom").elevateZoom({
-                        zoomType: "inner",
-                        cursor: "crosshair"
-                    });
-                }
-                if (wd < 481) {
-                    var w = $('.product-gallery img').width();
-                    $('.product-gallery').addClass('tablerow').height(w);
-                }
-            });
-        });
-    </script>
+  <script type="text/javascript">
+      document.getElementById('jquery').addEventListener('load', function () {
+          $(document).ready(function () {
+              var wd = $(document).width();
+              if (wd > 768) {
+                  $("#zoom").elevateZoom({
+                      zoomType: "inner",
+                      cursor: "crosshair"
+                  });
+              }
+              if (wd < 481) {
+                  var w = $('.product-gallery img').width();
+                  $('.product-gallery').addClass('tablerow').height(w);
+              }
+          });
+      });
+  </script>
 
 
 {% endif %}
 {% if template contains 'product' or template contains 'cart' %}
-    <script type="text/javascript">
-        function incrementValue(btn) {
-            var val = jQuery(btn).parents('.quantity').find('#number').val();
-            var value = parseInt(val, 10);
-            value = isNaN(value) ? 0 : value;
-            if (value < 10) {
-                value++;
-                jQuery(btn).parents('.quantity').find('#number').val(value);
-            }
-            {% if template contains 'cart' %}
-            var id = jQuery(btn).parents('.quantity').find('#number').data('id');
-            window.location.href = '/cart/change?quantity=' + value + '&id=' + id;
-            {% endif %}
-        }
-        function decrementValue(btn) {
-            var val = jQuery(btn).parents('.quantity').find('#number').val();
-            var value = parseInt(val, 10);
-            value = isNaN(value) ? 0 : value;
-            if (value > 1) {
-                value--;
-                jQuery(btn).parents('.quantity').find('#number').val(value);
-            }
-            {% if template contains 'cart' %}
-            var id = jQuery(btn).parents('.quantity').find('#number').data('id');
-            window.location.href = '/cart/change?quantity=' + value + '&id=' + id;
-            {% endif %}
-        }
-    </script>
+  <script type="text/javascript">
+      function incrementValue(btn) {
+          var val = jQuery(btn).parents('.quantity').find('#number').val();
+          var value = parseInt(val, 10);
+          value = isNaN(value) ? 0 : value;
+          if (value < 10) {
+              value++;
+              jQuery(btn).parents('.quantity').find('#number').val(value);
+          }
+        {% if template contains 'cart' %}
+          var id = jQuery(btn).parents('.quantity').find('#number').data('id');
+          window.location.href = '/cart/change?quantity=' + value + '&id=' + id;
+        {% endif %}
+      }
+
+      function decrementValue(btn) {
+          var val = jQuery(btn).parents('.quantity').find('#number').val();
+          var value = parseInt(val, 10);
+          value = isNaN(value) ? 0 : value;
+          if (value > 1) {
+              value--;
+              jQuery(btn).parents('.quantity').find('#number').val(value);
+          }
+        {% if template contains 'cart' %}
+          var id = jQuery(btn).parents('.quantity').find('#number').data('id');
+          window.location.href = '/cart/change?quantity=' + value + '&id=' + id;
+        {% endif %}
+      }
+  </script>
 {% endif %}
 <script type="text/javascript">
     var google_tag_params = {
@@ -394,17 +390,17 @@
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
 <noscript>
-    <div style="display:inline;">
-        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/881110676/?value=0&amp;guid=ON&amp;script=0"/>
-    </div>
+  <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/881110676/?value=0&amp;guid=ON&amp;script=0"/>
+  </div>
 </noscript>
 
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
         a = s.createElement(o),
             m = s.getElementsByTagName(o)[0];
         a.async = 1;
@@ -434,14 +430,14 @@
 <script src="https://use.fontawesome.com/791a439b99.js"></script>
 
 {% if gfonts != '' %}
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
-    <script>
-        WebFont.load({
-            google: {
-                families: ["{{ gfonts }}"]
-            }
-        });
-    </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+      WebFont.load({
+          google: {
+              families: ["{{ gfonts }}"]
+          }
+      });
+  </script>
 {% endif %}
 <!-- geolizr redirect included here -->
 {% include 'geolizr-redirect' %}
