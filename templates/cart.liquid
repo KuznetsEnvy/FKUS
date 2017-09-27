@@ -56,7 +56,10 @@
             <input class="right" type="button" onclick="incrementValue(this)" value="+" />              
           </div>
 
-          <div class="price"><h5>{{ item.line_price | money }}</h5></div>
+          <div class="price{% if item.variant.compare_at_price > item.variant.price %} on-sale{% endif %}">
+            {% if item.variant.compare_at_price > item.variant.price %}<del>{{ item.variant.compare_at_price | money }}</del>{% endif %}
+            <h5>{{ item.line_price | money }}</h5>
+          </div>
         </li>
         {% endfor %}
       </ul>

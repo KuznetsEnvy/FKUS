@@ -41,7 +41,8 @@
           </a>
 
           {% unless item.variant.title contains 'Default' %}<span class="variant">{{ item.variant.title }}</span>{% endunless %}
-          <span class="price ftc">
+          <span class="price ftc{% if item.variant.compare_at_price > item.variant.price %} on-sale{% endif %}">
+            {% if item.variant.compare_at_price > item.variant.price %}<del>{{ item.variant.compare_at_price | money }}</del>{% endif %}
             {{ item.price | money }}
           </span>
           <a data-id="{{ item.variant_id }}" class="remove feature-col">{{ 'cart.general.remove' | t }}</a>

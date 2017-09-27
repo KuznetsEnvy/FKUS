@@ -8,29 +8,18 @@
   {% endunless %}
 {% endif %}
 
-
+<!-- Desktop -->
 <section class="section products-section bestsellers visible-desktop">
   <div class="header">#Floatie bestsellers</div>
   <div class="container">
     <div class="row grid">
-      {% for product in collections['bestsellers'].products limit: settings[max_count_setting_id] limit: 2 %}
+      {% for product in collections['bestsellers'].products limit: 2 %}
         {% include 'product-bestseller' %}
       {% endfor %}
     </div>
   </div>
 </section>
-<section class="section products-section product-list visible-mobile">
-  <a name="bestsellers"></a>
-  <div class="container">
-    <div class="row grid">
-      {% for product in collections['mobile-top'].products limit: settings[max_count_setting_id] limit: 6 %}
-        {% include 'product-block' %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
 
-<!-- Start products -->
 <div class="banners-2-wrap">
   <div class="banner banner-best-friend visible-desktop">
     <div>{{ 'layout.banners.bring_best_friend_html' | t }}</div>
@@ -40,26 +29,46 @@
   </div>
 </div>
 
-<div class="banner banner-memories-forever visible-mobile">
-  <div><span>{{ 'layout.banners.memories_last_forever' | t }}</span></div>
-</div>
-
 <section class="section products-section product-list visible-desktop">
   <a name="fun-rides"></a>
   <div class="container">
     <div class="row grid">
-      {% for product in collections['frontpage'].products limit: settings[max_count_setting_id] limit: 7 %}
+      {% for product in collections['frontpage'].products %}
         {% include 'product-block' %}
       {% endfor %}
     </div>
   </div>
 </section>
 
+<div class="banners-3-wrap visible-desktop">
+  <div class="banner shop-collection" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
+  <div class="banner shop-collection" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
+  <div class="banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
+</div>
+
+<!-- /Desktop -->
+
+<!-- Mobile -->
+<section class="section products-section product-list visible-mobile">
+  <a name="bestsellers"></a>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['swans'].products limit: 6 %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="banner banner-memories-forever visible-mobile">
+  <div><span>{{ 'layout.banners.memories_last_forever' | t }}</span></div>
+</div>
+
 <section class="section products-section product-list visible-mobile">
   <a name="fun-rides"></a>
   <div class="container">
     <div class="row grid">
-      {% for product in collections['mobile-2'].products limit: settings[max_count_setting_id] limit: 6 %}
+      {% for product in collections['fun-rides'].products limit: 2 %}
         {% include 'product-block' %}
       {% endfor %}
     </div>
@@ -106,28 +115,12 @@
     }, 1000);
 </script>
 {% endcomment %}
-<section class="section products-section product-list">
-  <a name="emojis"></a>
-  <div class="container">
-    <div class="row grid">
-      {% for product in collections['emojis'].products limit: settings[max_count_setting_id] limit: 3 %}
-        {% include 'product-block' %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
 
-<div class="visible-mobile banner shop-collection" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
-  <a href="#emojis">
-    {% comment %}<div class="visible-mobile"><span>Shop emojis</span></div>{% endcomment %}
-  </a>
-</div>
-
-<section class="section products-section product-list">
+<section class="section products-section product-list visible-mobile">
   <a name="donuts"></a>
   <div class="container">
     <div class="row grid">
-      {% for product in collections['donuts'].products limit: settings[max_count_setting_id] limit: 6 %}
+      {% for product in collections['donuts'].products limit: 6 %}
         {% include 'product-block' %}
       {% endfor %}
     </div>
@@ -135,30 +128,81 @@
 </section>
 
 <div class="visible-mobile banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
-  <a href="#donuts">
+  <a href="javascript:void(0)">
     {% comment %}<div class="red visible-mobile"><span>Shop donuts</span></div>{% endcomment %}
   </a>
 </div>
 
-<section class="section products-section product-list">
-  <a name="donuts"></a>
+
+<section class="section products-section product-list visible-mobile">
+  <a name="emojis"></a>
   <div class="container">
     <div class="row grid">
-      {% for product in collections['pump'].products limit: settings[max_count_setting_id] limit: 1 %}
+      {% for product in collections['emojis'].products limit: 3 %}
         {% include 'product-block' %}
       {% endfor %}
     </div>
   </div>
 </section>
 
-
-
-<!-- Here go product categories links -->
-<div class="banners-3-wrap visible-desktop">
-  <div class="banner shop-collection" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="#emojis"></a></div>
-  <div class="banner shop-collection" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="#fun-rides"></a></div>
-  <div class="banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="#donuts"></a></div>
+<div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
+  <a href="javascript:void(0)">
+    {% comment %}<div class="visible-mobile"><span>Shop emojis</span></div>{% endcomment %}
+  </a>
 </div>
+<!-- /Mobile -->
+
+<!-- Aaron Kai banner -->
+<section id="aron-kai" class="border-top section bottom-banner">
+  <div class="container">
+    <div class="banner">
+      <img src="{{ 'aaronKai-banner.png' | asset_url | split:"?" | first }}" alt="Home AaronKai Banner" />
+    </div>
+  </div>
+</section>
+
+<section class="section products-section product-list">
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['aaron-kai'].products limit: 3 %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="border-top section bottom-banner">
+  <div class="container">
+    <div class="banner">
+      <img src="{{ 'bottom-banner_new.png' | asset_url | split:"?" | first }}" alt="Home Banner" />
+    </div>
+  </div>
+</section>
+
+<section class="section products-section product-list">
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['ski-mask'].products limit: 1 %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
+  <a href="javascript:void(0)">
+  </a>
+</div>
+
+<section class="section products-section product-list">
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['pump'].products limit: 1 %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
 
 
 <section id="insta">

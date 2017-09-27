@@ -1376,7 +1376,6 @@ h1, .product-title-row .product-price, .slide .overlay .line-1, .slide .overlay 
   line-height: 1.2em;
   padding: 0 0 0.2em;
   font-weight: normal;
-  color: #333;
   margin: 0 0 0.5em
 }
 
@@ -5416,7 +5415,6 @@ a#upsellclosebtn {
 
 .cart-items .quantity input, .cart-items .price h5 {
   text-transform: uppercase;
-  color: black;
   font-family: brandon-grotesque-medium;
 }
 
@@ -5522,7 +5520,15 @@ a#upsellclosebtn {
 .template-cart .cart-items .description .image, .template-cart .cart-items .description .left, .template-cart .cart-items .description, .template-cart .cart-items .quantity, .template-cart .cart-items .price {
   float: none;
   display: inline-block;
-  vertical-align: middle
+  vertical-align: middle;
+
+  &.on-sale {
+    color: red;
+
+    del {
+      color: #aaaaaa;
+    }
+  }
 }
 
 #header.cart .main-menu, #header.cart .logo-nav {
@@ -5934,11 +5940,16 @@ a#upsellclosebtn {
   color: #000;
   font-size: 20px;
   font-weight: bold;
-  font-family: brandon-grotesque-regular
-}
+  font-family: brandon-grotesque-regular;
 
-.template-product .product-title-row #price del {
-  display: none
+  &.on-sale {
+    color: red;
+
+    del {
+      font-size: 90%;
+      color: #aaaaaa;
+    }
+  }
 }
 
 .template-product .product-title-row .compare-price {
@@ -6690,6 +6701,14 @@ a#upsellclosebtn {
 #cart-summary .price.ftc {
   font-size: 14px;
   font-weight: bold;
+
+  &.on-sale {
+    color: red;
+
+    del {
+      color: #aaaaaa;
+    }
+  }
 }
 
 #cart-summary .cart-summary-item {
