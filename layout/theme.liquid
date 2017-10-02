@@ -227,9 +227,13 @@
               <source media="(min-width: 300px)" srcset="{{ 'header_banner_textless_750.png' | asset_url | split:"?" | first }}">
               <img src="{{ 'header_banner_textless_414.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
             </picture>
-          </div>
 
-        {% endif %}
+            <div id="banner-top-text">
+              <span>Welcome to the</span> <em>Float Life!</em>
+            </div>
+
+          </div>
+          {% endif %}
 
         {% else %}
         {% if template contains 'cart' or template contains 'page.support' or template contains 'page.win-cash' or template contains 'page.thank-you' or template contains 'index' %}

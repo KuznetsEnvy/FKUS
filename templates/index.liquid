@@ -78,6 +78,7 @@
 <div class="banner banner-best-friend visible-mobile">
   <div>{{ 'layout.banners.bring_best_friend_html' | t }}</div>
 </div>
+<!-- region Countdown -->
 {% comment %}
 <div id="countdown-stripe" class="visible-desktop"></div>
 <script>
@@ -115,7 +116,7 @@
     }, 1000);
 </script>
 {% endcomment %}
-
+<!-- endregion -->
 <section class="section products-section product-list visible-mobile">
   <a name="donuts"></a>
   <div class="container">
@@ -129,7 +130,6 @@
 
 <div class="visible-mobile banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
   <a href="javascript:void(0)">
-    {% comment %}<div class="red visible-mobile"><span>Shop donuts</span></div>{% endcomment %}
   </a>
 </div>
 
@@ -146,9 +146,7 @@
 </section>
 
 <div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
-  <a href="javascript:void(0)">
-    {% comment %}<div class="visible-mobile"><span>Shop emojis</span></div>{% endcomment %}
-  </a>
+  <a href="javascript:void(0)"></a>
 </div>
 <!-- /Mobile -->
 
@@ -171,6 +169,7 @@
   </div>
 </section>
 
+<!-- Badwood banner -->
 <section class="border-top section bottom-banner">
   <div class="container">
     <div class="banner">
@@ -189,9 +188,9 @@
   </div>
 </section>
 
+
 <div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
-  <a href="javascript:void(0)">
-  </a>
+  <a href="javascript:void(0)"></a>
 </div>
 
 <section class="section products-section product-list">
