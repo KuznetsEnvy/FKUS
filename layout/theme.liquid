@@ -160,7 +160,7 @@
       <div style="display:none;">
                     <span class="toolbar-cart">
                     <span class="{% unless settings.show_cart_as_button %}no-{% endunless %}btn">
-                        <a class="current-cart {% if template != 'cart' %}toggle-cart-summary{% endif %}" href="/cart">
+                        <a class="current-cart cart-count {% if template != 'cart' %}toggle-cart-summary{% endif %}" href="/cart">
                         {{ cart.item_count }} / {{ cart.total_price | money }} <i class="icon-cart"></i>
                         </a>
                     </span>
