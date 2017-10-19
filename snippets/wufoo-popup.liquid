@@ -1,0 +1,86 @@
+<div class="wufoo-popup-overlay">
+  <div class="wufoo-popup">
+    <span class="popup-close-btn top">X</span>
+    <!--<h2><span class="popup-header">Olá!</span><span class="popup-confirm-header">Bem vindo à vida flutuante!</span></h2>
+    <p class="popup-message">Gostaria de receber <span>ofertas especiais</span> e convites para eventos da Floatie Kings?</p>-->
+
+    <div id="wufoo-popup">
+
+      <div id="wufoo-r1w34y8j0p5bx2l">
+        Fill out my <a href="https://floatiekings2017.wufoo.com/forms/r1w34y8j0p5bx2l">online form</a>.
+      </div>
+      <script type="text/javascript">var r1w34y8j0p5bx2l;(function(d, t) {
+              var s = d.createElement(t), options = {
+                  'userName':'floatiekings2017',
+                  'formHash':'r1w34y8j0p5bx2l',
+                  'autoResize':true,
+                  'height':'',
+                  'async':true,
+                  'host':'wufoo.com',
+                  'header':'show',
+                  'ssl':true};
+              s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'www.wufoo.com/scripts/embed/form.js';
+              s.onload = s.onreadystatechange = function() {
+                  var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+                  try { r1w34y8j0p5bx2l = new WufooForm();r1w34y8j0p5bx2l.initialize(options);r1w34y8j0p5bx2l.display(); } catch (e) {}};
+              var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+          })(document, 'script');</script>
+
+
+    </div>
+  </div>
+</div>
+<script>
+    // function to obtain GET parameter from the address line
+    if (typeof getUrlParameter !== "function") {
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+    }
+
+    function wufooShowPopUp() {
+        var popup_refresh = getUrlParameter('popup_refresh');
+        if (popup_refresh) {
+            Cookies.remove('popup_showed');
+        }
+        var popup_showed = Cookies.get('popup_showed');
+
+        if(popup_showed != 'true') {
+            $('.wufoo-popup-overlay').css({'display': 'flex'});
+            $('body').addClass('body-no-scroll');
+        }
+    }
+    function wufooHidePopUp(e) {
+        $('.wufoo-popup-overlay').hide();
+        $('body').removeClass('body-no-scroll');
+        Cookies.set('popup_showed', 'true');
+    }
+    function wufooPopUpInit() {
+        $('.popup-close-btn').each(function() {
+            $(this).on('click', wufooHidePopUp);
+        });
+        $('.wufoo-popup-overlay').on('click', function(e){
+            if (e.target !== this)
+                return;
+            wufooHidePopUp();
+        });
+
+        var wufooPopUpTimeoutId = window.setTimeout(wufooShowPopUp, 5000);
+    }
+
+    window.addEventListener('load', wufooPopUpInit);
+
+
+
+</script>
