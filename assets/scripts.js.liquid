@@ -935,10 +935,10 @@ $('a[rel=lightbox]').colorbox({ minWidth: '200', maxWidth: '96%', maxHeight: '96
 
   // Fixed header overlap handling
   function fixedHeaderCompensateOffset(){
-    console.log("Fixing header height");
-          if (parseInt($('#page-wrap').css('padding-top')) != parseInt($('#header').height())) {
-              $('#page-wrap').animate({'padding-top': $('#header').height()}, 200);
-          }
+    // console.log("Fixing header height");
+    if (parseInt($('#page-wrap').css('padding-top')) != parseInt($('#header').height())) {
+        $('#page-wrap').animate({'padding-top': $('#header').height()}, 200);
+    }
   }
 
     $(window).on('load', function(){

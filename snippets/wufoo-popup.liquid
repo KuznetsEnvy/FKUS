@@ -52,7 +52,7 @@
     function wufooShowPopUp() {
         var popup_refresh = getUrlParameter('popup_refresh');
         if (popup_refresh) {
-            Cookies.remove('popup_showed');
+            Cookies.set('popup_showed', 'true', { expires: -1 }); //Remove the cookie
         }
         var popup_showed = Cookies.get('popup_showed');
 
