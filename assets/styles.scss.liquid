@@ -101,6 +101,27 @@ $tablet-width: 768px;
   src: url("{{ 'brandon-grotesque-regular.otf' }}");
 }
 
+@font-face {
+  font-family: "Brandon Grotesque";
+  font-style: normal;
+  font-weight: 400;
+  src: url("{{ 'brandon-grotesque-regular.otf' }}");
+}
+
+@font-face {
+  font-family: "Brandon Grotesque";
+  font-style: normal;
+  font-weight: 500;
+  src: url("{{ 'brandon-grotesque-medium.otf' }}");
+}
+
+@font-face {
+  font-family: "Brandon Grotesque";
+  font-style: normal;
+  font-weight: 700;
+  src: url("{{ 'brandon-grotesque-bold.otf' }}");
+}
+
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section, summary {
   display: block
 }
@@ -127,7 +148,7 @@ html {
 }
 
 html, button, input, select, textarea {
-  font-family: brandon-grotesque-regular
+  font-family: "Brandon Grotesque";
 }
 
 body {
@@ -1605,7 +1626,7 @@ button, input[type=submit], .btn, .account-area .action_link, .giant-round-butto
 }
 
 button.plain-text, input[type=submit].plain-text, .btn.plain-text, .account-area .plain-text.action_link, .plain-text.giant-round-button, .plain-text.big-round-button, .button.plain-text {
-  font-family: brandon-grotesque-regular;
+  font-family: "Brandon Grotesque";
   font-size: 15px;
   line-height: 1.1em;
   text-transform: none;
@@ -8633,6 +8654,142 @@ button.buy-now.black:hover {
   display: none;
 }
 
+.popup-hello-overlay {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.popup-hello {
+  font-family: "Brandon Grotesque";
+  background-color: white;
+  text-align: center;
+  padding: 7%;
+  position: relative;
+  margin: 0 auto;
+  width: 40vw;
+  height: 30vw;
+
+  @include mobile-only {
+    width: 100%;
+    height: 80%;
+  }
+  @include desktop {
+    padding: 2vw 3vw;
+  }
+
+  .popup-close-btn {
+    font-family:brandon-grotesque-regular;font-size: 1.2vw;text-decoration: underline;
+    cursor: pointer;
+
+    &.bottom {
+      margin: 1vw 0 0;
+      display: inline-block;
+      font-size: 1vw;
+
+      @media #{$mobile} {
+        margin: 7vw 0 0;
+        font-size: 4vw;
+      }
+    }
+    &.top {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 30px;
+      height: 30px;
+      z-index: 23;
+      text-decoration: none;
+      border: 2px solid black;
+      padding: 0px;
+      border-radius: 15px;
+      box-shadow: 0px 0px 0px 0px rgba(50, 50, 50, 0.75);
+      font-size: 18px;
+    }
+  }
+
+  #mc_embed_signup {
+    height: 100%;
+
+    form {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .mce_inline_error {
+      margin: 0;
+    }
+  }
+
+  h2 {
+    color: #58c8b2; font-family: "Have Heart One", sans-serif; font-size: 68px;
+    margin: 0;
+  }
+  .popup-message {
+    font-size: 26px; line-height: 50px;max-width: 20em; margin: 0 auto;
+    span {
+      color:#f472b1; font-weight: 500;
+    }
+  }
+
+
+  #mc_embed_signup_scroll {
+    width: 500px;
+    margin: 0 auto;
+
+    @include mobile-only {
+      width: 80vw;
+    }
+  }
+
+  #mce-error-response {
+    color: red;
+  }
+  #mce-success-response {
+    color: green;
+  }
+  input {
+    width: 100%;
+    height: 55px;
+    margin: 0.5vw 0;
+    text-align: center;
+  }
+
+  #mce-EMAIL {
+    opacity: 1;
+    text-align: center;
+    color: #000000;
+    font-family: Arial, Helvetica;
+    font-size: 16px;
+    border-style: solid;
+    padding: 0px 5px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 0px 0px rgba(50, 50, 50, 0.75);
+    background-color: rgba(255,255,255,1);
+    border-width: 2px;
+    border-color: rgba(128,128,128,1);
+  }
+  #mc-embedded-subscribe {
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    font-weight: bold;
+    color: #aee9d8;
+    background-color: black;
+    text-transform: uppercase;
+  }
+}
 .wufoo-popup-overlay {
   display: none;
   justify-content: center;
