@@ -8,6 +8,11 @@
 <head>
   {{ 'geolizr-lib.js' | asset_url | script_tag }}
   {{ 'geolizr-lib.css' | asset_url | stylesheet_tag }}
+
+  <!-- geolizr redirect included here -->
+  {% include 'geolizr-redirect' %}
+  <!-- end geolizr redirect included here -->
+
   <!-- Canopy v1.0.10 -->
   <meta charset="utf-8"/>
 
@@ -447,8 +452,5 @@
       });
   </script>
 {% endif %}
-<!-- geolizr redirect included here -->
-{% include 'geolizr-redirect' %}
-<!-- end geolizr redirect included here -->
 </body>
 </html>
