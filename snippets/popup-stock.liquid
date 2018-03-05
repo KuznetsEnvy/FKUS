@@ -1,0 +1,79 @@
+<div class="popup-stock-overlay">
+  <div class="popup-stock">
+    <span class="popup-close-btn top">X</span>
+    <!-- Begin MailChimp Signup Form -->
+    <div id="mc_embed_signup">
+      <form action="https://floatiekings.us13.list-manage.com/subscribe/post?u=48982d426a910167c31a85aa0&amp;id=3a995a35be&PTITLE={{ product.title | url_param_escape }}&PSKU={{ product.selected_or_first_available_variant.sku | url_param_escape }}&PLINK={{ shop.url | url_param_escape }}{{ product.url | url_param_escape }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate popup-stock-form" target="_blank" novalidate>
+
+        <p class="popup-message">{{ 'popups.stock.will_notify' | t }}</p>
+
+        <div id="mc_embed_signup_scroll">
+          <div class="mc-field-group">
+            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="{{ 'popups.stock.your_email' | t }}">
+          </div>
+          <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+          </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_48982d426a910167c31a85aa0_3a995a35be" tabindex="-1" value=""></div>
+          <div class="clear"><input type="submit" value="{{ 'popups.stock.submit' | t }}" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+      </form>
+    </div>
+    <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='PTITLE';ftypes[1]='text';fnames[2]='PSKU';ftypes[2]='text';fnames[3]='PLINK';ftypes[3]='url';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+    <!--End mc_embed_signup-->
+  </div>
+</div>
+<script>
+    function popupStockHide() {
+        $('.popup-stock-overlay').hide();
+        $('body').removeClass('body-no-scroll');
+    }
+    function popupStockShow() {
+        $('.popup-stock-overlay').css({'display': 'flex'});
+        $('body').addClass('body-no-scroll');
+    }
+    function popupStockProcess() {
+        console.log(new Date($.now()) + " Popup form submitted.");
+
+        if($('.popup-stock #mce-success-response').is(":visible")) { // This means form submitted successfully.
+            console.log('Successfully submitted!');
+            $('.popup-stock .popup-message').html('{{ "popups.stock.email_added" | t }}');
+            $('.popup-stock #mc_embed_signup_scroll').hide();
+            $('.popup-stock #mc_embed_signup form').css('justify-content', 'center');
+            return true;
+        }
+        if ( !$('.popup-stock #mce-error-response').is(":visible") && !$('.popup-stock .mce_inline_error').is(":visible")) {
+            console.log('No visible errors. Setting timeout...');
+            setTimeout(popupStockProcess, 200);
+            return false;
+        }
+        if ($('.popup-stock #mce-success-response').is(":visible")) {
+            console.log('Success message is still shown. Setting timeout...');
+            setTimeout(popupStockProcess, 200);
+            return false;
+        }
+
+        console.log('End of process function');
+        return false;
+    }
+    function popupStockInit() {
+        $('.popup-stock .popup-close-btn').each(function() {
+            $(this).on('click', popupStockHide);
+        });
+        $('.popup-stock-overlay').on('click', function(e){
+            if (e.target !== this)
+                return;
+            popupStockHide();
+        });
+
+        $('.back-in-stock').each(function() {
+            $(this).on('click', popupStockShow);
+        });
+
+        $('.popup-stock #mc-embedded-subscribe-form').on('submit', popupStockProcess)
+    }
+
+    window.addEventListener('load', popupStockInit);
+
+</script>

@@ -222,6 +222,12 @@
       "no_thanks": "No thanks, I don't like to have fun or get amazing deals",
       "welcome_floatlife": "Welcome to the Float Life!",
       "email_added": "Your email has been added to our mailing list for exclusive invites."
+    },
+    "stock": {
+      "will_notify": "We will notify you when product is available",
+      "submit": "Submit",
+      "your_email": "Email",
+      "email_added": "Your email has been added to our notification list"
     }
   },
   "products": {

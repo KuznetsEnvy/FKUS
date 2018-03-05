@@ -53,7 +53,7 @@
                       {% endfor %}
                       <a href="/cart/add?id={{ all_products[product].first_available_variant.id }}&quantity=1" class="add-to-cart cart-btn buy-now select {% if selected %}selected{% endif %}">{% if selected %}Selected{% else %}Select{% endif %}</a>
                     {% else %}
-                      <a href="https://form.jotform.me/70724374625458" id="various1" class="add-to-cart cart-btn buy-now select">{{ 'products.product.product_unavailable_html' | t }}</a>
+                      <a href="javascript:void(0)" class="back-in-stock add-to-cart cart-btn buy-now select">{{ 'products.product.product_unavailable_html' | t }}</a>
                     {% endif %}
                   </div>
                   <div class="clear"></div>

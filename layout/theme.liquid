@@ -95,9 +95,6 @@
   {% endif %}
   {% comment %}{{ 'parallax.js' | asset_url | script_tag }}{% endcomment %}
 
-  <!--{{ 'jquery.fancybox.js' | asset_url | script_tag }}-->
-  <script src="{{ 'jquery.fancybox.js' | asset_url | split:'?' | first }}" defer></script>
-  {{ 'jquery.fancybox.css' | asset_url | split:'?' | first | stylesheet_tag }}
   <!-- Pinterest Pixel Code -->
   <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
 
@@ -298,7 +295,12 @@
 </div><!-- /#page-wrap -->
 
 
-{% include 'popup-hello' %}
+{% if template contains 'product' %}
+  {% include 'popup-stock' %}
+{% else %}
+  {% include 'popup-hello' %}
+{% endif %}
+
 {% include 'mobile-navigation' %}
 {% comment %} {% include 'popup' %} {% endcomment %}
 
@@ -423,21 +425,6 @@
 
     ga('create', 'UA-86893533-1', 'auto');
     ga('send', 'pageview');
-</script>
-
-<script type="text/javascript">
-    document.getElementById('jquery').addEventListener('load', function () {
-        $(document).ready(function () {
-            $("#various1").fancybox({
-                'width': '502px',
-                'height': '340px',
-                'titlePosition': 'inside',
-                'transitionIn': 'none',
-                'transitionOut': 'none',
-                'type': 'iframe'
-            });
-        });
-    });
 </script>
 
 <script src="https://use.fontawesome.com/791a439b99.js"></script>

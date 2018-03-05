@@ -25,10 +25,7 @@
         <button name="add" class="add-to-cart buy-now button button--black-gradient cart-btn cart-btn-desktop" id="add">{{ 'products.product.add_to_cart_html' | t }}</button>
       </form>
     {% else %}
-      <a href="https://form.jotform.me/70724374625458" id="various1" style="text-align:center" class="add-to-cart buy-now button button--black-gradient cart-btn cart-btn-desktop unavailable">{{ 'products.product.product_unavailable' | t }}</a>
-      {% comment %}
-      <button disabled="disabled" class="add-to-cart buy-now button button--black-gradient cart-btn cart-btn-desktop unavailable">{{ 'products.product.product_unavailable' | t }}</button>
-      {% endcomment %}
+      <a href="javascript:void(0)" style="text-align:center" class="back-in-stock add-to-cart buy-now button button--black-gradient cart-btn cart-btn-desktop unavailable">{{ 'products.product.product_unavailable' | t }}</a>
     {% endif %}
   </div>
 </div>
