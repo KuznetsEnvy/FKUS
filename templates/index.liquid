@@ -1,16 +1,22 @@
-{% if settings.shipping-banner-enable %}
-  {% unless template contains 'product' %}
-  <div class="shipping-banner visible-mobile">
-    <div class="nn-secondary-middle">{{ 'cart.shipping.shipping-banner_html' | t }}
-      <nobr>{{ settings.free_shipping_from | money }}</nobr>
-    </div>
-  </div>
-  {% endunless %}
-{% endif %}
+<div id="bicolorBanner" class="banner-index">
+  <picture>
+    <source media="(min-width: 1920px)" srcset="{{ 'header_banner_no_text_1920.png' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 1650px)" srcset="{{ 'header_banner_no_text_1650.png' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 1440px)" srcset="{{ 'header_banner_no_text_1440.png' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 1024px)" srcset="{{ 'header_banner_no_text_1024.png' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 751px)" srcset="{{ 'header_banner_no_text_768.png' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 300px)" srcset="{{ 'header_banner_textless_750.png' | asset_url | split:"?" | first }}">
+    <img src="{{ 'header_banner_textless_414.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
+  </picture>
+</div>
 
-<!-- Desktop -->
+<div class="shipping-banner visible-mobile">
+  {{ 'cart.shipping.shipping-banner_html' | t }} <nobr>{{ settings.free_shipping_from | money }}</nobr>
+</div>
+
 <section class="section products-section bestsellers visible-desktop">
-  <div class="header">#Floatie bestsellers</div>
+  <a name="bestsellers"></a>
+  <h2 class="section-header line-framed"><span>Floatie </span><em>Bestsellers</em></h2>
   <div class="container">
     <div class="row grid">
       {% for product in collections['bestsellers'].products limit: 2 %}
@@ -20,35 +26,65 @@
   </div>
 </section>
 
-<div class="banners-2-wrap">
-  <div class="banner banner-best-friend visible-desktop">
-    <div>{{ 'layout.banners.bring_best_friend_html' | t }}</div>
-  </div>
-  <div class="banner banner-memories-forever visible-desktop">
-    <div>{{ 'layout.banners.memories_last_forever_html' | t }}</div>
-  </div>
-</div>
-
-<section class="section products-section product-list visible-desktop">
+<section class="section products-section product-list">
+  <a name="ride-ons"></a>
   <a name="fun-rides"></a>
+  <h2 class="section-header line-framed visible-desktop"><span>Floatie </span><em>{{ collections['ride-ons'].title }}</em></h2>
   <div class="container">
     <div class="row grid">
-      {% for product in collections['frontpage'].products %}
+      {% for product in collections['ride-ons'].products %}
         {% include 'product-block' %}
       {% endfor %}
     </div>
   </div>
 </section>
 
+{% section 'as-seen-on' %}
+
+<section class="section products-section product-list">
+  <a name="emojis"></a>
+  <h2 class="section-header line-framed visible-desktop"><span>Floatie </span><em>{{ collections['emojis'].title }}</em></h2>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['emojis'].products %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="banner banner-memories-forever visible-mobile">
+  <div><span>{{ 'layout.banners.memories_last_forever' | t }}</span></div>
+</div>
+
+
+<section class="section products-section product-list">
+  <a name="snacks"></a>
+  <h2 class="section-header line-framed visible-desktop"><span>Floatie </span><em>{{ collections['snacks'].title }}</em></h2>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['snacks'].products %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="banner banner-best-friend visible-mobile">
+  <div>{{ 'layout.banners.bring_best_friend_html' | t }}</div>
+</div>
+
+{% comment %}
 <div class="banners-3-wrap visible-desktop">
   <div class="banner shop-collection" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
   <div class="banner shop-collection" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
   <div class="banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
 </div>
 
-<!-- /Desktop -->
 
-<!-- Mobile -->
+
+
+
 <section class="section products-section product-list visible-mobile">
   <a name="bestsellers"></a>
   <div class="container">
@@ -60,9 +96,6 @@
   </div>
 </section>
 
-<div class="banner banner-memories-forever visible-mobile">
-  <div><span>{{ 'layout.banners.memories_last_forever' | t }}</span></div>
-</div>
 
 <section class="section products-section product-list visible-mobile">
   <a name="fun-rides"></a>
@@ -75,9 +108,9 @@
   </div>
 </section>
 
-<div class="banner banner-best-friend visible-mobile">
-  <div>{{ 'layout.banners.bring_best_friend_html' | t }}</div>
-</div>
+{% endcomment %}
+
+
 <!-- region Countdown -->
 {% comment %}
 <div id="countdown-stripe" class="visible-desktop"></div>
@@ -117,6 +150,7 @@
 </script>
 {% endcomment %}
 <!-- endregion -->
+{% comment %}
 <section class="section products-section product-list visible-mobile">
   <a name="donuts"></a>
   <div class="container">
@@ -148,10 +182,10 @@
 <div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
   <a href="javascript:void(0)"></a>
 </div>
-<!-- /Mobile -->
+{% endcomment %}
 
 <!-- Aaron Kai banner -->
-<section id="aron-kai" class="border-top section bottom-banner">
+<section id="aron-kai" class="border-top section bottom-banner visible-desktop">
   <div class="container">
     <div class="banner">
       <img src="{{ 'aaronKai-banner.png' | asset_url | split:"?" | first }}" alt="Home AaronKai Banner" />
@@ -169,6 +203,7 @@
   </div>
 </section>
 
+{% comment %}
 <!-- Badwood banner -->
 <section class="border-top section bottom-banner">
   <div class="container">
@@ -188,6 +223,8 @@
   </div>
 </section>
 
+{% endcomment %}
+
 
 <div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
   <a href="javascript:void(0)"></a>
@@ -205,12 +242,15 @@
 
 
 <section id="insta">
-  <h4 class="center">{{ 'layout.misc.summer_story_html' | t }}</h4>
-  <div class="header">
+  <div class="container"><h2 class="section-header line-framed"><span>As seen on </span><em>Instagram</em></h2></div>
+  <div class="header visible-desktop">
     {{ 'layout.misc.follow_us_html' | t }} <span class="fa fa-instagram"></span> <strong>floatie</strong>kings
   </div>
 
   <div id="instafeed" class="grid"></div>
+  <img class="insta-control insta-control-left visible-mobile" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
+  <img align="right" class="insta-control insta-control-right visible-mobile" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
+
 </section>
 <script type="text/javascript">
     function instafeed_ig(callback) {

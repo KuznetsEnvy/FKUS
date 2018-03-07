@@ -37,7 +37,6 @@
     "font_size_price_thumb": "1.3",
     "font_size_logo": "45",
     "btn_shape": "rect",
-    "shipping-banner-enable": true,
     "shipping-banner": "<b>FREE SHIPPING<\/b> ON ALL ORDERS OVER \t$75",
     "use_logo": true,
     "logo_width": "",
@@ -113,8 +112,8 @@
     "homepage_collection_4": "emoji",
     "homepage_collection_4_count": "3",
     "homepage_collection_5": "ski-mask",
-    "homepage_collection_6": "aaron-kai",
     "homepage_collection_7": "pump",
+    "homepage_collection_6": "aaron-kai",
     "homepage_blog": "news",
     "homepage_insta_show": "user",
     "homepage_insta_tag": "",
@@ -467,6 +466,34 @@
     "hide_dividers": false,
     "homepage_feat_img_box": true,
     "hide_nav_home_dividers": false,
+    "sections": {
+      "as-seen-on": {
+        "type": "as-seen-on",
+        "blocks": {
+          "1520332152735": {
+            "type": "item",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/globo-logo-4.png"
+            }
+          },
+          "1520332200972": {
+            "type": "item",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/vogue-logo-4.png"
+            }
+          }
+        },
+        "block_order": [
+          "1520332152735",
+          "1520332200972"
+        ],
+        "settings": {
+          "header": "As seen on",
+          "quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.",
+          "author": "Vogue Magazine"
+        }
+      }
+    },
     "content_for_index": [
 
     ]

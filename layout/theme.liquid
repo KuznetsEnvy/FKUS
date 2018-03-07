@@ -7,11 +7,7 @@
 <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
   {{ 'geolizr-lib.js' | asset_url | script_tag }}
-  {{ 'geolizr-lib.css' | asset_url | stylesheet_tag }}
-
-  <!-- geolizr redirect included here -->
   {% include 'geolizr-redirect' %}
-  <!-- end geolizr redirect included here -->
 
   <!-- Canopy v1.0.10 -->
   <meta charset="utf-8"/>
@@ -77,7 +73,6 @@
     {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
   {% endif %}
 
-  <!--{{ 'option_selection.js' | shopify_asset_url | script_tag }}-->
   <script src="{{ 'option_selection.js' | shopify_asset_url }}" defer></script>
   <script id="bxslider" src="{{ 'jquery.bxslider.min.js' | asset_url | split:'?' | first }}" defer></script>
   {{ 'jquery.bxslider.css' | asset_url | split:'?' | first | stylesheet_tag }}
@@ -117,94 +112,20 @@
 
 <div id="header" class="cart" style="width:100%;">
   <div class="page-header">
-    {% comment %}
-    <div id="toolbar" class="toolbar cf">
-      <div class="logo-nav">
-        <div class="logo">
-          {% if settings.use_logo %}{{ 'cart-header-logo-black.png' | asset_url | split:"?" | first | img_tag | link_to: shop.url }}{% else %}{{ shop.name | link_to: shop.url }}{% endif %}
-        </div>
-
-        {% unless settings.header_layout == 'nav' %}
-        <div class="cf">{{ logo_html }}</div>
-        {% endunless %}
-
-        {% unless settings.header_layout == 'mobile' %}
-        {% include 'main-navigation' %}
-        {% endunless %}
-      </div>
-
-
-      {% unless settings.header_layout == 'mobile' %}
-      <span class="toolbar-links">
-                    {% if shop.customer_accounts_enabled %}
-                      {% if customer %}
-                        <a href="/account">{{ 'layout.customer.your_account' | t }}</a>
-                        <span class="divider">/</span> {{ 'layout.customer.logout' | t | customer_logout_link }}
-                        {% else %}
-                        {{ 'layout.customer.login' | t | customer_login_link }}
-                        {% if shop.customer_accounts_optional %}
-                          <span class="divider">/</span> {{ 'layout.customer.create_account' | t | customer_register_link }}
-                        {% endif %}
-                      {% endif %}
-                        {% if settings.show_header_search %}
-                      <span class="divider">/</span>
-                    {% endif %}
-                    {% endif %}
-        {% if settings.show_header_search %}
-          <form class="search-form" action="/search" method="get">
-                            {% if settings.search_prods_only %}
-                              <input type="hidden" name="type" value="product">{% endif %}
-            <button class="icon-mag"></button>
-                            <input type="text" name="q" placeholder="{{ 'layout.header.search' | t }}"/>
-                        </form>
-        {% endif %}
-                  </span>
-      {% endunless %}
-      <div style="display:none;">
-                    <span class="toolbar-cart">
-                    <span class="{% unless settings.show_cart_as_button %}no-{% endunless %}btn">
-                        <a class="current-cart cart-count {% if template != 'cart' %}toggle-cart-summary{% endif %}" href="/cart">
-                        {{ cart.item_count }} / {{ cart.total_price | money }} <i class="icon-cart"></i>
-                        </a>
-                    </span>
-                    </span>
-      </div>
-      <div class="main-menu">
-        <nav class="menu">
-          <ul class="site-nav" id="accessibleNav">
-            {% for link in linklists.main-menu.links %}
-              {% assign child_list_handle = link.title | handleize %}
-              {% if linklists[child_list_handle].links != blank %}
-                {% comment %}
-              <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
-                <a href="{{ link.url }}">{{ link.title }}</a>
-                <ul class="site-nav--dropdown">
-                  {% for childlink in linklists[child_list_handle].links %}
-                    <li {% if childlink.active %}class="site-nav--active"{% endif %}>
-                      <a href="{{ childlink.url }}">{{ childlink.title | escape }}</a></li>
-                  {% endfor %}
-                </ul>
-                </li>{% endcomment %}
-              {% else %}
-                {% comment %}
-                <li {% if link.active %}class="site-nav--active"{% endif %}>
-                  <a href="{{ link.url }}">{{ link.title }}</a>
-                </li>
-                {% endcomment %}
-              {% endif %}
-            {% endfor %}
-          </ul>
-          <a class="current-cart {% if template != 'cart' %}toggle-cart-summary{% endif %}"><span class="cart-count">{{ cart.item_count }}</span>items
-            <i class="icon-cart"></i></a>
-        </nav>
-      </div>
-      {% unless settings.header_layout == 'mobile' %}
-      <span class="toolbar-social">{% include 'social-links' %}</span>
-      {% endunless %}
-    </div>
-    {% endcomment %}
-    <div><!-- This div is needed for flexbox alignment --></div>
     <a class="text-logo" href="{{ shop.url }}"><strong>Floatie</strong> Kings</a>
+    <div class="top-nav">
+      <div id="nav-icon3" class="visible-mobile">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav class="visible-desktop">
+        <a href="javascript:void(0)">Shop</a>
+        <a href="javascript:void(0)">Our story</a>
+        <a href="javascript:void(0)">Join the family</a>
+      </nav>
+    </div>
     <div class="cart-wrap">
       <a class="current-cart {% if template != 'cart' %}toggle-cart-summary{% endif %}">{{ cart.item_count }}</a>
     </div>
@@ -219,75 +140,56 @@
 
         {% if template contains 'index' or template contains 'product' %}
 
-          {% if settings.home_show_slideshow %}
-          <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
-            <picture>
-              <source media="(min-width: 1920px)" srcset="{{ 'header_banner_textless_2336.png' | asset_url | split:"?" | first }}">
-              <source media="(min-width: 1650px)" srcset="{{ 'header_banner_textless_1920.png' | asset_url | split:"?" | first }}">
-              <source media="(min-width: 1400px)" srcset="{{ 'header_banner_textless_1650.png' | asset_url | split:"?" | first }}">
-              <source media="(min-width: 1024px)" srcset="{{ 'header_banner_textless_1440.png' | asset_url | split:"?" | first }}">
-              <source media="(min-width: 751px)" srcset="{{ 'header_banner_textless_1024.png' | asset_url | split:"?" | first }}">
-              <source media="(min-width: 300px)" srcset="{{ 'header_banner_textless_750.png' | asset_url | split:"?" | first }}">
-              <img src="{{ 'header_banner_textless_414.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
-            </picture>
-
-            <div id="banner-top-text">
-              <span>Welcome to the</span> <em>Float Life!</em>
-            </div>
-
-          </div>
-          {% endif %}
+        <!-- Replaced .banner-index from here to index template file -->
 
         {% else %}
-        {% if template contains 'cart' or template contains 'page.support' or template contains 'page.win-cash' or template contains 'page.thank-you' or template contains 'index' %}
-        <div class="cart-header">
-          {% if template contains 'cart' %}
-            {% if settings.cart_banner %}
-              {% comment %}
-              <img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="cart-banner"/> {% endcomment %}
-              <div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
-                <picture>
-                  <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}">
-                  <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url | split:"?" | first }}">
-                  <img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="Sunglasses Original Bicolor">
-                </picture>
-              </div>
-            {% endif %}
-            {% elsif template contains 'page.support' %}
-            {% if settings.cart_banner %}
-              <img src="{{ 'support-banner.jpg' | asset_url | split:"?" | first }}" alt="support-banner"/>
-            {% endif %}
-            {% elsif template contains 'page.win-cash' or template contains 'page.thank-you' %}
-            {% if settings.win_banner %}
-              <picture>
-                <source media="(min-width: 768px)" srcset="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}">
-                <source media="(min-width: 200px)" srcset="{{ 'Mobile-Win-Header.jpg' | asset_url | split:"?" | first }}">
-                <img src="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}" alt="{{ settings.win-cash-alt }}"/>
-              </picture>
-            {% endif %}
-          {% endif %}
+          {% if template contains 'cart' or template contains 'page.support' or template contains 'page.win-cash' or template contains 'page.thank-you' or template contains 'index' %}
+            <div class="cart-header">
+              {% if template contains 'cart' %}
+                {% if settings.cart_banner %}
+                  <div id="bicolorBanner" class="banner-index">
+                    <picture>
+                      <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}">
+                      <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url | split:"?" | first }}">
+                      <img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="Sunglasses Original Bicolor">
+                    </picture>
+                  </div>
+                {% endif %}
+              {% elsif template contains 'page.support' %}
+                {% if settings.cart_banner %}
+                  <img src="{{ 'support-banner.jpg' | asset_url | split:"?" | first }}" alt="support-banner"/>
+                {% endif %}
+              {% elsif template contains 'page.win-cash' or template contains 'page.thank-you' %}
+                {% if settings.win_banner %}
+                  <picture>
+                    <source media="(min-width: 768px)" srcset="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}">
+                    <source media="(min-width: 200px)" srcset="{{ 'Mobile-Win-Header.jpg' | asset_url | split:"?" | first }}">
+                    <img src="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}" alt="{{ settings.win-cash-alt }}"/>
+                  </picture>
+                {% endif %}
+              {% endif %}
           {% else %}
-          <div class="header">
-            {% endif %}
+            <div class="header">
+          {% endif %}
 
-            {% if template contains 'page.win-cash' %}
-              <div class="shipping-banner">
-                <div class="nn-secondary-middle">{{ settings.win-cash-banner }}</div>
-              </div>
-            {% else %}
-              {% unless template contains 'page.thank-you' %}
+          {% if template contains 'page.win-cash' %}
+            <div class="shipping-banner">
+              <div class="nn-secondary-middle">{{ settings.win-cash-banner }}</div>
+            </div>
+          {% else %}
+            {% unless template contains 'page.thank-you' %}
               {% if settings.shipping-banner-enable %}
                 <div class="shipping-banner">
                   <div class="nn-secondary-middle">{{ settings.shipping-banner }}</div>
                 </div>
               {% endif %}
-              {% endunless %}
-            {% endif %}
-            <div id="header" style="display:none;"></div>
-          </div> <!--   end header class  -->
+            {% endunless %}
           {% endif %}
-          {{ content_for_layout }}
-        </div><!-- /.cart-header"-->
+          <div id="header" style="display:none;"></div>
+        </div><!-- /.header -->
+        {% endif %}
+        {{ content_for_layout }}
+      </div><!-- /.cart-header -->
       </div><!-- /#content -->
     </div><!-- /#page-wrap-content -->
     {% include 'footer' %}

@@ -1,5 +1,39 @@
 <footer id="page-footer" class="page-footer">
-  <div class="container">
+  <div class="container wrap">
+    <div class="logo-col"><a href="{{ shop.url }}"><img {% comment %}src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-{% endcomment %}src="{{ 'FK-logo-square.svg' | asset_url | split:'?' | first }}" alt=""></a></div>
+    <div class="social-col">{% include 'social-links' %}</div>
+    <div class="menu b-nav1">
+      <div class="wrap"><div class="plug visible-mobile"><!--This is needed for correct flexbox alignment--></div><h3>Shop</h3><div class="cross visible-mobile"></div></div>
+      <nav>
+        <a href="javascript:void(0)">All styles</a>
+        <a href="javascript:void(0)">Best sellers</a>
+        <a href="javascript:void(0)">New arrivals</a>
+        <a href="javascript:void(0)">Accessories</a>
+        <a href="javascript:void(0)">Sale</a>
+      </nav>
+    </div>
+    <div class="menu b-nav2">
+      <div class="wrap"><div class="plug visible-mobile"><!--This is needed for correct flexbox alignment--></div><h3>Company</h3><div class="cross visible-mobile"></div></div>
+      <nav>
+        <a href="javascript:void(0)">Our story</a>
+        <a href="javascript:void(0)">Floatopia</a>
+        <a href="javascript:void(0)">Become a stockist</a>
+        <a href="javascript:void(0)">Join the family</a>
+      </nav>
+    </div>
+    <div class="menu b-nav3">
+      <div class="wrap"><div class="plug visible-mobile"><!--This is needed for correct flexbox alignment--></div><h3>Support</h3><div class="cross visible-mobile"></div></div>
+      <nav>
+        <a href="javascript:void(0)">FAQ</a>
+        <a href="javascript:void(0)">Track my order</a>
+        <a href="javascript:void(0)">Customer support</a>
+        <a href="javascript:void(0)">Returns</a>
+        <a href="javascript:void(0)">Contact</a>
+      </nav>
+    </div>
+
+    <!--region old code-->
+    {% comment %}
     <div class="row section padless-top">
       <!-- Logo and links -->
       <div class="fourth column first">
@@ -17,12 +51,14 @@
 
       </div>
 
+
       <!-- Social icons -->
       <div class="fifth column second">
         <div class="social-column align-left-desktop full column">
           {% include 'social-links' %}
         </div>
       </div>
+
 
       <!-- Win cash line -->
       <div class="fourth column">
@@ -35,6 +71,21 @@
       </div>
 
       <div class="copy">{{ 'layout.footer.copyright' | t }} &copy; {{ "now" | date: "%Y" }} {{ shop.name }}.</div>
+    </div>
+    {% endcomment %}
+
+    <!--endregion-->
+  </div>
+  <div class="copyright-stripe">
+    <div class="container">
+      <div class="copy">{{ 'layout.footer.copyright' | t }} &copy; {{ "now" | date: "%Y" }} {{ shop.name }}.</div>
+      <div class="c-cards">
+        <img src="{{ 'card1.svg' | asset_url | split:'?' | first }}" alt="">
+        <img src="{{ 'card2.svg' | asset_url | split:'?' | first }}" alt="">
+        <img src="{{ 'card3.svg' | asset_url | split:'?' | first }}" alt="">
+        <img src="{{ 'card4.svg' | asset_url | split:'?' | first }}" alt="">
+        <img src="{{ 'card5.svg' | asset_url | split:'?' | first }}" alt="">
+      </div>
     </div>
   </div>
 </footer>

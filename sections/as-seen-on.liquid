@@ -1,0 +1,49 @@
+<section class="as-seen-on">
+  <div class="container">
+    <h2>As seen on</h2>
+    <div class="block-content">
+      <div class="m-logos-list">
+        {% for block in section.blocks %}
+            <img class="m-logos-item" src="{{ block.settings.image | img_url: '1024x' }}" />
+        {% endfor %}
+      </div>
+      <div class="text">“{{ section.settings.quote }}”</div>
+      <div class="author">{{ section.settings.author }}</div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "As seen on",
+    "settings": [
+      {
+        "type": "text",
+        "id": "header",
+        "label": "Block header",
+        "default": "As seen on"
+      },
+      {
+        "type": "textarea",
+        "id": "quote",
+        "label": "Quote text",
+        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
+      },
+      {
+        "type": "text",
+        "id": "author",
+        "label": "Author",
+        "default": "Vogue Magazine"
+      }
+    ],
+    "blocks": [{
+      "type": "item",
+      "name": "Magazine logo",
+      "settings": [{
+        "id": "image",
+        "type": "image_picker",
+        "label": "Logo image"
+      }]
+    }]
+  }
+{% endschema %}
