@@ -6691,9 +6691,6 @@ a.current-cart.toggle-cart-summary .cart-count {
   color: #000;
 }
 
-.banner-index img {
-  width: 100%;
-}
 
 .product-details .rte a.notify {
   color: #fff;
@@ -7841,6 +7838,10 @@ button.buy-now.black:hover {
   position: relative;
   display: flex;
   justify-content: center;
+
+  img, picture {
+    width: 100%;
+  }
 }
 
 .banner-best-friend {
@@ -7986,6 +7987,7 @@ button.buy-now.black:hover {
       nav {
         @include mobile-only {
           display: none;
+          padding-top: 1.2em;
         }
 
         a {
@@ -9242,6 +9244,179 @@ $hamburger-height: 4.8vw;
   left: 50%;
 }
 
+
+/*region Judge.me reviews custom CSS*/
+
+
+.template-index {
+
+  /*region Rating widget*/
+  .jdgm-widget {
+    text-align: center;
+  }
+  .jdgm-prev-badge__text {
+    color: $dodger-blue;
+    font-weight: 500;
+    font-size: 4.26vmin;
+    text-transform: capitalize;
+
+    @include mobile-only {
+      display: block;
+    }
+
+    @include desktop {
+      margin-left: 0.5em;
+      font-size: 1.11vw;
+    }
+  }
+  /*endregion*/
+
+
+  /*region Rating carousel*/
+
+  .jdgm-carousel-item__product {
+    display: none !important;
+  }
+
+  @include mobile-only {
+    .jdgm-carousel__item-wrapper {
+      height: unset !important;
+    }
+    .jdgm-carousel-item {
+      padding: 0 2.5vmin;
+    }
+    .jdgm-carousel-item__review-rating {
+      font-size: 4.2vmin;
+      margin: 0 0 3.6vmin;
+    }
+    .jdgm-carousel-item__review-title {
+      font-size: 5.8vmin;
+    }
+    .jdgm-carousel-item__review-body {
+      font-size: 4.8vmin;
+      padding: 0.2em 0.5em 1em;
+    }
+    .jdgm-carousel-item__reviewer-name-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+
+      &:before {
+        order: 3;
+        content: url('{{ "icon-verified-purchase.svg" | asset_url | split: "?" | first }}');
+        width: 5.6vw;
+        height: 6.5vw;
+        margin: 0.5em;
+      }
+      &:after {
+        order: 4;
+        content: 'Verified Purchase';
+        color: #11af5d;
+        font-size: 4.2vw;
+        font-weight: 500;
+      }
+    }
+    .jdgm-carousel-item__reviewer-name {
+      color: black;
+      font-size: 4.8vw;
+      font-weight: 500;
+      width: 100%;
+    }
+    .jdgm-carousel-item__timestamp, .jdgm-carousel__right-arrow, .jdgm-carousel__left-arrow {
+      display: none;
+    }
+  }
+  @include desktop {
+    //Removing products from index page reviews
+
+    .jdgm-carousel__item-container {
+      height: 20vw;
+    }
+    .jdgm-carousel__item-wrapper {
+      height: 100% !important;
+    }
+    .jdgm-carousel-item__review {
+      height: calc(100% - 4em) !important;
+    }
+
+
+    //Changing carousel arrows so that they appear on the left and right side
+    .jdgm-carousel__left-arrow {
+      margin-left: -30px !important;
+      float: left !important;
+      margin-top: -12.5vw !important;
+    }
+    .jdgm-carousel__right-arrow {
+      margin-right: -30px !important;
+      float: right !important;
+      margin-top: -12.5vw !important;
+    }
+
+    //Styling review item on index page
+    .jdgm-carousel-item {
+      display: inline-flex;
+      flex-direction: column;
+      border: 1px solid #737667;
+      border-radius: 0.2em;
+      width: calc(50% - 2em);
+      padding: 1.5vw 2vw;
+      margin: 0 1em;
+
+      .jdgm-carousel-item__review {
+        order: 2;
+
+        .jdgm-carousel-item__review-title {
+          font-size: 1.77vw;
+        }
+        .jdgm-carousel-item__review-body {
+          font-size: 1.25vw;
+          padding: 0 1.1em;
+        }
+        .jdgm-carousel-item__review-rating {
+          font-size: 1.18vw;
+          margin: 2.2vw 0 1.4vw;
+        }
+      }
+
+      .jdgm-carousel-item__reviewer-name-wrapper {
+        order: 1;
+        display: flex;
+        justify-content: space-between;
+        font-weight: 500;
+
+        .jdgm-carousel-item__reviewer-name {
+          color: black;
+          font-size: 1.22vw;
+          display: inline-flex;
+          align-items: center;
+
+          &:before {
+            content:url('{{ "icon-verified-purchase.svg" | asset_url | split: "?" | first }}');
+            position:relative; /*or absolute*/
+            width: 1.45vw;
+            height: 1.7vw;
+            margin-right: 0.5em;
+          }
+
+        }
+        .jdgm-carousel-item__timestamp {
+          overflow: visible;
+          color: rgba(0,0,0,0.5);
+          font-size: 0.97vw;
+        }
+      }
+    }
+
+  }
+
+  /*endregion*/
+}
+.jdgm-star {
+  color: #fed831 !important;
+}
+
+/*endregion*/
 
 /*region This should be in the end of CSS */
 @media #{$mobile} {

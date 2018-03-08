@@ -105,6 +105,8 @@
     {% else %}Shopify.customer_logged_in = false;
       Shopify.customer_email = "";{% endif %}</script><!-- EndConsistentCartAddon -->
   <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js" defer></script>
+
+  {% include 'judgeme_core' %}
 </head>
 
 <body class="template-{{ template | split: '.' | first }} {{ page_title | handle }}">

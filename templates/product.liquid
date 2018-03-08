@@ -398,4 +398,9 @@
     </div>
   </div>
 {% endif %}
+
+
+<div id='judgeme_product_reviews' class='jdgm-widget jdgm-review-widget' data-product-title='{{ product.title | escape }}' data-id='{{ product.id }}'>{{ product.metafields.judgeme.widget }}</div>
+
+
 {% include 'related-products' %}
