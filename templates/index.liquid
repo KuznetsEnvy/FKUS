@@ -57,7 +57,6 @@
   <div><span>{{ 'layout.banners.memories_last_forever' | t }}</span></div>
 </div>
 
-
 <section class="section products-section product-list">
   <a name="snacks"></a>
   <h2 class="section-header line-framed visible-desktop"><span>Floatie </span><em>{{ collections['snacks'].title }}</em></h2>
@@ -72,6 +71,8 @@
 
 <div class="container">
   <div class='jdgm-carousel-wrapper'>
+    <h2 class="section-header line-framed"><span>Customer </span><em>Reviews</em></h2>
+
     {{ shop.metafields.judgeme.featured_carousel }}
   </div>
 </div>
@@ -88,10 +89,6 @@
   <div class="banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
 </div>
 
-
-
-
-
 <section class="section products-section product-list visible-mobile">
   <a name="bestsellers"></a>
   <div class="container">
@@ -103,7 +100,6 @@
   </div>
 </section>
 
-
 <section class="section products-section product-list visible-mobile">
   <a name="fun-rides"></a>
   <div class="container">
@@ -114,7 +110,6 @@
     </div>
   </div>
 </section>
-
 {% endcomment %}
 
 
@@ -157,6 +152,7 @@
 </script>
 {% endcomment %}
 <!-- endregion -->
+<!--region Old code -->
 {% comment %}
 <section class="section products-section product-list visible-mobile">
   <a name="donuts"></a>
@@ -190,10 +186,13 @@
   <a href="javascript:void(0)"></a>
 </div>
 {% endcomment %}
+<!--endregion-->
 
 <!-- Aaron Kai banner -->
 <section id="aron-kai" class="border-top section bottom-banner visible-desktop">
   <div class="container">
+    <h2 class="section-header line-framed"><em>Exclusive Collaborations</em></h2>
+    <h3 class="align-center">Only on FloatieKings!</h3>
     <div class="banner">
       <img src="{{ 'aaronKai-banner.png' | asset_url | split:"?" | first }}" alt="Home AaronKai Banner" />
     </div>
@@ -239,6 +238,7 @@
 
 <section class="section products-section product-list">
   <div class="container">
+    <h2 class="section-header line-framed"><span>Fun </span><em>Accessories</em></h2>
     <div class="row grid">
       {% for product in collections['pump'].products limit: 1 %}
         {% include 'product-block' %}
@@ -268,7 +268,7 @@
             get: 'user',
             userId: '2077099952',
             resolution: 'standard_resolution',
-            limit: 15,
+            limit: 8,
             sortBy: 'most-recent',
             template: '{{ instafeed_template }}'
         });

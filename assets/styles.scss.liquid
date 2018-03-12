@@ -2290,9 +2290,9 @@ ul.inline.list-divide li:first-child {
 
 #header {
   padding: 20px 0px 4px 0px;
-  box-shadow: 0.225vw 0.39vw 1.49vw 0 rgba(23,23,24,0.4);
-  /* For the shadow to be visible over nex div */
-  position: relative;
+  box-shadow: 0.225vw 0.39vw 1.49vw 0 rgba(70,72,90,1);
+  position: fixed;
+  //position: relative; /* For the shadow to be visible over nex div */
   z-index: 9;
 }
 
@@ -7774,6 +7774,9 @@ button.buy-now.black:hover {
     }
 
     nav {
+      font-weight: 500;
+      letter-spacing: 0.05em;
+
       @include mobile-only {
         position: absolute;
         background: white;
@@ -8131,6 +8134,8 @@ button.buy-now.black:hover {
 
         img {
           width: 10.26vmin;
+          margin: 0 0.3em;
+
           @include desktop {
             width: 2.67vw;
           }
@@ -8156,7 +8161,7 @@ button.buy-now.black:hover {
     .logo-col {
       width: $footer-col1;
       img {
-        width: 7.4vw;
+        width: 11vw;
         margin-top: -1.84vw;
       }
     }
@@ -8207,7 +8212,7 @@ button.buy-now.black:hover {
         display: inline-block;
 
         a {
-          font-size: 1.1vw;
+          font-size: 1.2vw;
         }
       }
     }
@@ -8403,7 +8408,7 @@ button.buy-now.black:hover {
   overflow: hidden;
   text-align: center;
   &:before,&:after{
-    background-color: black;
+    background-color: #999999;
     content: "";
     display: inline-block;
     height: 1px;
@@ -8445,6 +8450,9 @@ button.buy-now.black:hover {
       font-family: "Have Heart One", sans-serif;
       font-size: 10vw;
       line-height: 1.4;
+      transform: scale(1.1,1);
+      letter-spacing: 0.06em;
+      display: inline-block;
 
       @include desktop {
         font-size: 3.125vw;
@@ -8667,10 +8675,10 @@ button.buy-now.black:hover {
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(9, 1fr);
-      grid-template-rows: repeat(3, 10vw);
-      grid-gap: 0.5vw;
-      padding: 0.5vw;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 25vw);
+      grid-gap: 0;
+      padding: 0.5vw 0;
 
       a {
         display: inline-flex;
@@ -8688,11 +8696,12 @@ button.buy-now.black:hover {
         }
 
       }
-
+      /*
       .grid-item:nth-child(3), .grid-item:nth-child(7), .grid-item:nth-child(8), .grid-item:nth-child(10) {
         grid-column-start: span 2;
         grid-row-start: span 2;
       }
+      */
 
     }
   }
