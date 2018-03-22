@@ -1,10 +1,16 @@
 <div class="product-block">
   <div class="product-item-inside">
-    <a class="img-wrap" href="{{ product.url }}"><img class="img-product-{{ product.handle }}" src="{{ product.images.last | product_img_url: 'large' | split:'?' | first }} "/></a>
+    <a {% if product.images.size > 1 %}class="img-wrap" {% endif %}href="{{ product.url }}">
+      <img class="img-primary img-product-{{ product.handle }}" src="{{ product.images.last | product_img_url: 'large' | split:'?' | first }} "/>
+      {% if product.images.size > 1 %}
+        {% assign penultimate = product.images.size | minus: 2 %}
+        <img class="img-swap img-product-{{ product.handle }}" src="{{ product.images[penultimate] | product_img_url: 'large' | split:'?' | first }} "/>
+      {% endif %}
+    </a>
     {% if false and product.compare_at_price_max > product.price %}
       <span class="product-label sale">Sale</span>
     {% endif %}
-    <div class="info-wrap">
+    <a class="info-wrap" href="{{ product.url }}">
       <div class="product-title">{{ product.title }}</div>
       <div class="price-wrap">
         {% if product.compare_at_price_max > product.price %}
@@ -15,7 +21,7 @@
         {% endif %}
       </div>
       <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
-    </div>
+    </a>
   </div>
   <div class="cart-btn-home visible-desktop">
     {% if product.available %}

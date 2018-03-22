@@ -46,20 +46,27 @@
         };
 
         function popupHelloHide() {
-            $('.popup-hello-overlay').hide();
+            $('.popup-hello-overlay').hide().removeClass('active');
             $('body').removeClass('body-no-scroll');
             Cookies.set('popup_showed', 'true');
         }
-        function popupHelloShow() {
+        function popupHelloShow( skip_check ) {
+            if (skip_check === undefined) {
+                skip_check = false;
+            }
             var popup_refresh = getUrlParameter('popup_refresh');
             if (popup_refresh) {
                 Cookies.set('popup_showed', 'true', { expires: -1 }); //Remove the cookie
             }
             var popup_showed = Cookies.get('popup_showed');
 
-            if(popup_showed != 'true') {
-                $('.popup-hello-overlay').css({'display': 'flex'});
-                $('body').addClass('body-no-scroll');
+            if(skip_check || popup_showed != 'true') {
+                if(!$('.popup-stock-overlay.active').length) {
+                    $('.popup-hello-overlay').css({'display': 'flex'}).addClass('active');
+                    $('body').addClass('body-no-scroll');
+                } else {
+                    console.log('Not showing Hello popup because Stock popup is already shown');
+                }
             } else {
                 console.log('Not showing popup because user closed it earlier during this session.')
             }
@@ -92,6 +99,11 @@
             return false;
         }
         function popupHelloInit() {
+            $('.invoke-popup-hello').each(function() {
+                $(this).on('click', function() {
+                    popupHelloShow( true )
+                });
+            });
             $('.popup-close-btn').each(function() {
                 $(this).on('click', popupHelloHide);
             });

@@ -26,12 +26,16 @@
 </div>
 <script>
     function popupStockHide() {
-        $('.popup-stock-overlay').hide();
+        $('.popup-stock-overlay').hide().removeClass('active');
         $('body').removeClass('body-no-scroll');
     }
     function popupStockShow() {
-        $('.popup-stock-overlay').css({'display': 'flex'});
-        $('body').addClass('body-no-scroll');
+        if(!$('.popup-hello-overlay.active').length) {
+          $('.popup-stock-overlay').css({'display': 'flex'}).addClass('active');
+          $('body').addClass('body-no-scroll');
+        } else {
+            console.log('Not showing Stock popup because Hello popup is already shown');
+        }
     }
     function popupStockProcess() {
         console.log(new Date($.now()) + " Popup form submitted.");

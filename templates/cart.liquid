@@ -10,14 +10,14 @@
   <div class="reading-column">    
     <form action="/cart" method="post" id="cartform">
       <ul class="cart-items plain">
-        <li class="heading border-bottom cf">
+        <li class="heading border-bottom">
           <span class="description">{{ 'cart.label.description' | t }}</span>
           <span class="quantity">{{ 'cart.label.quantity' | t }}</span>
           <span class="price">total{% comment %}{{ 'cart.label.total' | t }}{% endcomment %}</span>
         </li>
         {% for item in cart.items %}
-        <li class="item border-bottom cf">
-          <div class="description cf">
+        <li class="item border-bottom">
+          <div class="description">
             <a class="image" href="{{ item.url }}">
               <img src="{{ item | img_url: 'medium' }}"  alt="{{ item.title | escape }}" />
             </a>
@@ -51,9 +51,9 @@
           </div>
           {% endcomment %}
           <div class="quantity">
-            <input class="left" type="button" onclick="decrementValue(this)" value="-" />
-            <input class="select-on-focus" type="text" name="quantity" maxlength="2" data-id="{{ item.id }}" value="{{ item.quantity }}" max="10" size="1" name="updates[]" id="number" />
-            <input class="right" type="button" onclick="incrementValue(this)" value="+" />              
+            <input class="left" type="button" onclick="decrementValue(this)" value="-" /><!--
+            --><input class="select-on-focus" type="text" name="quantity" maxlength="2" data-id="{{ item.id }}" value="{{ item.quantity }}" max="10" size="1" name="updates[]" id="number" /><!--
+            --><input class="right" type="button" onclick="incrementValue(this)" value="+" />
           </div>
 
           <div class="price{% if item.variant.compare_at_price > item.variant.price %} on-sale{% endif %}">
@@ -102,7 +102,7 @@
           <p style="font-size:12px">You will be able to use your discount code in the next step</p>
           </div>{% endcomment %}
           <div class="column align-center cont" style="width:100%; margin-top: 15px;">
-            <a class="left continue" href="/" style="color: #000; border: 2px solid black; padding: 15px; margin-top: 15px;">keep shopping{% comment %}{{ 'cart.general.continue' | t }}{% endcomment %}</a>
+            <a class="left continue" href="/">keep shopping{% comment %}{{ 'cart.general.continue' | t }}{% endcomment %}</a>
           </div>
           <div class="clear"></div>
         </div>

@@ -3,7 +3,7 @@
   {% capture related_markup %}
   <div id="related-products" class="section padless-bottom border-top">
     <div class="container">
-      <h3>{{ 'products.product.related_title' | t }}</h3>
+      <h3 class="line-framed">{{ 'products.product.related_title' | t }}</h3>
       
         <div class="related-product-list related-{{ settings.prod_rel_meth }} {% if settings.prod_rel_titles %}show-desc{% endif %}" data-normheights=".image-cont" data-normheights-inner="img">
             {% if settings.prod_rel_meth == 'collection' %}
@@ -53,6 +53,8 @@
                                             <span class="amount">{{ relprod.price | money }}</span>        
                                         </div>
                                     </div>
+
+                            <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
                                 </div>
                           </li>
                         {% endif %}
@@ -114,7 +116,7 @@
                 });
                 </script>
             {% endif %}
-          	<button name="add" onclick="window.location.href='/'" class="buy-now black">SEE MORE</button>
+          	<button name="add" onclick="window.location.href='/'" class="buy-now">SEE MORE</button>
         </div>
     </div>
   </div><!-- /#related-products -->

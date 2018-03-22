@@ -1,129 +1,166 @@
 {% assign variant = product.selected_or_first_available_variant %}
 {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
 
-<div  itemscope itemtype="http://schema.org/Product">
+<div itemscope itemtype="http://schema.org/Product">
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
   <meta itemprop="image" content="{{ product.featured_image | product_img_url: 'grande' }}" />
   {% for variant in product.variants %}
-  <div class="container" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-    <meta itemprop="price" content="{{ variant.price | money_without_currency | strip_html }}" />
-    <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
-    {% if product.available %}
-    <link itemprop="availability" href="http://schema.org/InStock" />
-    {% else %}
-    <link itemprop="availability" href="http://schema.org/OutOfStock" />
-    {% endif %}  
-  </div>
+    <div class="container" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+      <meta itemprop="price" content="{{ variant.price | money_without_currency | strip_html }}" />
+      <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+      {% if product.available %}
+      <link itemprop="availability" href="http://schema.org/InStock" />
+      {% else %}
+      <link itemprop="availability" href="http://schema.org/OutOfStock" />
+      {% endif %}
+    </div>
   {% endfor %}
 
-  <div class="inline-row">
-  </div>
-
+  <div class="inline-row"></div>
 
   <div class="space-under">
-    <!-- begin gallery -->
-    <div class="container product-gallery full column">
-      <div class="main">
-        {% if product.images.size > 1 %}        
-        <ul class="bxslider">
-          {% for image in product.images %}
-          <li><img id="zoom" data-zoom-image="{{ image | product_img_url: 'original' }}" class="main-img" src="{{ image | product_img_url: '1024x1024' }}" alt="{{ image.alt | escape }}" /></li>
-          {% endfor %}
-        </ul>
-        {% else %}
-          <ul>
-            <li><img id="zoom" data-zoom-image="{{ featured_image | product_img_url: 'original' }}" class="main-img" src="{{ featured_image | product_img_url: '1024x1024' }}" alt="{{ featured_image.alt | escape }}" /></li>
-          </ul>
-        {% endif %}
-      </div>
-    </div>
-    <!-- end gallery -->
+    <div class="product-top-wrap container">
 
-    <!-- begin product form and details -->
-    <div class="full product-details">
-      <div class="container parent">
-        <form id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}">
-        <div class="border-bottom section padless-top cf product-title-row column">          
-          <div class="product-title">
-            <h1 class="title" itemprop="name">
-              {% if product.title contains 'Aaron Kai' %}
-              {% assign title = product.title | split: ' ' %}
-              {% assign s =  title | size %}
-              <span style="font-weight:bold;">
-                Aaron Kai
-              </span>
-              {% for i in (2..s) %}
-              {{ title[i] }}
+      <div class="product-gallery">
+        <div class="main">
+          {% if product.images.size > 1 %}
+            <ul class="bxslider">
+              {% for image in product.images %}
+                <li><img class="main-img" src="{{ image | product_img_url: '1024x1024' }}" alt="{{ image.alt | escape }}" /></li>
               {% endfor %}
-              {% else %}
-              {% assign title = product.title | split: ' ' %}
-              {% assign s =  title | size %}
-              <span style="font-weight:bold;">
-                {{ title[0] }}
-              </span>
-              {% for i in (1..s) %}
-              {{ title[i] }}
+            </ul>
+            <div class="bx-pager">
+              {% for image in product.images %}
+                <a href="" data-slide-index="{{ forloop.index0 }}"><img src="{{ image | product_img_url: '180x180' }}" alt="" /></a>
               {% endfor %}
-              {% endif %}
-            </h1>
-          </div>
-          {% if product.available %}
-		  {% if settings.prod_show_quantity_input %}
-            <div class="quantity">
-                <input class="left" type="button" onclick="decrementValue(this)" value="-" />
-                <input class="select-on-focus" type="text" name="quantity" maxlength="2" value="1" max="10" size="1" id="number" />
-                <input class="right" type="button" onclick="incrementValue(this)" value="+" />
             </div>
           {% else %}
-            <input type="hidden" name="quantity" value="1" />
-          {% endif %}
-          
-          <div id="price" class="product-price {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}on-sale{% endif %}">
-            {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}<del>{{ product.compare_at_price_max | money }}</del>{% endif %}
-            {{ product.price | money }}
-          </div>
+            <ul>
+              <li><img class="main-img" src="{{ featured_image | product_img_url: '1024x1024' }}" alt="{{ featured_image.alt | escape }}" /></li>
+            </ul>
           {% endif %}
         </div>
-        <div class="mobile1 section {% unless settings.prod_desc_loc == 'under' %}border-bottom{% endunless %}">
+      </div>
+
+      <form id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}">
+        <div class="border-bottom section padless-top product-title-row">
+          <div class="product-title">
+            <h1 class="title" itemprop="name">{{ product.title }}</h1>
+          </div>
+          <div class="product-price">
+            <div id="price" class="product-price {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}on-sale{% endif %}">
+              {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}<del>{{ product.compare_at_price_max | money }}</del>{% endif %}
+              {{ product.price | money }}
+            </div>
+          </div>
+          <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
+          <div class="add-ons-section visible-desktop">
+            <div class="header">Add these:</div>
+            <div class="add-ons-wrap">
+              {% assign counter = 0 %}
+
+              {% unless product.handle contains 'pump' %}
+                {% assign addon = all_products["super-pump-2000"] %}
+                {% if addon.available %}
+                  {% assign counter = counter | plus: 1 %}
+                  <div class="add-ons-item" data-variant-id="{{ addon.variants.first.id }}">
+                    <div class="image"><img src="{{ addon | img_url: '150x' }}" alt="" /></div>
+                    <div class="desc">
+                      <div class="title">{{ addon.title }}</div>
+                      <div class="checkbox">
+                        <div class="price">+ {{ addon.price | money }}</div>
+                        <div class="bttn blue"><span></span><span></span></div>
+                        <div class="bttn green hidden">✓</div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endunless %}
+
+              {% for tag in product.tags %}
+                {% if counter < 4 %}
+                  {% for addon in collections['all'].products %}
+                    {% if addon.tags contains tag and counter < 4 and product.id != addon.id and addon.available %}
+                      {% assign counter = counter | plus: 1 %}
+                      <div class="add-ons-item" data-variant-id="{{ addon.variants.first.id }}">
+                        <div class="image"><img src="{{ addon | img_url: '150x' }}" alt="" /></div>
+                        <div class="desc">
+                          <div class="title">{{ addon.title }}</div>
+                          <div class="checkbox">
+                            <div class="price">+ {{ addon.price | money }}</div>
+                            <div class="bttn blue"><span></span><span></span></div>
+                            <div class="bttn green hidden">✓</div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+
+              {% if counter < 4 %}
+                {% assign max = 4 | minus: counter %}
+                <div class="debug max">{{ max }}</div>
+                {% for addon in collections['bestsellers'].products limit: max %}
+                  {% if addon.available %}
+                    {% assign counter = counter | plus: 1 %}
+                    <div class="add-ons-item" data-variant-id="{{ addon.variants.first.id }}">
+                      <div class="image"><img src="{{ addon | img_url: '150x' }}" alt="" /></div>
+                      <div class="desc">
+                        <div class="title">{{ addon.title }}</div>
+                        <div class="checkbox">
+                          <div class="price">+ {{ addon.price | money }}</div>
+                          <div class="bttn blue"><span></span><span></span></div>
+                          <div class="bttn green hidden">✓</div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="section">
           {% if settings.prod_show_sku and product.variants.first.sku != blank %}
-          <div class="space-under sku-row">{{ 'products.product.sku' | t }} <span id="sku">{{ product.variants.first.sku }}</span></div>
+            <div class="space-under sku-row">{{ 'products.product.sku' | t }} <span id="sku">{{ product.variants.first.sku }}</span></div>
           {% endif %}
 
           {% if product.available %}
             {% assign hide_default_title = false %}
             {% if product.variants.size == 1 %}
-            {% if product.variants.first.title contains 'Default' %}
-            {% assign hide_default_title = true %}
-            {% endif %}
-            {% unless settings.prod_singlevar_mode contains 'drop' %}
-            {% assign hide_default_title = true %}
-            {% endunless %}
+              {% if product.variants.first.title contains 'Default' %}
+                {% assign hide_default_title = true %}
+              {% endif %}
+              {% unless settings.prod_singlevar_mode contains 'drop' %}
+                {% assign hide_default_title = true %}
+              {% endunless %}
             {% endif %}
 
             {% unless product.variants.size != 1 or product.variants.first.title contains 'Default' %}
-            {% if settings.prod_singlevar_mode contains 'text' %}
-            <div class="variant-info">
-              {% for option in product.options %}
-              {% assign option_key = 'option' | append: forloop.index %}
-              <span class="option">{% if settings.prod_singlevar_mode contains 'withlabel' %}<span class="label">{{ option }}:</span>{% endif %} {{ product.variants.first[option_key] }}</span>{% unless forloop.last %},{% endunless %}
-              {% endfor %}
-            </div>
-            {% endif %}
+              {% if settings.prod_singlevar_mode contains 'text' %}
+                <div class="variant-info">
+                  {% for option in product.options %}
+                    {% assign option_key = 'option' | append: forloop.index %}
+                    <span class="option">{% if settings.prod_singlevar_mode contains 'withlabel' %}<span class="label">{{ option }}:</span>{% endif %} {{ product.variants.first[option_key] }}</span>{% unless forloop.last %},{% endunless %}
+                  {% endfor %}
+                </div>
+              {% endif %}
             {% endunless %}
 
 
             <div id="product-variants" class="{% if hide_default_title %} hidden{% endif %}">
               <select id="product-select" name="id" class="hidden">
                 {% for variant in product.variants %}
-                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                  <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
                 {% endfor %}
               </select>
             </div>
 
 
-            
-			<div class="js-btn-daddy">
-            <button name="add" class="buy-now" id="add">{{ 'products.product.add_to_cart_html' | t }}</button>
+
+            <div class="js-btn-daddy">
+              <button name="add" class="add-to-cart buy-now" id="add" data-variant-id="{{ product.variants.first.id }}">{{ 'products.product.add_to_cart_html' | t }}</button>
             </div>
 
             <div id="backorder" class="hidden" style="padding-top:50px;">
@@ -131,276 +168,259 @@
             </div>
           {% else %}
 
-          <div class="rte">
-            <a href="javascript:void(0)" style="text-align:center" class="back-in-stock add-to-cart notify button button--black-gradient cart-btn cart-btn-desktop unavailable"> {{'products.product.product_unavailable_html' | t }}</a>
-          </div>
+            <div class="rte">
+              <a href="javascript:void(0)" style="text-align:center" class="back-in-stock add-to-cart notify button button--black-gradient cart-btn cart-btn-desktop unavailable"> {{'products.product.product_unavailable_html' | t }}</a>
+            </div>
           {% endif %}
-
         </div>
-        </form>
-        <div class="child column two-thirds">
-          {% unless settings.prod_desc_loc == 'under' %}
+        <div class="banner-high-quality visible-desktop">
+          <svg id="icon-high-quality" data-name="High quality" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.06 35.03">
+            <title>icon-high-quality</title>
+            <path class="cls-1" d="M519.74,997.14l-.14,0a.45.45,0,0,1-.27-.28l-1.6-4.81-1.81,4.83a.43.43,0,0,1-.27.26l-.13,0a.44.44,0,0,1-.24-.07l-4-2.66-4.9,1.48a.44.44,0,0,1-.61-.55l4.37-10.73,0-.13a1.33,1.33,0,0,0-.27-.45,3.1,3.1,0,0,0-1.18-.52,2.09,2.09,0,0,1-1.82-3.11,3.11,3.11,0,0,0,.14-1.32,3,3,0,0,0-.74-1,2.15,2.15,0,0,1,0-3.68,3,3,0,0,0,.75-1,3.07,3.07,0,0,0-.14-1.3,2.1,2.1,0,0,1,1.8-3.12,3.09,3.09,0,0,0,1.19-.52,3,3,0,0,0,.52-1.17,2.91,2.91,0,0,1,1.06-1.81,1.65,1.65,0,0,1,.84-.21,5.51,5.51,0,0,1,1.21.19,5.05,5.05,0,0,0,1,.17,1,1,0,0,0,.29,0,3,3,0,0,0,1-.74,2.15,2.15,0,0,1,3.68,0,3,3,0,0,0,1,.75,1.06,1.06,0,0,0,.28,0,4.92,4.92,0,0,0,1-.17,5.59,5.59,0,0,1,1.22-.19,1.64,1.64,0,0,1,.85.21,2.88,2.88,0,0,1,1.05,1.79,3,3,0,0,0,.52,1.19,3.11,3.11,0,0,0,1.18.52,2.88,2.88,0,0,1,1.8,1.05,2.85,2.85,0,0,1,0,2.05,3.09,3.09,0,0,0-.14,1.32,3,3,0,0,0,.74,1,2.15,2.15,0,0,1,0,3.68,3,3,0,0,0-.75,1,3.06,3.06,0,0,0,.14,1.31,2.1,2.1,0,0,1-1.81,3.11,3.1,3.1,0,0,0-1.19.52,1.4,1.4,0,0,0-.27.45l0,.08,4.35,10.77a.43.43,0,0,1-.4.6.43.43,0,0,1-.2,0L524,994.4,520,997.07A.43.43,0,0,1,519.74,997.14Z" transform="translate(-503.26 -962.11)" />
+            <path class="cls-2" d="M511.26,993.44a.45.45,0,0,1,.25.07l3.78,2.52,1.93-5.14.07-.12-.78-2.41v-.07l-.07-.12c-.23-.19-.44-.37-.63-.55a3,3,0,0,0-1-.75,1.09,1.09,0,0,0-.29,0,4.76,4.76,0,0,0-1,.16,5.62,5.62,0,0,1-1.25.2,1.65,1.65,0,0,1-.85-.21,1.66,1.66,0,0,1-.59-.63l-.28-.47L507,994.55l4-1.05A.46.46,0,0,1,511.26,993.44Z" transform="translate(-503.26 -962.11)" />
+            <path class="cls-2" d="M520.76,986.85a1.07,1.07,0,0,0-.28,0,3,3,0,0,0-1,.74,3.26,3.26,0,0,1-1.62,1l-.32,0L520,996l3.76-2.51a.43.43,0,0,1,.24-.07.44.44,0,0,1,.19,0l4,1-3.49-8.64-.28.47a1.5,1.5,0,0,1-1.43.83,5.48,5.48,0,0,1-1.21-.19A5.05,5.05,0,0,0,520.76,986.85Z" transform="translate(-503.26 -962.11)" />
+            <path class="cls-1" d="M517.79,962.11a4.5,4.5,0,0,0-3.07,1.54l-.34.31-.47-.1a7.18,7.18,0,0,0-1.65-.24,3.4,3.4,0,0,0-1.72.44,4.43,4.43,0,0,0-1.87,2.84c-.07.22-.11.37-.15.46l-.45.14a4.5,4.5,0,0,0-2.85,1.87,4.39,4.39,0,0,0-.2,3.38c.05.23.08.38.1.48l-.31.34a3.83,3.83,0,0,0,0,6.14l.31.34c0,.11-.05.26-.11.49a3.78,3.78,0,0,0,3,5.24l.46.15c0,.1.08.24.15.46a4.42,4.42,0,0,0,1.85,2.82,3.34,3.34,0,0,0,1.75.45,7.27,7.27,0,0,0,1.65-.24l.48-.1.34.31a3.83,3.83,0,0,0,6.14,0l.34-.31.47.1a7.23,7.23,0,0,0,1.66.24,3.37,3.37,0,0,0,1.73-.44,4.41,4.41,0,0,0,1.86-2.83c.07-.22.12-.37.15-.47l.46-.15a3.78,3.78,0,0,0,3-5.24c-.05-.23-.08-.38-.1-.48l.31-.34a3.84,3.84,0,0,0,0-6.14l-.31-.34c0-.1.05-.26.1-.48a3.78,3.78,0,0,0-3-5.25l-.46-.15c0-.1-.08-.24-.15-.46a4.43,4.43,0,0,0-1.86-2.83,3.34,3.34,0,0,0-1.74-.45,7.23,7.23,0,0,0-1.65.24l-.48.1-.34-.31a4.52,4.52,0,0,0-3.07-1.54Z" transform="translate(-503.26 -962.11)" />
+            <path class="cls-2" d="M517.79,963a3.7,3.7,0,0,1,2.48,1.3,4.28,4.28,0,0,0,.68.57H521a4.7,4.7,0,0,0,.85-.15,6.46,6.46,0,0,1,1.45-.22,2.52,2.52,0,0,1,1.31.34,3.62,3.62,0,0,1,1.47,2.34,4.25,4.25,0,0,0,.32.85,4,4,0,0,0,.86.32,3,3,0,0,1,2.46,4.23,4,4,0,0,0-.15.93,4.7,4.7,0,0,0,.56.68,3,3,0,0,1,0,5,4.38,4.38,0,0,0-.57.68,4,4,0,0,0,.15.92,3,3,0,0,1-2.46,4.23,4,4,0,0,0-.86.32,4.25,4.25,0,0,0-.32.86,3.62,3.62,0,0,1-1.47,2.33,2.55,2.55,0,0,1-1.31.33,6.46,6.46,0,0,1-1.46-.22,4.72,4.72,0,0,0-.85-.15h-.07a4.55,4.55,0,0,0-.67.56,3,3,0,0,1-5,0,4.18,4.18,0,0,0-.68-.57h-.07a4.84,4.84,0,0,0-.85.15,6.42,6.42,0,0,1-1.45.22,2.52,2.52,0,0,1-1.32-.34,3.62,3.62,0,0,1-1.46-2.33,4.17,4.17,0,0,0-.32-.86,4.11,4.11,0,0,0-.85-.32,3,3,0,0,1-2.46-4.23,4,4,0,0,0,.15-.93,4.62,4.62,0,0,0-.56-.68,3,3,0,0,1,0-5,4.42,4.42,0,0,0,.57-.68,3.93,3.93,0,0,0-.15-.92,3.6,3.6,0,0,1,.11-2.75,3.68,3.68,0,0,1,2.35-1.48,4,4,0,0,0,.86-.33,4.25,4.25,0,0,0,.32-.85,3.63,3.63,0,0,1,1.48-2.35,2.57,2.57,0,0,1,1.3-.33,6.43,6.43,0,0,1,1.46.22,4.7,4.7,0,0,0,.85.15h.07a4.54,4.54,0,0,0,.68-.56,3.68,3.68,0,0,1,2.48-1.3" transform="translate(-503.26 -962.11)" />
+            <path class="cls-1" d="M519.75,982.39q-.39,0-.83,0h-.34a25.1,25.1,0,0,1-2.91-.18l-.52-.06a1.14,1.14,0,0,1-.62.18H513a1.14,1.14,0,0,1-1.14-1.14v-4a1.14,1.14,0,0,1,1.14-1.14h1.49a1.12,1.12,0,0,1,.42.08,2.71,2.71,0,0,1,.45-.64l.06-.05a10.66,10.66,0,0,0,1.94-3.51,1.61,1.61,0,0,1,.23-1.2.74.74,0,0,1,.57-.26,1.68,1.68,0,0,1,1.34.66,2.72,2.72,0,0,1,.08,2.48,5.65,5.65,0,0,0-.29,1.22l.23,0a7.73,7.73,0,0,1,1.22-.16h.29a2.56,2.56,0,0,1,1.75.51,1.43,1.43,0,0,1,.37,1.57,1.6,1.6,0,0,1,.3.85,1.54,1.54,0,0,1-.32,1,1.72,1.72,0,0,1,.08.46,1.68,1.68,0,0,1-.55,1.32,1.6,1.6,0,0,1-.19.95,2.24,2.24,0,0,1-1.6,1A5.62,5.62,0,0,1,519.75,982.39Zm-.78-.95c.29,0,.55,0,.79,0a4.63,4.63,0,0,0,1-.09,1.41,1.41,0,0,0,1-.56.73.73,0,0,0,.06-.53.46.46,0,0,1,.16-.51.85.85,0,0,0,.41-.74.89.89,0,0,0-.1-.35h0a.45.45,0,0,1,.06-.55.67.67,0,0,0,0-1,.45.45,0,0,1-.08-.59.57.57,0,0,0-.06-.73,1.86,1.86,0,0,0-1.16-.27,6.45,6.45,0,0,0-1.28.14l-.45.09a.66.66,0,0,1-.22,0,.63.63,0,0,1-.43-.16c-.37-.33-.35-1,.08-2.32a2,2,0,0,0,0-1.66.72.72,0,0,0-.5-.27,1.91,1.91,0,0,0,0,.55.44.44,0,0,1,0,.23c-.12.32-1.17,3.12-2.25,4a1.87,1.87,0,0,0-.4.74,1.15,1.15,0,0,1,0,.3v4s0,.07,0,.1h.12a24.73,24.73,0,0,0,2.8.18H519ZM513,977a.23.23,0,0,0-.23.23v4a.23.23,0,0,0,.2.23h1.52a.23.23,0,0,0,.23-.23v-4a.23.23,0,0,0-.23-.23Z" transform="translate(-503.26 -962.11)" />
+            <path class="cls-1" d="M523,978.53a1.45,1.45,0,0,0,.34-1,1.48,1.48,0,0,0-.32-.84,1.3,1.3,0,0,0-.31-1.5,2.68,2.68,0,0,0-2-.47,7.62,7.62,0,0,0-1.2.15h0l-.38.08a4.21,4.21,0,0,1,.3-1.42,2.61,2.61,0,0,0-.06-2.37,1.55,1.55,0,0,0-1.24-.6.61.61,0,0,0-.47.21,1.64,1.64,0,0,0-.2,1.16c-.32.86-1.22,3-2,3.57l0,0a2.58,2.58,0,0,0-.48.72,1,1,0,0,0-.48-.12H513a1,1,0,0,0-1,1v4a1,1,0,0,0,1,1h1.49a1,1,0,0,0,.58-.19l.57.07a24.73,24.73,0,0,0,3.25.18c.29,0,.56,0,.82,0a5.45,5.45,0,0,0,1.13-.1,2.12,2.12,0,0,0,1.51-.94,1.48,1.48,0,0,0,.17-.93,1.56,1.56,0,0,0,.55-1.27A1.65,1.65,0,0,0,523,978.53Zm-10,3a.36.36,0,0,1-.36-.36v-4a.36.36,0,0,1,.36-.36h1.49a.36.36,0,0,1,.36.36v4a.36.36,0,0,1-.36.36H513Zm9.36-3.26a.33.33,0,0,0,0,.4,1,1,0,0,1,.11.41,1,1,0,0,1-.46.84.33.33,0,0,0-.11.38.87.87,0,0,1-.07.63,1.53,1.53,0,0,1-1.08.62,6.42,6.42,0,0,1-1.78.05h0a24.18,24.18,0,0,1-3.17-.17h0l-.25,0a1.1,1.1,0,0,0,0-.21v-4a1,1,0,0,0,0-.3,2,2,0,0,1,.45-.84c1.09-.87,2.17-3.8,2.21-3.92a.31.31,0,0,0,0-.16,1.53,1.53,0,0,1,0-.71.87.87,0,0,1,.69.33,2.07,2.07,0,0,1,0,1.77c-.41,1.24-.44,1.89-.12,2.18a.53.53,0,0,0,.53.09l.42-.09h0c.75-.16,2.09-.26,2.55.16a.7.7,0,0,1,.08.89.33.33,0,0,0,.06.42.92.92,0,0,1,.27.57A.91.91,0,0,1,522.39,978.25Z" transform="translate(-503.26 -962.11)" />
+            <path class="cls-1" d="M517.79,964.73c.4,0,.84.42,1.28.83a3.62,3.62,0,0,0,1.43,1,2,2,0,0,0,.53.07,5.69,5.69,0,0,0,1.26-.2,5.18,5.18,0,0,1,1-.17.82.82,0,0,1,.42.09c.31.18.47.64.68,1.33a2.66,2.66,0,0,0,2.36,2.36c.67.2,1.15.37,1.33.67a2.34,2.34,0,0,1-.08,1.47,3.79,3.79,0,0,0-.13,1.78,3.72,3.72,0,0,0,1,1.43c.48.51.83.91.83,1.28s-.42.84-.83,1.28a3.66,3.66,0,0,0-1,1.43,3.78,3.78,0,0,0,.13,1.78,2.32,2.32,0,0,1,.08,1.47c-.18.31-.66.47-1.33.67a3.69,3.69,0,0,0-1.59.76,3.76,3.76,0,0,0-.77,1.6c-.21.68-.36,1.14-.67,1.32a.83.83,0,0,1-.42.09,5.31,5.31,0,0,1-1.06-.17,5.65,5.65,0,0,0-1.25-.2,2.05,2.05,0,0,0-.53.07,3.69,3.69,0,0,0-1.43,1c-.43.41-.88.83-1.27.83s-.84-.42-1.28-.83a3.61,3.61,0,0,0-1.43-1,2,2,0,0,0-.52-.07,5.71,5.71,0,0,0-1.26.2,5.19,5.19,0,0,1-1,.17.8.8,0,0,1-.42-.09c-.31-.18-.47-.64-.67-1.33a2.66,2.66,0,0,0-2.36-2.36c-.67-.2-1.15-.37-1.33-.67a2.33,2.33,0,0,1,.08-1.47,3.77,3.77,0,0,0,.13-1.78,3.7,3.7,0,0,0-1-1.43c-.48-.51-.83-.91-.83-1.28s.42-.84.83-1.28a3.67,3.67,0,0,0,1-1.43,3.78,3.78,0,0,0-.13-1.78c-.16-.67-.25-1.17-.08-1.47s.64-.47,1.33-.67a3.72,3.72,0,0,0,1.59-.76,3.79,3.79,0,0,0,.76-1.6c.21-.68.37-1.15.67-1.33a.84.84,0,0,1,.41-.09,5.19,5.19,0,0,1,1.06.17,5.69,5.69,0,0,0,1.25.2,2.05,2.05,0,0,0,.53-.06,3.68,3.68,0,0,0,1.43-1c.51-.48.91-.83,1.28-.83m0-.85a2.94,2.94,0,0,0-1.86,1.06,3.18,3.18,0,0,1-1.07.78,1.24,1.24,0,0,1-.3,0,5.17,5.17,0,0,1-1.05-.17,5.76,5.76,0,0,0-1.25-.2,1.65,1.65,0,0,0-.83.2,2.87,2.87,0,0,0-1.07,1.82,3.3,3.3,0,0,1-.55,1.24,3.2,3.2,0,0,1-1.24.55,2.91,2.91,0,0,0-1.82,1.06,2.86,2.86,0,0,0,0,2.09,3.24,3.24,0,0,1,.14,1.37,3.14,3.14,0,0,1-.78,1.07,3,3,0,0,0-1.06,1.86,2.91,2.91,0,0,0,1.06,1.86,3.22,3.22,0,0,1,.78,1.07,3.27,3.27,0,0,1-.14,1.37,2.11,2.11,0,0,0,1.83,3.15,1.89,1.89,0,0,1,1.79,1.79,2.9,2.9,0,0,0,1.06,1.82,1.62,1.62,0,0,0,.84.21,5.72,5.72,0,0,0,1.24-.2,5.16,5.16,0,0,1,1.06-.17,1.14,1.14,0,0,1,.3,0,3.11,3.11,0,0,1,1.06.78,2.17,2.17,0,0,0,3.72,0,3.18,3.18,0,0,1,1.07-.78,1.21,1.21,0,0,1,.3,0,5.13,5.13,0,0,1,1,.17,5.86,5.86,0,0,0,1.26.2,1.64,1.64,0,0,0,.84-.21,2.89,2.89,0,0,0,1.06-1.81,3.27,3.27,0,0,1,.55-1.25,3.17,3.17,0,0,1,1.24-.55,2.9,2.9,0,0,0,1.82-1.06,2.86,2.86,0,0,0,0-2.09,3.28,3.28,0,0,1-.14-1.37,3.16,3.16,0,0,1,.78-1.07,3,3,0,0,0,1.06-1.86,2.9,2.9,0,0,0-1.06-1.86,3.19,3.19,0,0,1-.78-1.07,3.24,3.24,0,0,1,.14-1.37A2.11,2.11,0,0,0,527,969.2a3.19,3.19,0,0,1-1.24-.55,3.16,3.16,0,0,1-.55-1.23,2.9,2.9,0,0,0-1.06-1.82,1.64,1.64,0,0,0-.84-.21,5.66,5.66,0,0,0-1.24.2,5.22,5.22,0,0,1-1.07.17,1.23,1.23,0,0,1-.3,0,3.11,3.11,0,0,1-1.07-.78,3,3,0,0,0-1.86-1.06Z" transform="translate(-503.26 -962.11)" />
+          </svg>
+          <span>NEW Improved quality with <em>Double Seal Technology</em>.</span>
+        </div>
+      </form>
+    </div><!-- /.product-top-wrap -->
+
+    <div class="full product-details">
+      <div class="container parent">
+        <form id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}">
+          <h2 class="best-pool-brand">The <em>No.1</em> Pool Float Brand<span class="visible-desktop"> In The World!</span></h2>
           <div class="product-description rte" itemprop="description">{{ product.description }}</div>
-          <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
-		  
-          <div class="symbols mobile1">
+
+          {% assign info = product.metafields.info %}
+          {% assign small_1_image = info.small_1_image %}
+          {% assign small_1_text = info.small_1_text %}
+          {% assign small_2_image = info.small_2_image %}
+          {% assign small_2_text = info.small_2_text %}
+          {% assign small_3_image = info.small_3_image %}
+          {% assign small_3_text = info.small_3_text %}
+
+          <div class="info-sec-small visible-desktop">
             <ul>
-                {% unless product.handle == 'super-pump-2000' %}
-              <li><img class="icon" src="{{ 'icon-handmade.svg' | asset_url }}" ><span>Hand</span><span>made</span></li>
-                {% endunless %}
-              <li><img class="icon" src="{{ 'icon-high-quality.svg' | asset_url }}" ><span>High</span><span>quality</span></li>
-              <li><img class="icon" src="{{ 'icon-durable-materials.svg' | asset_url }}" ><span>Durable</span><span>materials</span></li>
-              <li><img class="icon" src="{{ 'icon-easy-setup.svg' | asset_url }}" ><span>Easy</span><span>setup</span></li>
-              <li><img class="icon" src="{{ 'icon-secure-checkout.svg' | asset_url }}" ><span>Secure</span><span>checkout</span></li>
-              <li><img class="icon" src="{{ 'icon-fast-shipping.svg' | asset_url }}" ><span>Fast</span><span>shipping</span></li>
-            </ul>
-          </div>
-        </div>
-      </div>  
-
-	  <div class="product-thamb1">
-        {% assign info = product.metafields.info %}
-        {% assign banner_desktop = info.banner_desktop %}
-        {% assign banner_mobile = info.banner_mobile %}
-
-      <div class="debug">
-        <div class="info">{{ info | json }}</div>
-        <div class="banner_desktop">{{ banner_desktop | json }}</div>
-        <div class="banner_mobile">{{ banner_mobile | json }}</div>
-      </div>
-
-          {% if banner_desktop != "blank" %}
-        <ul>
-          <li class="desktop-visible"><img src="{{ banner_desktop }}" title="{{ product.title | escape }}" /></li>
-        </ul>
-          {% endif %}
-          {% if banner_mobile != "blank" %}
-        <ul>
-          <li class="mobile-visible"><img src="{{ banner_mobile }}" title="{{ product.title | escape }}" /></li>
-        </ul>
-          {% endif %}
-
-      </div>	
-
-	  <div class="container parent">
-		<form id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}">
-        {% assign small_1_image = info.small_1_image %}
-        {% assign small_1_text = info.small_1_text %}
-        {% assign small_2_image = info.small_2_image %}
-        {% assign small_2_text = info.small_2_text %}
-        {% assign small_3_image = info.small_3_image %}
-        {% assign small_3_text = info.small_3_text %}
-        <div class="product-thamb">
-          <div class="row">
-          <div class="column flex fourth info-sec-small">
-            <ul>
-            	{% if small_1_image != blank and small_1_text != blank %}
+              {% if small_1_image != blank and small_1_text != blank %}
                 <li class="info-sec-small-1">
-                	<img src="{{ small_1_image }}" title="{{ small_1_text | escape }}" />
+                  <img src="{{ small_1_image }}" title="{{ small_1_text | escape }}" />
                     <span class="nn-secondary-middle">{{ small_1_text }}</span>
                 </li>
                 {% endif %}
                 {% if small_2_image != blank and small_2_text != blank %}
                 <li class="info-sec-small-2">
-                	<img src="{{ small_2_image }}" title="{{ small_2_text | escape }}" />
+                  <img src="{{ small_2_image }}" title="{{ small_2_text | escape }}" />
                     <span class="nn-secondary-middle">{{ small_2_text }}</span>
                 </li>
                 {% endif %}
                 {% if small_3_image != blank and small_3_text != blank %}
                 <li class="info-sec-small-3">
-                	<img src="{{ small_3_image }}" title="{{ small_3_text | escape }}" />
+                  <img src="{{ small_3_image }}" title="{{ small_3_text | escape }}" />
                     <span class="nn-secondary-middle">{{ small_3_text }}</span>
                 </li>
                 {% endif %}
             </ul>
           </div>
+
           {% assign large = info.large %}
           {% assign large_text = info.large_text %}
           {% if large != blank %}
-          <div class="column flex sixth info-sec-large">
-	          <img src="{{ info.large }}" title="{{ product.title | escape }}" />
-			  <span class="nn-secondary-middle">{{ smallarge_textl_3_text }}</span>
-          </div>
+            <div class="info-sec-large">
+              <img src="{{ info.large }}" title="{{ product.title | escape }}" />
+              <div class="p-info-note">
+                <span class="heading">Every purchase includes:</span>
+                <ul>
+                  <li><span>Giant Inflatable Floatie</span></li>
+                  <li><span>First Aid Patch Kit</span></li>
+                  <li><span>Floatie Carry Bag</span></li>
+                  <li><span>Floatiekings User Manual</span></li>
+                </ul>
+              </div>
+            </div>
           {% endif %}
-        </div>
-       </div>
-          <div class="border-bottom section padless-top cf product-title-row column">
-          <div class="product-title">
-            <h1 class="title" itemprop="name">
-              {% if product.title contains 'Aaron Kai' %}
-              {% assign title = product.title | split: ' ' %}
-              {% assign s =  title | size %}
-              <span style="font-weight:bold;">
-                Aaron Kai
-              </span>
-              {% for i in (2..s) %}
-              {{ title[i] }}
-              {% endfor %}
-              {% else %}
-              {% assign title = product.title | split: ' ' %}
-              {% assign s =  title | size %}
-              <span style="font-weight:bold;">
-                {{ title[0] }}
-              </span>
-              {% for i in (1..s) %}
-              {{ title[i] }}
-              {% endfor %}
+
+          <div class="symbols">
+              <ul>
+                <li class="visible-desktop">
+                  <svg id="icon-designed-la" data-name="Designed in L.A." xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 491.22">
+                    <title>icon-designed-la</title>
+                    <path class="cls-1" d="M382.51,354.62A129.49,129.49,0,1,0,279.72,146.39c-27.23,5.3-49,16.12-61.13,30.62a23.44,23.44,0,0,0-13.65-7.12l4.41-8.68,14.89.52a7.45,7.45,0,0,0,7.61-6l2.61-13,10.68.37h.26a7.49,7.49,0,0,0,7.35-6l3.63-18.2,17.24.6a7.44,7.44,0,0,0,7.61-6l3.51-17.55L302,96.4h.26a7.5,7.5,0,0,0,7.35-6l3.12-15.63,15.93.55h.26a7.5,7.5,0,0,0,7.35-6l2.61-13.06,15.26.53A7.58,7.58,0,0,0,359,55.14L373.4,43.75a16.59,16.59,0,0,0,6.46-13.25,13.7,13.7,0,0,0-5.73-10.94C346.27-.35,290.92,13,242.51,51.33c-25.36,20.09-44.21,43.16-54.78,65.12-6.72-15.28-18.37-31.18-33.49-45.06S122,47,105.83,41.61c-17.18-5.73-32.45-5.33-43,1.1a11.74,11.74,0,0,0-5.59,9,13.77,13.77,0,0,0,4.51,11.37L71,71.58a7.46,7.46,0,0,0,4.78,2l8.5.33L85.19,81a7.49,7.49,0,0,0,7.15,6.56l9,.35,1.1,8.89a7.51,7.51,0,0,0,7.15,6.57l9.86.38L120.67,114a7.49,7.49,0,0,0,7.15,6.57l9.85.38L139,131.6a7.5,7.5,0,0,0,7.15,6.57l5.35.21.89,7.1a7.49,7.49,0,0,0,7.26,6.57l18.37.45a48,48,0,0,0,3.78,20.62,23.31,23.31,0,0,0-19.53-2.33c-12.86-16.47-38.21-30.14-67.74-36.24-20-4.13-40.19-4.37-56.84-.69C20,137.77,7.11,146,1.35,156.89a11.76,11.76,0,0,0-.18,10.58,13.75,13.75,0,0,0,9.7,7.44l12.34,2.55a7.53,7.53,0,0,0,5.12-.76l7.46-4.09,4.41,5.64a7.48,7.48,0,0,0,9.51,2l7.86-4.3L63.08,183a7.5,7.5,0,0,0,9.51,2l8.65-4.74,6.35,8.13a7.48,7.48,0,0,0,9.51,2l8.65-4.73,6.62,8.48a7.5,7.5,0,0,0,9.51,2l4.7-2.57,4.4,5.64a7.5,7.5,0,0,0,9.51,2l6-3.29a23.56,23.56,0,0,0,12.41,16.33C147.54,244.53,138.63,285.25,136,329a7.55,7.55,0,0,0,7.54,8h.08a7.53,7.53,0,0,0,7.52-7.08c2.67-44,11.81-84.93,23-113.73a23.42,23.42,0,0,0,11.37-5.85A23.46,23.46,0,0,0,196,216c-11.7,48.84-9.39,111.48,6.15,165.54a25.46,25.46,0,0,0-3.4,30.8,346.07,346.07,0,0,0-43.11,6.06,347.82,347.82,0,0,1-4.84-45.51,7.55,7.55,0,0,0-15.08.66,367.74,367.74,0,0,0,5.3,48.25,275,275,0,0,0-34.44,11.29c-35.42,14.37-60.87,34.18-73.61,57.31a7.73,7.73,0,0,0-.65,6,7.52,7.52,0,0,0,7.15,5.23h378a7.79,7.79,0,0,0,5.63-2.3,7.5,7.5,0,0,0,1.17-8.81c-18-32.86-63.16-59.49-121.41-71.84a27.49,27.49,0,1,0-54.53-7c-1.79-.1-3.58-.17-5.38-.24a25.49,25.49,0,0,0-27.26-37.29c-14.46-52.47-16.07-112.67-4.05-158.69a7.21,7.21,0,0,0,.19-1.13,23.49,23.49,0,0,0,7.41-5.65l19.33-7.12L249.05,212a7.44,7.44,0,0,0,4.44,2.12c-.3,3.66-.47,7.32-.47,11A129.64,129.64,0,0,0,382.51,354.62Zm-216-217.41-.87-7a7.5,7.5,0,0,0-7.15-6.57l-5.35-.21-1.33-10.68a7.51,7.51,0,0,0-7.15-6.57l-9.85-.38-1.28-10.23A7.49,7.49,0,0,0,126.34,89l-9.85-.38-1.1-8.89a7.51,7.51,0,0,0-7.16-6.57l-9-.35-.88-7.1a7.5,7.5,0,0,0-7.15-6.56l-12.12-.48L74,54c14.51-5,43,3.61,70.11,28.48,18.83,17.3,31.89,38.29,34.57,55.08ZM149.7,180.54a7.4,7.4,0,0,0-4.54.85l-6.28,3.44-4.41-5.64a7.47,7.47,0,0,0-9.51-2l-4.69,2.56-6.63-8.48a7.51,7.51,0,0,0-9.51-2l-8.65,4.73L89.14,166a7.5,7.5,0,0,0-9.51-2L71,168.72l-5.52-7.06a7.51,7.51,0,0,0-9.51-2L48.09,164l-4.4-5.64a7.51,7.51,0,0,0-9.51-2l-10.64,5.82-6.83-1.42c9.86-11.77,38.77-19,74.78-11.56,25.67,5.3,48.13,17,58.75,30.5C150.05,180,149.88,180.27,149.7,180.54Zm19.82,21.09a8.5,8.5,0,1,1,8.5-8.5A8.5,8.5,0,0,1,169.52,201.63Zm24.27-56.88a7.85,7.85,0,0,0,.35-1.76c5.13-24.32,26.36-55.11,57.68-79.9,21.31-16.87,44.94-29.17,66.52-34.64a93.72,93.72,0,0,1,22.85-3.14c9.55,0,17.59,2,23.52,6a2.37,2.37,0,0,1-.62.71l-12.22,9.67L333,41a7.46,7.46,0,0,0-7.61,6l-2.61,13.05-15.92-.55a7.46,7.46,0,0,0-7.61,6l-3.12,15.62-17.24-.59a7.47,7.47,0,0,0-7.61,6l-3.5,17.55-17.24-.59a7.46,7.46,0,0,0-7.61,6l-3.64,18.2-10.68-.37a7.51,7.51,0,0,0-7.61,6l-2.6,13.05-13.3-.46a7.52,7.52,0,0,0-7,4.1l-4.79,9.44A44.94,44.94,0,0,1,193.79,144.75Zm81.73,257.87a12.5,12.5,0,1,1-12.5,12.5A12.51,12.51,0,0,1,275.52,402.62Zm-55-14a10.5,10.5,0,1,1-10.5,10.5A10.51,10.51,0,0,1,220.52,388.62Zm8,37.49c7.39,0,14.81.24,22.11.69a27.48,27.48,0,0,0,46,5.92c48.39,9.73,87,29.37,106.9,53.89h-350C82.76,450.48,151.79,426.11,228.52,426.11Zm-27-224.48a8.5,8.5,0,1,1,8.5-8.5A8.51,8.51,0,0,1,201.52,201.63Zm181-91A114.38,114.38,0,1,1,269.75,205.2l7.35,7.3a7.5,7.5,0,0,0,9.68.76l15-10.87,12.24,12.15a7.5,7.5,0,0,0,9.68.76l14.5-10.49L350.46,217a7.5,7.5,0,0,0,9.68.76l12.92-9.33,11.3,11.23a7.5,7.5,0,0,0,9.68.75l10.78-7.79,10.84,10.76a7.48,7.48,0,0,0,4.7,2.16l18.28,1.43q.69.06,1.38.06a16.48,16.48,0,0,0,12.37-5.39,13.74,13.74,0,0,0,3.24-11.92c-6.9-33.53-56.57-61.37-118.12-66.19a230.28,230.28,0,0,0-35.12-.1A114.93,114.93,0,0,1,382.51,110.64ZM245.66,187.5a7.53,7.53,0,0,0-7.88-1.72l-9.93,3.67c14.39-21.31,58.87-34.89,108.5-31,27.09,2.12,52.78,9.16,72.33,19.82,17.88,9.75,29.23,21.66,32.08,33.6a2.36,2.36,0,0,1-.95.11l-15.53-1.22-13.4-13.31a7.5,7.5,0,0,0-9.68-.76l-10.78,7.8-11.31-11.23a7.5,7.5,0,0,0-9.68-.76l-12.91,9.33-12.23-12.15a7.5,7.5,0,0,0-9.68-.76L320.1,199.41l-12.23-12.15a7.5,7.5,0,0,0-9.68-.76l-15,10.87-7.58-7.53a7.5,7.5,0,0,0-9.68-.76l-10.78,7.8Z" transform="translate(0 -10.39)" />
+                  </svg>
+                  <span>Designed</span><span>in L.A.</span>
+                </li>
+                <li class="visible-desktop">
+                  <svg id="icon-durable-materials" data-name="Durable materials" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.73 33.11">
+                    <title>icon-durable-materials</title>
+                    <path class="cls-1" d="M475.93,944.51a.5.5,0,0,1-.09-1L487,941.4a.5.5,0,1,1,.19,1L476,944.5Z" transform="translate(-473.29 -938.8)" />
+                    <path class="cls-1" d="M497.18,944.64h-.11l-10.12-2.25a.5.5,0,1,1,.22-1l10.13,2.25a.5.5,0,0,1-.11,1Z" transform="translate(-473.29 -938.8)" />
+                    <path class="cls-1" d="M498.1,941.12l-10.25-2.2a5.63,5.63,0,0,0-2.38,0l-10.25,2.2a2.45,2.45,0,0,0-1.93,2.38v12.33c0,9.37,9.26,14.45,12.1,15.79a3,3,0,0,0,2.53,0,26.17,26.17,0,0,0,7.8-5.59,14.76,14.76,0,0,0,4.3-10.2V943.5A2.45,2.45,0,0,0,498.1,941.12Zm-10.62,29.56a1.93,1.93,0,0,1-1.65,0,25.08,25.08,0,0,1-7.49-5.36,13.75,13.75,0,0,1-4-9.5V943.5a1.41,1.41,0,0,1,1.11-1.37l10.25-2.2a4.65,4.65,0,0,1,1.94,0l10.25,2.2A1.41,1.41,0,0,1,499,943.5v12.33h0C499,964.59,490.19,969.42,487.49,970.69Z" transform="translate(-473.29 -938.8)" />
+                    <circle class="cls-2" cx="13.38" cy="16.23" r="7.44" />
+                    <path class="cls-1" d="M486.67,962.94a7.92,7.92,0,1,1,7.92-7.92A7.93,7.93,0,0,1,486.67,962.94Zm0-14.88a7,7,0,1,0,7,7A7,7,0,0,0,486.67,948.06Z" transform="translate(-473.29 -938.8)" />
+                    <path class="cls-1" d="M487.2,958.48a.61.61,0,0,1-.87,0l-4.14-4.12a.61.61,0,0,1,0-.87h0a.61.61,0,0,1,.87,0l4.14,4.12a.61.61,0,0,1,0,.87Z" transform="translate(-473.29 -938.8)" />
+                    <path class="cls-1" d="M486.45,958.42a.61.61,0,0,1,0-.86l8.48-8.48a.61.61,0,0,1,.87,0h0a.61.61,0,0,1,0,.86l-8.48,8.48a.61.61,0,0,1-.87,0Z" transform="translate(-473.29 -938.8)" />
+                  </svg>
+                  <span>Durable</span><span>materials</span>
+                </li>
+                <li>
+                  <svg id="icon-easy-setup" data-name="Easy setup" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.06 33.04">
+                    <title>icon-easy-setup</title>
+                    <path class="cls-1" d="M517.88,865.48a2,2,0,0,0,1.43-.8l5.15-7.13a.55.55,0,0,0-.77-.77l-7.13,5.16a2,2,0,0,0,1.15,3.55Zm-1-2a.85.85,0,0,1,.35-.63l4.35-3.15L518.43,864a.86.86,0,0,1-1.55-.57Z" transform="translate(-501.45 -844.57)" />
+                    <path class="cls-1" d="M530.22,855.34v0l0,0a14.88,14.88,0,0,0-2-2.65l1.18-1.18.78.78,2.34-2.34-2.34-2.33-2.34,2.33.78.78-1.18,1.18a14.88,14.88,0,0,0-2.65-2l0,0h0a14.74,14.74,0,0,0-5.66-1.87v-.66h.83a1.38,1.38,0,1,0,0-2.75h-5a1.38,1.38,0,0,0,0,2.75h.83V848a15.14,15.14,0,0,0-1.78.29.55.55,0,0,0,.25,1.07,14.19,14.19,0,0,1,1.53-.26l.59,0,.51,0v1.09a.55.55,0,1,0,1.1,0V849a13.63,13.63,0,0,1,5.76,1.57l-.54.94a.55.55,0,0,0,.2.75.54.54,0,0,0,.28.07.55.55,0,0,0,.48-.28l.54-.94a13.87,13.87,0,0,1,4.28,4.28l-.94.54a.55.55,0,0,0,.55,1l.94-.54a13.67,13.67,0,0,1,1.57,5.85H530a.55.55,0,1,0,0,1.1h1.09a13.66,13.66,0,0,1-1.57,5.85l-.94-.54a.55.55,0,1,0-.55,1l.94.54a13.9,13.9,0,0,1-4.28,4.28l-.54-.94a.55.55,0,0,0-1,.55l.54.94a13.67,13.67,0,0,1-5.76,1.57V875.4a.55.55,0,1,0-1.1,0v1.09a14.09,14.09,0,0,1-2.63-.34.55.55,0,0,0-.25,1.07,14.89,14.89,0,0,0,3.34.38h.1a14.75,14.75,0,0,0,7.28-2l.05,0,0,0a15,15,0,0,0,5.38-5.37l0,0v0a14.81,14.81,0,0,0,0-14.8Zm0-6.23.78.78-.78.78-.78-.78Zm-13.31-1.23v-1.66h-1.93a.28.28,0,0,1,0-.55h5a.28.28,0,0,1,0,.55H518v1.66h-1.1Z" transform="translate(-501.45 -844.57)" />
+                    <path class="cls-1" d="M512.46,852.27h-2.75a.55.55,0,1,0,0,1.1h2.75a.55.55,0,1,0,0-1.1Z" transform="translate(-501.45 -844.57)" />
+                    <path class="cls-1" d="M512.46,856.13H507a.55.55,0,0,0,0,1.1h5.51a.55.55,0,1,0,0-1.1Z" transform="translate(-501.45 -844.57)" />
+                    <path class="cls-1" d="M512.46,860h-8.26a.55.55,0,0,0,0,1.1h8.26a.55.55,0,0,0,0-1.1Z" transform="translate(-501.45 -844.57)" />
+                    <path class="cls-1" d="M512.46,863.84H502a.55.55,0,1,0,0,1.1h10.46a.55.55,0,1,0,0-1.1Z" transform="translate(-501.45 -844.57)" />
+                    <path class="cls-1" d="M512.46,867.69h-7.16a.55.55,0,1,0,0,1.1h7.16a.55.55,0,1,0,0-1.1Z" transform="translate(-501.45 -844.57)" />
+                    <path class="cls-1" d="M512.46,871.55h-3.85a.55.55,0,0,0,0,1.1h3.85a.55.55,0,0,0,0-1.1Z" transform="translate(-501.45 -844.57)" />
+                  </svg>
+                  <span>Easy</span><span>setup</span>
+                </li>
+                <li class="visible-desktop">
+                  <svg id="icon-secure-checkout" data-name="Secure checkout" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2970 2320">
+                    <title>icon-secure-checkout</title>
+                    <path class="cls-1" d="M1200,1460c-74.44,0-135-60.56-135-135V1025c0-74.44,60.56-135,135-135h65V825c0-129.58,105.42-235,235-235s235,105.42,235,235l-.05,29.67q0,4.92,0,9.93c0,3.44,0,6.92,0,10.4v15H1800c74.44,0,135,60.56,135,135v300c0,74.44-60.56,135-135,135Zm0-500a65.07,65.07,0,0,0-65,65v300a65.07,65.07,0,0,0,65,65h600a65.07,65.07,0,0,0,65-65V1025a65.07,65.07,0,0,0-65-65Zm300-300c-91,0-165,74-165,165v65h329.89V875c0-6.8,0-13.84.05-20.43L1665,825C1665,734,1591,660,1500,660Z" transform="translate(-15 -340)" />
+                    <path class="cls-1" d="M1500,1260a35,35,0,0,1-35-35v-65h-15a35,35,0,1,1,0-70h100a35,35,0,0,1,0,70h-15v65A35,35,0,0,1,1500,1260Z" transform="translate(-15 -340)" />
+                    <path class="cls-1" d="M150,2660c-74.44,0-135-60.56-135-135V825c0-74.44,60.56-135,135-135H875l4.42-7a743.9,743.9,0,0,1,261.33-248.7,730.33,730.33,0,0,1,718.59,0A743.88,743.88,0,0,1,2120.63,683l4.42,7h725c74.44,0,135,60.56,135,135V2525c0,74.44-60.56,135-135,135ZM85,2525a65.07,65.07,0,0,0,65,65H2850a65.07,65.07,0,0,0,65-65V1410H2153.78l-4.23,8A740.62,740.62,0,0,1,1884,1701.33a732.69,732.69,0,0,1-767.94,0A740.91,740.91,0,0,1,850.45,1418l-4.23-8H85ZM1500,410c-366.68,0-665,298.32-665,665s298.32,665,665,665,665-298.32,665-665S1866.68,410,1500,410Zm732.48,616q.32,4.84.67,9.66c1,13.49,1.85,26.23,1.85,39.34,0,82.36-14.43,164.79-42.89,245l-7.1,20h730V1010H2231.42ZM85,1025v315H815l-7.1-20c-28.46-80.2-42.89-162.62-42.89-245,0-13.11.9-25.85,1.85-39.34q.34-4.83.67-9.66l1.06-16H85ZM2173.22,781a729,729,0,0,1,47,147l2.45,12H2915V825a65.07,65.07,0,0,0-65-65H2164ZM150,760a65.07,65.07,0,0,0-65,65V940H777.36l2.45-12a731.67,731.67,0,0,1,47-147L836,760Z" transform="translate(-15 -340)" />
+                    <path class="cls-1" d="M2500,2410a233.14,233.14,0,0,1-89.23-17.71,235.63,235.63,0,0,1-75.29-49.56L2325,2332.48l-10.48,10.24a235.67,235.67,0,0,1-75.29,49.56A233.13,233.13,0,0,1,2150,2410c-129.58,0-235-105.42-235-235s105.42-235,235-235a233.14,233.14,0,0,1,89.23,17.71,235.63,235.63,0,0,1,75.29,49.56l10.48,10.25,10.48-10.24a235.67,235.67,0,0,1,75.29-49.56A233.13,233.13,0,0,1,2500,1940c129.58,0,235,105.42,235,235S2629.58,2410,2500,2410Zm-176.75-170c13.5,0,28,7.5,33.76,17.45A165.75,165.75,0,0,0,2500,2340c91,0,165.05-74,165.05-165s-74-165-165-165a165.66,165.66,0,0,0-143,82.49,34.6,34.6,0,0,1-29.85,17.52c-.75,0-1.5,0-2.25-.08l-.47,0H2324c-12.8-.08-25-6.93-31.1-17.46A165.75,165.75,0,0,0,2150,2010c-91,0-165,74-165,165s74,165,165,165a165.61,165.61,0,0,0,142.93-82.49,35.16,35.16,0,0,1,29.73-17.51Z" transform="translate(-15 -340)" />
+                    <path class="cls-1" d="M1150,2310a35,35,0,0,1-35-35V2075a35,35,0,0,1,35-35h500a35,35,0,0,1,35,35v200a35,35,0,0,1-35,35Zm35-70h430V2110H1185Z" transform="translate(-15 -340)" />
+                    <path class="cls-1" d="M350,2310a35,35,0,0,1-35-35V2075a35,35,0,0,1,35-35H850a35,35,0,0,1,35,35v200a35,35,0,0,1-35,35Zm35-70H815V2110H385Z" transform="translate(-15 -340)" />
+                  </svg>
+                  <span>Secure</span><span>checkout</span>
+                </li>
+                <li>
+                  <svg id="icon-fast-shipping" data-name="Fast shipping" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2958 2003.2">
+                    <title>icon-fast-shipping</title>
+                    <path class="cls-1" d="M2452.66,2501.6c-67.32,0-131.53-26.51-180.8-74.66a254.53,254.53,0,0,1-56.18-82.47,248.06,248.06,0,0,1-19.35-96.77c0-66.87,26.89-130.59,75.71-179.41,48.6-48,112.75-74.48,180.63-74.48,138.65,0,251.45,113.9,251.45,253.89S2591.31,2501.6,2452.66,2501.6Zm0-427.61c-46.33,0-90.34,18.2-123.92,51.23s-52.24,76.64-52.24,122.48,18.55,89.34,52.24,122.48,77.59,51.23,123.92,51.23c94.44,0,171.28-77.93,171.28-173.72S2547.1,2074,2452.66,2074ZM960.9,2501.6c-67.32,0-131.53-26.51-180.8-74.66a254.52,254.52,0,0,1-56.18-82.47,248,248,0,0,1-19.35-96.77c0-66.87,26.89-130.59,75.71-179.41,48.59-48,112.75-74.48,180.63-74.48,138.65,0,251.45,113.9,251.45,253.89S1099.55,2501.6,960.9,2501.6Zm0-427.61c-46.33,0-90.34,18.2-123.92,51.23s-52.24,76.64-52.24,122.48,18.55,89.34,52.24,122.48,77.59,51.23,123.92,51.23c94.44,0,171.28-77.93,171.28-173.72S1055.35,2074,960.9,2074Zm403.18,75.14a40.09,40.09,0,0,1,0-80.18H1886V578.57H409.67V985.64a40.09,40.09,0,1,1-80.17,0V538.49a40.13,40.13,0,0,1,40.09-40.09h1555.9a40.13,40.13,0,0,1,40.09,40.09V779.4h535.36a39,39,0,0,1,25.65,9.18L2964,1150.87c9,7.44,14.47,19,15,31.81l-4.88,925.65c0,21.83-18,39.59-40.09,39.59H2810a40.09,40.09,0,1,1,0-80.17h84.42l4.43-867.12-411.77-341H1966.17V2069H2110a40.09,40.09,0,1,1,0,80.18Zm-994.5,0A40.13,40.13,0,0,1,329.49,2109V1885.46a40.09,40.09,0,0,1,80.17,0V2069H553.45a40.09,40.09,0,0,1,0,80.18Zm-308.49-394a40.09,40.09,0,1,1,0-80.17h741a40.09,40.09,0,1,1,0,80.17Zm2108.12-111.79a40.13,40.13,0,0,1-40.09-40.09V1102.32a40.13,40.13,0,0,1,40.09-40.09h313.38a38.3,38.3,0,0,1,26.51,10.15l.3.28,183.94,165.6a40,40,0,0,1,13.21,29.6v335.37a40.13,40.13,0,0,1-40.09,40.09Zm40.09-80.17h417.08V1285.39L2466.82,1141.8H2209.3ZM185.22,1473.5a39.5,39.5,0,0,1-39.6-40.32v-.32c0-21.81,18-39.53,40.09-39.53h.61l740.87,4.27a39.5,39.5,0,0,1,39.6,40.32,40.86,40.86,0,0,1-40.65,39.85h0Zm124.5-277.34a40.09,40.09,0,0,1,0-80.17h741a40.09,40.09,0,0,1,0,80.17Z" transform="translate(-21 -498.4)" />
+                  </svg>
+                  <span>3-4 days</span><span>fast shipping</span>
+                </li>
+                <li class="visible-mobile">
+                  <svg id="icon-high-quality" data-name="High quality" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.06 35.03">
+                    <title>icon-high-quality</title>
+                    <path class="cls-1" d="M519.74,997.14l-.14,0a.45.45,0,0,1-.27-.28l-1.6-4.81-1.81,4.83a.43.43,0,0,1-.27.26l-.13,0a.44.44,0,0,1-.24-.07l-4-2.66-4.9,1.48a.44.44,0,0,1-.61-.55l4.37-10.73,0-.13a1.33,1.33,0,0,0-.27-.45,3.1,3.1,0,0,0-1.18-.52,2.09,2.09,0,0,1-1.82-3.11,3.11,3.11,0,0,0,.14-1.32,3,3,0,0,0-.74-1,2.15,2.15,0,0,1,0-3.68,3,3,0,0,0,.75-1,3.07,3.07,0,0,0-.14-1.3,2.1,2.1,0,0,1,1.8-3.12,3.09,3.09,0,0,0,1.19-.52,3,3,0,0,0,.52-1.17,2.91,2.91,0,0,1,1.06-1.81,1.65,1.65,0,0,1,.84-.21,5.51,5.51,0,0,1,1.21.19,5.05,5.05,0,0,0,1,.17,1,1,0,0,0,.29,0,3,3,0,0,0,1-.74,2.15,2.15,0,0,1,3.68,0,3,3,0,0,0,1,.75,1.06,1.06,0,0,0,.28,0,4.92,4.92,0,0,0,1-.17,5.59,5.59,0,0,1,1.22-.19,1.64,1.64,0,0,1,.85.21,2.88,2.88,0,0,1,1.05,1.79,3,3,0,0,0,.52,1.19,3.11,3.11,0,0,0,1.18.52,2.88,2.88,0,0,1,1.8,1.05,2.85,2.85,0,0,1,0,2.05,3.09,3.09,0,0,0-.14,1.32,3,3,0,0,0,.74,1,2.15,2.15,0,0,1,0,3.68,3,3,0,0,0-.75,1,3.06,3.06,0,0,0,.14,1.31,2.1,2.1,0,0,1-1.81,3.11,3.1,3.1,0,0,0-1.19.52,1.4,1.4,0,0,0-.27.45l0,.08,4.35,10.77a.43.43,0,0,1-.4.6.43.43,0,0,1-.2,0L524,994.4,520,997.07A.43.43,0,0,1,519.74,997.14Z" transform="translate(-503.26 -962.11)" />
+                    <path class="cls-2" d="M511.26,993.44a.45.45,0,0,1,.25.07l3.78,2.52,1.93-5.14.07-.12-.78-2.41v-.07l-.07-.12c-.23-.19-.44-.37-.63-.55a3,3,0,0,0-1-.75,1.09,1.09,0,0,0-.29,0,4.76,4.76,0,0,0-1,.16,5.62,5.62,0,0,1-1.25.2,1.65,1.65,0,0,1-.85-.21,1.66,1.66,0,0,1-.59-.63l-.28-.47L507,994.55l4-1.05A.46.46,0,0,1,511.26,993.44Z" transform="translate(-503.26 -962.11)" />
+                    <path class="cls-2" d="M520.76,986.85a1.07,1.07,0,0,0-.28,0,3,3,0,0,0-1,.74,3.26,3.26,0,0,1-1.62,1l-.32,0L520,996l3.76-2.51a.43.43,0,0,1,.24-.07.44.44,0,0,1,.19,0l4,1-3.49-8.64-.28.47a1.5,1.5,0,0,1-1.43.83,5.48,5.48,0,0,1-1.21-.19A5.05,5.05,0,0,0,520.76,986.85Z" transform="translate(-503.26 -962.11)" />
+                    <path class="cls-1" d="M517.79,962.11a4.5,4.5,0,0,0-3.07,1.54l-.34.31-.47-.1a7.18,7.18,0,0,0-1.65-.24,3.4,3.4,0,0,0-1.72.44,4.43,4.43,0,0,0-1.87,2.84c-.07.22-.11.37-.15.46l-.45.14a4.5,4.5,0,0,0-2.85,1.87,4.39,4.39,0,0,0-.2,3.38c.05.23.08.38.1.48l-.31.34a3.83,3.83,0,0,0,0,6.14l.31.34c0,.11-.05.26-.11.49a3.78,3.78,0,0,0,3,5.24l.46.15c0,.1.08.24.15.46a4.42,4.42,0,0,0,1.85,2.82,3.34,3.34,0,0,0,1.75.45,7.27,7.27,0,0,0,1.65-.24l.48-.1.34.31a3.83,3.83,0,0,0,6.14,0l.34-.31.47.1a7.23,7.23,0,0,0,1.66.24,3.37,3.37,0,0,0,1.73-.44,4.41,4.41,0,0,0,1.86-2.83c.07-.22.12-.37.15-.47l.46-.15a3.78,3.78,0,0,0,3-5.24c-.05-.23-.08-.38-.1-.48l.31-.34a3.84,3.84,0,0,0,0-6.14l-.31-.34c0-.1.05-.26.1-.48a3.78,3.78,0,0,0-3-5.25l-.46-.15c0-.1-.08-.24-.15-.46a4.43,4.43,0,0,0-1.86-2.83,3.34,3.34,0,0,0-1.74-.45,7.23,7.23,0,0,0-1.65.24l-.48.1-.34-.31a4.52,4.52,0,0,0-3.07-1.54Z" transform="translate(-503.26 -962.11)" />
+                    <path class="cls-2" d="M517.79,963a3.7,3.7,0,0,1,2.48,1.3,4.28,4.28,0,0,0,.68.57H521a4.7,4.7,0,0,0,.85-.15,6.46,6.46,0,0,1,1.45-.22,2.52,2.52,0,0,1,1.31.34,3.62,3.62,0,0,1,1.47,2.34,4.25,4.25,0,0,0,.32.85,4,4,0,0,0,.86.32,3,3,0,0,1,2.46,4.23,4,4,0,0,0-.15.93,4.7,4.7,0,0,0,.56.68,3,3,0,0,1,0,5,4.38,4.38,0,0,0-.57.68,4,4,0,0,0,.15.92,3,3,0,0,1-2.46,4.23,4,4,0,0,0-.86.32,4.25,4.25,0,0,0-.32.86,3.62,3.62,0,0,1-1.47,2.33,2.55,2.55,0,0,1-1.31.33,6.46,6.46,0,0,1-1.46-.22,4.72,4.72,0,0,0-.85-.15h-.07a4.55,4.55,0,0,0-.67.56,3,3,0,0,1-5,0,4.18,4.18,0,0,0-.68-.57h-.07a4.84,4.84,0,0,0-.85.15,6.42,6.42,0,0,1-1.45.22,2.52,2.52,0,0,1-1.32-.34,3.62,3.62,0,0,1-1.46-2.33,4.17,4.17,0,0,0-.32-.86,4.11,4.11,0,0,0-.85-.32,3,3,0,0,1-2.46-4.23,4,4,0,0,0,.15-.93,4.62,4.62,0,0,0-.56-.68,3,3,0,0,1,0-5,4.42,4.42,0,0,0,.57-.68,3.93,3.93,0,0,0-.15-.92,3.6,3.6,0,0,1,.11-2.75,3.68,3.68,0,0,1,2.35-1.48,4,4,0,0,0,.86-.33,4.25,4.25,0,0,0,.32-.85,3.63,3.63,0,0,1,1.48-2.35,2.57,2.57,0,0,1,1.3-.33,6.43,6.43,0,0,1,1.46.22,4.7,4.7,0,0,0,.85.15h.07a4.54,4.54,0,0,0,.68-.56,3.68,3.68,0,0,1,2.48-1.3" transform="translate(-503.26 -962.11)" />
+                    <path class="cls-1" d="M519.75,982.39q-.39,0-.83,0h-.34a25.1,25.1,0,0,1-2.91-.18l-.52-.06a1.14,1.14,0,0,1-.62.18H513a1.14,1.14,0,0,1-1.14-1.14v-4a1.14,1.14,0,0,1,1.14-1.14h1.49a1.12,1.12,0,0,1,.42.08,2.71,2.71,0,0,1,.45-.64l.06-.05a10.66,10.66,0,0,0,1.94-3.51,1.61,1.61,0,0,1,.23-1.2.74.74,0,0,1,.57-.26,1.68,1.68,0,0,1,1.34.66,2.72,2.72,0,0,1,.08,2.48,5.65,5.65,0,0,0-.29,1.22l.23,0a7.73,7.73,0,0,1,1.22-.16h.29a2.56,2.56,0,0,1,1.75.51,1.43,1.43,0,0,1,.37,1.57,1.6,1.6,0,0,1,.3.85,1.54,1.54,0,0,1-.32,1,1.72,1.72,0,0,1,.08.46,1.68,1.68,0,0,1-.55,1.32,1.6,1.6,0,0,1-.19.95,2.24,2.24,0,0,1-1.6,1A5.62,5.62,0,0,1,519.75,982.39Zm-.78-.95c.29,0,.55,0,.79,0a4.63,4.63,0,0,0,1-.09,1.41,1.41,0,0,0,1-.56.73.73,0,0,0,.06-.53.46.46,0,0,1,.16-.51.85.85,0,0,0,.41-.74.89.89,0,0,0-.1-.35h0a.45.45,0,0,1,.06-.55.67.67,0,0,0,0-1,.45.45,0,0,1-.08-.59.57.57,0,0,0-.06-.73,1.86,1.86,0,0,0-1.16-.27,6.45,6.45,0,0,0-1.28.14l-.45.09a.66.66,0,0,1-.22,0,.63.63,0,0,1-.43-.16c-.37-.33-.35-1,.08-2.32a2,2,0,0,0,0-1.66.72.72,0,0,0-.5-.27,1.91,1.91,0,0,0,0,.55.44.44,0,0,1,0,.23c-.12.32-1.17,3.12-2.25,4a1.87,1.87,0,0,0-.4.74,1.15,1.15,0,0,1,0,.3v4s0,.07,0,.1h.12a24.73,24.73,0,0,0,2.8.18H519ZM513,977a.23.23,0,0,0-.23.23v4a.23.23,0,0,0,.2.23h1.52a.23.23,0,0,0,.23-.23v-4a.23.23,0,0,0-.23-.23Z" transform="translate(-503.26 -962.11)" />
+                    <path class="cls-1" d="M523,978.53a1.45,1.45,0,0,0,.34-1,1.48,1.48,0,0,0-.32-.84,1.3,1.3,0,0,0-.31-1.5,2.68,2.68,0,0,0-2-.47,7.62,7.62,0,0,0-1.2.15h0l-.38.08a4.21,4.21,0,0,1,.3-1.42,2.61,2.61,0,0,0-.06-2.37,1.55,1.55,0,0,0-1.24-.6.61.61,0,0,0-.47.21,1.64,1.64,0,0,0-.2,1.16c-.32.86-1.22,3-2,3.57l0,0a2.58,2.58,0,0,0-.48.72,1,1,0,0,0-.48-.12H513a1,1,0,0,0-1,1v4a1,1,0,0,0,1,1h1.49a1,1,0,0,0,.58-.19l.57.07a24.73,24.73,0,0,0,3.25.18c.29,0,.56,0,.82,0a5.45,5.45,0,0,0,1.13-.1,2.12,2.12,0,0,0,1.51-.94,1.48,1.48,0,0,0,.17-.93,1.56,1.56,0,0,0,.55-1.27A1.65,1.65,0,0,0,523,978.53Zm-10,3a.36.36,0,0,1-.36-.36v-4a.36.36,0,0,1,.36-.36h1.49a.36.36,0,0,1,.36.36v4a.36.36,0,0,1-.36.36H513Zm9.36-3.26a.33.33,0,0,0,0,.4,1,1,0,0,1,.11.41,1,1,0,0,1-.46.84.33.33,0,0,0-.11.38.87.87,0,0,1-.07.63,1.53,1.53,0,0,1-1.08.62,6.42,6.42,0,0,1-1.78.05h0a24.18,24.18,0,0,1-3.17-.17h0l-.25,0a1.1,1.1,0,0,0,0-.21v-4a1,1,0,0,0,0-.3,2,2,0,0,1,.45-.84c1.09-.87,2.17-3.8,2.21-3.92a.31.31,0,0,0,0-.16,1.53,1.53,0,0,1,0-.71.87.87,0,0,1,.69.33,2.07,2.07,0,0,1,0,1.77c-.41,1.24-.44,1.89-.12,2.18a.53.53,0,0,0,.53.09l.42-.09h0c.75-.16,2.09-.26,2.55.16a.7.7,0,0,1,.08.89.33.33,0,0,0,.06.42.92.92,0,0,1,.27.57A.91.91,0,0,1,522.39,978.25Z" transform="translate(-503.26 -962.11)" />
+                    <path class="cls-1" d="M517.79,964.73c.4,0,.84.42,1.28.83a3.62,3.62,0,0,0,1.43,1,2,2,0,0,0,.53.07,5.69,5.69,0,0,0,1.26-.2,5.18,5.18,0,0,1,1-.17.82.82,0,0,1,.42.09c.31.18.47.64.68,1.33a2.66,2.66,0,0,0,2.36,2.36c.67.2,1.15.37,1.33.67a2.34,2.34,0,0,1-.08,1.47,3.79,3.79,0,0,0-.13,1.78,3.72,3.72,0,0,0,1,1.43c.48.51.83.91.83,1.28s-.42.84-.83,1.28a3.66,3.66,0,0,0-1,1.43,3.78,3.78,0,0,0,.13,1.78,2.32,2.32,0,0,1,.08,1.47c-.18.31-.66.47-1.33.67a3.69,3.69,0,0,0-1.59.76,3.76,3.76,0,0,0-.77,1.6c-.21.68-.36,1.14-.67,1.32a.83.83,0,0,1-.42.09,5.31,5.31,0,0,1-1.06-.17,5.65,5.65,0,0,0-1.25-.2,2.05,2.05,0,0,0-.53.07,3.69,3.69,0,0,0-1.43,1c-.43.41-.88.83-1.27.83s-.84-.42-1.28-.83a3.61,3.61,0,0,0-1.43-1,2,2,0,0,0-.52-.07,5.71,5.71,0,0,0-1.26.2,5.19,5.19,0,0,1-1,.17.8.8,0,0,1-.42-.09c-.31-.18-.47-.64-.67-1.33a2.66,2.66,0,0,0-2.36-2.36c-.67-.2-1.15-.37-1.33-.67a2.33,2.33,0,0,1,.08-1.47,3.77,3.77,0,0,0,.13-1.78,3.7,3.7,0,0,0-1-1.43c-.48-.51-.83-.91-.83-1.28s.42-.84.83-1.28a3.67,3.67,0,0,0,1-1.43,3.78,3.78,0,0,0-.13-1.78c-.16-.67-.25-1.17-.08-1.47s.64-.47,1.33-.67a3.72,3.72,0,0,0,1.59-.76,3.79,3.79,0,0,0,.76-1.6c.21-.68.37-1.15.67-1.33a.84.84,0,0,1,.41-.09,5.19,5.19,0,0,1,1.06.17,5.69,5.69,0,0,0,1.25.2,2.05,2.05,0,0,0,.53-.06,3.68,3.68,0,0,0,1.43-1c.51-.48.91-.83,1.28-.83m0-.85a2.94,2.94,0,0,0-1.86,1.06,3.18,3.18,0,0,1-1.07.78,1.24,1.24,0,0,1-.3,0,5.17,5.17,0,0,1-1.05-.17,5.76,5.76,0,0,0-1.25-.2,1.65,1.65,0,0,0-.83.2,2.87,2.87,0,0,0-1.07,1.82,3.3,3.3,0,0,1-.55,1.24,3.2,3.2,0,0,1-1.24.55,2.91,2.91,0,0,0-1.82,1.06,2.86,2.86,0,0,0,0,2.09,3.24,3.24,0,0,1,.14,1.37,3.14,3.14,0,0,1-.78,1.07,3,3,0,0,0-1.06,1.86,2.91,2.91,0,0,0,1.06,1.86,3.22,3.22,0,0,1,.78,1.07,3.27,3.27,0,0,1-.14,1.37,2.11,2.11,0,0,0,1.83,3.15,1.89,1.89,0,0,1,1.79,1.79,2.9,2.9,0,0,0,1.06,1.82,1.62,1.62,0,0,0,.84.21,5.72,5.72,0,0,0,1.24-.2,5.16,5.16,0,0,1,1.06-.17,1.14,1.14,0,0,1,.3,0,3.11,3.11,0,0,1,1.06.78,2.17,2.17,0,0,0,3.72,0,3.18,3.18,0,0,1,1.07-.78,1.21,1.21,0,0,1,.3,0,5.13,5.13,0,0,1,1,.17,5.86,5.86,0,0,0,1.26.2,1.64,1.64,0,0,0,.84-.21,2.89,2.89,0,0,0,1.06-1.81,3.27,3.27,0,0,1,.55-1.25,3.17,3.17,0,0,1,1.24-.55,2.9,2.9,0,0,0,1.82-1.06,2.86,2.86,0,0,0,0-2.09,3.28,3.28,0,0,1-.14-1.37,3.16,3.16,0,0,1,.78-1.07,3,3,0,0,0,1.06-1.86,2.9,2.9,0,0,0-1.06-1.86,3.19,3.19,0,0,1-.78-1.07,3.24,3.24,0,0,1,.14-1.37A2.11,2.11,0,0,0,527,969.2a3.19,3.19,0,0,1-1.24-.55,3.16,3.16,0,0,1-.55-1.23,2.9,2.9,0,0,0-1.06-1.82,1.64,1.64,0,0,0-.84-.21,5.66,5.66,0,0,0-1.24.2,5.22,5.22,0,0,1-1.07.17,1.23,1.23,0,0,1-.3,0,3.11,3.11,0,0,1-1.07-.78,3,3,0,0,0-1.86-1.06Z" transform="translate(-503.26 -962.11)" />
+                  </svg>
+                  <span>Double-seam</span><span>technology</span>
+                </li>
+              </ul>
+            </div>
+          <div class="product-bottom-wrap">
+            <div class="border-bottom section padless-top product-title-row">
+              <div class="product-title">
+                <h3 class="title" itemprop="name">{{ product.title }}</h3>
+                <div id="price" class="product-price {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}on-sale{% endif %}">
+                  {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}<del>{{ product.compare_at_price_max | money }}</del>{% endif %}
+                  {{ product.price | money }}
+                </div>
+              </div>
+              <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
+            </div>
+            <div class="mobile1 section {% unless settings.prod_desc_loc == 'under' %}border-bottom{% endunless %}">
+              {% if settings.prod_show_sku and product.variants.first.sku != blank %}
+              <div class="space-under sku-row">{{ 'products.product.sku' | t }} <span id="sku">{{ product.variants.first.sku }}</span></div>
               {% endif %}
-            </h1>
+
+              {% if product.available %}
+
+                {% assign hide_default_title = false %}
+                {% if product.variants.size == 1 %}
+
+                  {% if product.variants.first.title contains 'Default' %}
+                    {% assign hide_default_title = true %}
+                  {% endif %}
+
+                  {% unless settings.prod_singlevar_mode contains 'drop' %}
+                    {% assign hide_default_title = true %}
+                  {% endunless %}
+                {% endif %}
+
+                {% unless product.variants.size != 1 or product.variants.first.title contains 'Default' %}
+                  {% if settings.prod_singlevar_mode contains 'text' %}
+                    <div class="variant-info">
+                      {% for option in product.options %}
+                        {% assign option_key = 'option' | append: forloop.index %}
+                        <span class="option">{% if settings.prod_singlevar_mode contains 'withlabel' %}<span class="label">{{ option }}:</span>{% endif %} {{ product.variants.first[option_key] }}</span>{% unless forloop.last %},{% endunless %}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                {% endunless %}
+
+
+                <div id="product-variants" class="{% if hide_default_title %} hidden{% endif %}">
+                  <select id="product-select" name="id" class="hidden">
+                    {% for variant in product.variants %}
+                    <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+
+
+                <div class="js-btn-daddy">
+                  <button name="add" class="add-to-cart buy-now" id="add" data-variant-id="{{ product.variants.first.id }}">{{ 'products.product.add_to_cart_html' | t }}</button>
+                </div>
+
+                <div id="backorder" class="hidden" style="padding-top:50px;">
+                  <p><span id="selected-variant"></span> {{ 'products.product.backorder' | t }}</p>
+                </div>
+
+              {% else %}
+
+                <div class="rte">
+                  <a href="javascript:void(0)" style="text-align:center" class="back-in-stock add-to-cart notify button button--black-gradient cart-btn cart-btn-desktop unavailable"> {{'products.product.product_unavailable_html' | t }}</a>
+                </div>
+
+              {% endif %}
+
+            </div>
           </div>
-          {% if product.available %}
-		  {% if settings.prod_show_quantity_input %}
-            <div class="quantity">
-                <input class="left" type="button" onclick="decrementValue(this)" value="-" />
-                <input class="select-on-focus" type="text" name="quantity" maxlength="2" value="1" max="10" size="1" id="number" />
-                <input class="right" type="button" onclick="incrementValue(this)" value="+" />              
-            </div>
-          {% else %}
-            <input type="hidden" name="quantity" value="1" />
-          {% endif %}
-          
-          
-          <div id="price" class="product-price {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}on-sale{% endif %}">
-            {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}<del>{{ product.compare_at_price_max | money }}</del>{% endif %}
-            {{ product.price | money }}
-          </div>
-          {% endif %}
-        </div>
-        <div class="mobile1 section {% unless settings.prod_desc_loc == 'under' %}border-bottom{% endunless %}">
-          {% if settings.prod_show_sku and product.variants.first.sku != blank %}
-          <div class="space-under sku-row">{{ 'products.product.sku' | t }} <span id="sku">{{ product.variants.first.sku }}</span></div>
-          {% endif %}
 
-          {% if product.available %}
-            {% assign hide_default_title = false %}
-            {% if product.variants.size == 1 %}
-            {% if product.variants.first.title contains 'Default' %}
-            {% assign hide_default_title = true %}
+          {% assign gallery = product.metafields.gallery %}
+          {% assign s = gallery.size %}
+          {% assign hasphotos = "false" %}
+          {% for image in product.metafields.gallery %}
+            {% if image.last != "blank" %}
+              {% assign hasphotos = "true" %}
             {% endif %}
-            {% unless settings.prod_singlevar_mode contains 'drop' %}
-            {% assign hide_default_title = true %}
-            {% endunless %}
-            {% endif %}
+          {% endfor %}
+          {% if hasphotos == "true" %}
+            <div id="insta" class="prod-galary">
 
-            {% unless product.variants.size != 1 or product.variants.first.title contains 'Default' %}
-            {% if settings.prod_singlevar_mode contains 'text' %}
-            <div class="variant-info">
-              {% for option in product.options %}
-              {% assign option_key = 'option' | append: forloop.index %}
-              <span class="option">{% if settings.prod_singlevar_mode contains 'withlabel' %}<span class="label">{{ option }}:</span>{% endif %} {{ product.variants.first[option_key] }}</span>{% unless forloop.last %},{% endunless %}
-              {% endfor %}
+                <h2 class="section-header line-framed"><span>As seen on </span><em>Instagram</em></h2>
+                <div class="grid product">
+                  {% for image in product.metafields.gallery %}
+                    {% if image != blank and image.last != blank and image.last != 'blank' %}
+                      <div class="grid-item"><img src="{{ image.last }}" alt="{{ product.title | escape }}" /></div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+
             </div>
-            {% endif %}
-            {% endunless %}
-
-
-            <div id="product-variants" class="{% if hide_default_title %} hidden{% endif %}">
-              <select id="product-select" name="id" class="hidden">
-                {% for variant in product.variants %}
-                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
-                {% endfor %}
-              </select>
-            </div>
-
-
-            
-			<div class="js-btn-daddy">
-            <button name="add" class="buy-now" id="add">{{ 'products.product.add_to_cart_html' | t }}</button>
-            </div>
-
-            <div id="backorder" class="hidden" style="padding-top:50px;">
-              <p><span id="selected-variant"></span> {{ 'products.product.backorder' | t }}</p>
-            </div>
-          {% else %}
-
-          <div class="rte">
-            <a href="javascript:void(0)" style="text-align:center" class="back-in-stock add-to-cart notify button button--black-gradient cart-btn cart-btn-desktop unavailable"> {{'products.product.product_unavailable_html' | t }}</a>
-          </div>
           {% endif %}
+        </form>
 
-        </div>
-          </form>
+        <div id='judgeme_product_reviews' class='jdgm-widget jdgm-review-widget' data-product-title='{{ product.title | escape }}' data-id='{{ product.id }}'>{{ product.metafields.judgeme.widget }}</div>
       </div>
-
-      
-      {% endunless %}
-    </div>
-    <!-- end product form and details -->
-  </div>
-  <div class="container">
-      {% if settings.prod_desc_loc == 'under' %}
-          <div class="product-description rte spaced-row reading-column" itemprop="description">{{ product.description }}</div>
-          <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
-      {% endif %}
+    </div><!-- /.product-details -->
   </div>
 </div>
 
 <script>products.id{{ product.id }} = {{ product | json }};</script>
 <script type="text/javascript">
     document.getElementById('jquery').addEventListener('load', function() {
-      $(function($){
-        $('.willstagram').each(function(){
-          var user_id = $(this).data('user_id');
-          var tag = $(this).data('tag');
-          var client_id = $(this).data('client_id') || '4d67d884d71a4c7fb59e73aeb2270e59';
-          var access_token = $(this).data('access_token');
-          var count = $(this).data('count');
-          var $willstagram = $(this);
-          var url = '';
-          if(typeof user_id != 'undefined') {
-            url = 'https://api.instagram.com/v1/users/' + user_id + '/media/recent?client_id=' + client_id;
-          } else if(typeof tag != 'undefined') {
-            url = 'https://api.instagram.com/v1/tags/' + tag + '/media/recent?client_id=' + client_id;
-          }
-          $.ajax({
-            type: "GET",
-            dataType: "jsonp",
-            cache: false,
-            url: url
-            + (typeof access_token == 'undefined'? '' : ('&access_token='+access_token))
-            + (typeof count == 'undefined'? '' : ('&count='+count)),
-            success: function(res) {
-              if(typeof res.data != 'undefined') {
-                var $itemContainer = $('<ul class="items">').appendTo($willstagram);
-                var limit = Math.min(20, res.data.length);
-                for(var i = 0; i < limit; i++) {
-                  var photo_url = res.data[i].images.low_resolution.url.replace('http:', '');
-                  var link = res.data[i].link;
-                  var caption = res.data[i].caption != null ? res.data[i].caption.text : '';
-                  $itemContainer.append($('<li />').append('<div class="item"><a target="_blank" href="'+link+'"><img src="'+photo_url+'" /></a><div class="desc">'+caption+'</div></div>'));
-                }
-              }
-            }
-          });
-        });
-      });
+        //Willstagram code was here.
     });
 </script>
-{% assign gallery = product.metafields.gallery %}
-{% assign s = gallery.size %}
-{% assign hasphotos = "false" %}
-{% for image in product.metafields.gallery %}
-    {% if image.last != "blank" %}
-        {% assign hasphotos = "true" %}
-    {% endif %}
-{% endfor %}
-{% if hasphotos == "true" %}
-  <div class="prod-galary">
-    <div class="container">
-      <h3><span class="bold">#FLOATLIFE</span> GALLERY</h3>
-      <ul>
-        {% for image in product.metafields.gallery %}
-          {% if image != "blank" %}
-            <li class="column flex max-cols-4"><img src="{{ image.last }}" alt="{{ product.title | escape }}" /></li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-{% endif %}
-
-
-<div id='judgeme_product_reviews' class='jdgm-widget jdgm-review-widget' data-product-title='{{ product.title | escape }}' data-id='{{ product.id }}'>{{ product.metafields.judgeme.widget }}</div>
-
 
 {% include 'related-products' %}

@@ -8,6 +8,9 @@
     <source media="(min-width: 300px)" srcset="{{ 'header_banner_textless_750.png' | asset_url | split:"?" | first }}">
     <img src="{{ 'header_banner_textless_414.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
   </picture>
+  <div id="banner-top-text">
+    <span>Welcome to the</span> <em>Float Life!</em>
+  </div>
 </div>
 
 <div class="shipping-banner visible-mobile">
@@ -209,7 +212,6 @@
   </div>
 </section>
 
-{% comment %}
 <!-- Badwood banner -->
 <section class="border-top section bottom-banner">
   <div class="container">
@@ -229,7 +231,6 @@
   </div>
 </section>
 
-{% endcomment %}
 
 
 <div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
