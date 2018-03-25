@@ -9,7 +9,7 @@
     <img src="{{ 'header_banner_textless_414.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
   </picture>
   <div id="banner-top-text">
-    <span>Welcome to the</span> <em>Float Life!</em>
+    <span>Welcome to the</span> <em>Float Life</em>
   </div>
 </div>
 
@@ -32,7 +32,7 @@
 <section class="section products-section product-list">
   <a name="ride-ons"></a>
   <a name="fun-rides"></a>
-  <h2 class="section-header line-framed visible-desktop"><span>Floatie </span><em>{{ collections['ride-ons'].title }}</em></h2>
+  <h2 class="section-header line-framed visible-desktop ride-ons"><span>Floatie </span><em>{{ collections['ride-ons'].title }}</em></h2>
   <div class="container">
     <div class="row grid">
       {% for product in collections['ride-ons'].products %}
@@ -255,7 +255,16 @@
     {{ 'layout.misc.follow_us_html' | t }} <span class="fa fa-instagram"></span> <strong>floatie</strong>kings
   </div>
 
-  <div id="instafeed" class="grid"></div>
+  <div id="instafeed" class="grid">
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_02.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_03.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_04.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_05.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_06.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_07.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_08.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_09.png" alt="Pizza Delivery #FloatieKings"></a>
+  </div>
   <img class="insta-control insta-control-left visible-mobile" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
   <img align="right" class="insta-control insta-control-right visible-mobile" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
 
@@ -277,6 +286,6 @@
         feed.run();
         if(typeof callback === "function") callback();
     }
-    window.addEventListener('load', function() { instafeed_ig() });
+    // window.addEventListener('load', function() { instafeed_ig() });
 
 </script>

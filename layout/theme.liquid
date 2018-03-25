@@ -237,13 +237,10 @@
 
 {% include 'mobile-navigation' %}
 
-<!--{{ 'libs.js' | asset_url | split:"?" | first | script_tag }}-->
+
 <script src="{{ 'libs.js' | asset_url | split:"?" | first }}" defer></script>
-<!--{{ 'scripts.js' | asset_url | split:"?" | first | script_tag }}-->
 <script src="{{ 'scripts.js' | asset_url }}" defer></script>
-<!--{{ 'instafeed.min.js' | asset_url | split:"?" | first | script_tag }}-->
-<script src="{{ 'instafeed.min.js' | asset_url | split:"?" | first }}" defer></script>
-<!--{{ 'jquery.jscrollpane.min.js' | asset_url | split:"?" | first | script_tag }}-->
+{% comment %}<script src="{{ 'instafeed.min.js' | asset_url | split:"?" | first }}" defer></script>{% endcomment %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.0.23/script/jquery.jscrollpane.min.js" defer></script>
 
 <input type="hidden" name="_pc_params" value="{{ shop.permanent_domain }}:{{ customer.id }}"/>

@@ -7,7 +7,7 @@
             <img class="m-logos-item" src="{{ block.settings.image | img_url: '1024x' }}" />
         {% endfor %}
       </div>
-      <div class="text">“{{ section.settings.quote }}”</div>
+      <div class="text" style="{{ section.settings.style }}">“{{ section.settings.quote }}”</div>
       <div class="author">{{ section.settings.author }}</div>
     </div>
   </div>
@@ -28,6 +28,11 @@
         "id": "quote",
         "label": "Quote text",
         "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
+      },
+      {
+        "type": "textarea",
+        "id": "style",
+        "label": "Custom CSS"
       },
       {
         "type": "text",

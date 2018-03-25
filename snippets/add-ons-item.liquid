@@ -1,0 +1,11 @@
+<div class="add-ons-item" data-variant-id="{{ addon.variants.first.id }}">
+  <a href="{{ addon.url }}"><div class="image"><img src="{{ addon | img_url: '150x' }}" alt="" /></div></a>
+  <div class="desc">
+    <a href="{{ addon.url }}"><div class="title">{{ addon.title }}</div></a>
+    <div class="checkbox">
+      <div class="price">+ {{ addon.price | money }}</div>
+      <div class="bttn blue"><span></span><span></span></div>
+      <div class="bttn green hidden">✓</div>
+    </div>
+  </div>
+</div>

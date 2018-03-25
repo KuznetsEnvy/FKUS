@@ -63,36 +63,27 @@
                 {% assign addon = all_products["super-pump-2000"] %}
                 {% if addon.available %}
                   {% assign counter = counter | plus: 1 %}
-                  <div class="add-ons-item" data-variant-id="{{ addon.variants.first.id }}">
-                    <div class="image"><img src="{{ addon | img_url: '150x' }}" alt="" /></div>
-                    <div class="desc">
-                      <div class="title">{{ addon.title }}</div>
-                      <div class="checkbox">
-                        <div class="price">+ {{ addon.price | money }}</div>
-                        <div class="bttn blue"><span></span><span></span></div>
-                        <div class="bttn green hidden">✓</div>
-                      </div>
-                    </div>
-                  </div>
+                  {% include 'add-ons-item' %}
                 {% endif %}
               {% endunless %}
 
               {% for tag in product.tags %}
+                {% if tag == 'Snacks' %}
+                  {% assign temp = 'Swans' %}
+                {% else %}
+                  {% assign temp = tag %}
+                {% endif %}
+
+                <div class="debug tag">
+                  <div class="tag">{{ tag }}</div>
+                  <div class="temp">{{ temp }}</div>
+
+                </div>
                 {% if counter < 4 %}
                   {% for addon in collections['all'].products %}
-                    {% if addon.tags contains tag and counter < 4 and product.id != addon.id and addon.available %}
+                    {% if addon.tags contains temp and counter < 4 and product.id != addon.id and addon.available %}
                       {% assign counter = counter | plus: 1 %}
-                      <div class="add-ons-item" data-variant-id="{{ addon.variants.first.id }}">
-                        <div class="image"><img src="{{ addon | img_url: '150x' }}" alt="" /></div>
-                        <div class="desc">
-                          <div class="title">{{ addon.title }}</div>
-                          <div class="checkbox">
-                            <div class="price">+ {{ addon.price | money }}</div>
-                            <div class="bttn blue"><span></span><span></span></div>
-                            <div class="bttn green hidden">✓</div>
-                          </div>
-                        </div>
-                      </div>
+                      {% include 'add-ons-item' %}
                     {% endif %}
                   {% endfor %}
                 {% endif %}
@@ -104,17 +95,7 @@
                 {% for addon in collections['bestsellers'].products limit: max %}
                   {% if addon.available %}
                     {% assign counter = counter | plus: 1 %}
-                    <div class="add-ons-item" data-variant-id="{{ addon.variants.first.id }}">
-                      <div class="image"><img src="{{ addon | img_url: '150x' }}" alt="" /></div>
-                      <div class="desc">
-                        <div class="title">{{ addon.title }}</div>
-                        <div class="checkbox">
-                          <div class="price">+ {{ addon.price | money }}</div>
-                          <div class="bttn blue"><span></span><span></span></div>
-                          <div class="bttn green hidden">✓</div>
-                        </div>
-                      </div>
-                    </div>
+                    {% include 'add-ons-item' %}
                   {% endif %}
                 {% endfor %}
               {% endif %}
@@ -233,13 +214,22 @@
             <div class="info-sec-large">
               <img src="{{ info.large }}" title="{{ product.title | escape }}" />
               <div class="p-info-note">
-                <span class="heading">Every purchase includes:</span>
-                <ul>
-                  <li><span>Giant Inflatable Floatie</span></li>
-                  <li><span>First Aid Patch Kit</span></li>
-                  <li><span>Floatie Carry Bag</span></li>
-                  <li><span>Floatiekings User Manual</span></li>
-                </ul>
+                {% unless product.handle contains 'pump' %}
+                  <span class="heading">Every purchase includes:</span>
+                  <ul>
+                    <li><span>Giant Inflatable Floatie</span></li>
+                    <li><span>First Aid Patch Kit</span></li>
+                    <li><span>Floatie Carry Bag</span></li>
+                    <li><span>Floatiekings User Manual</span></li>
+                  </ul>
+                {% else %}
+                  <span class="heading">THE SuperPump2000 INCLUDES:</span>
+                  <ul>
+                    <li><span>3 x Nozzle Attachments</span></li>
+                    <li><span>Electric Air Pump</span></li>
+                    <li><span>US / EU Power Compatible</span></li>
+                  </ul>
+                {% endunless %}
               </div>
             </div>
           {% endif %}
