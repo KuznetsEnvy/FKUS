@@ -210,7 +210,7 @@
           {% if large != blank %}
             <div class="info-sec-large">
               <img src="{{ info.large }}" title="{{ product.title | escape }}" />
-              <div class="p-info-note">
+              {% comment %}<div class="p-info-note">
                 {% unless product.handle contains 'pump' %}
                   <span class="heading">Every purchase includes:</span>
                   <ul>
@@ -228,6 +228,7 @@
                   </ul>
                 {% endunless %}
               </div>
+              {% endcomment %}
             </div>
           {% endif %}
 
