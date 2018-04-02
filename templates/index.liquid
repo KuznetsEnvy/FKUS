@@ -19,7 +19,7 @@
 
 <section class="section products-section bestsellers visible-desktop">
   <a name="bestsellers"></a>
-  <h2 class="section-header line-framed"><span>Floatie </span><em>Bestsellers</em></h2>
+  <h2 class="section-header line-framed">{{ 'layout.sections.floatie_bestsellers_html' | t }}</h2>
   <div class="container">
     <div class="row grid">
       {% for product in collections['bestsellers'].products limit: 2 %}
@@ -192,7 +192,7 @@
 <!--endregion-->
 
 <!-- Aaron Kai banner -->
-<section id="aron-kai" class="border-top section bottom-banner visible-desktop">
+<section id="aron-kai" class="section bottom-banner visible-desktop">
   <div class="container">
     <h2 class="section-header line-framed"><em>Exclusive Collaborations</em></h2>
     <h3 class="align-center">Only on FloatieKings!</h3>
@@ -213,7 +213,7 @@
 </section>
 
 <!-- Badwood banner -->
-<section class="border-top section bottom-banner">
+<section class="section bottom-banner">
   <div class="container">
     <div class="banner">
       <img src="{{ 'bottom-banner_new.png' | asset_url | split:"?" | first }}" alt="Home Banner" />
@@ -265,8 +265,10 @@
     <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_08.png" alt="Pizza Delivery #FloatieKings"></a>
     <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_09.png" alt="Pizza Delivery #FloatieKings"></a>
   </div>
-  <img class="insta-control insta-control-left visible-mobile" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
-  <img align="right" class="insta-control insta-control-right visible-mobile" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
+  <div class="insta-control visible-mobile">
+    <img class="insta-control-left" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
+    <img align="right" class="insta-control-right" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
+  </div>
 
 </section>
 <script type="text/javascript">

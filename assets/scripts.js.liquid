@@ -127,46 +127,67 @@ $(function($){
       });
   });
 
-  $(document).on('click', '#page-footer .menu .wrap', function () {
-      var menu = $(this).closest('.menu');
-      if (!menu) {
-        console.log('Footer toggle handler: parent with class .menu not found');
-        return;
-      }
-      var cross = menu.find('.cross');
-      if (!cross) {
-          console.log('Footer toggle handler: not found .cross element');
-          return;
-      }
-      var nav = menu.find('nav');
-      if (!nav) {
-          console.log('Footer toggle handler: nav element not found');
-          return;
-      }
-
-      cross.toggleClass('opened');
-      cross.hasClass('opened') ? cross.css({'transform' : 'rotate(45deg)'}) : cross.css({'transform' : 'rotate(0)'});
-      nav.toggle();
-  });
+    if ($(window).width() < 768) {
+        var flagFooterMenuWrap = false;
+        $(document).on('click touchstart', '#page-footer .menu .wrap', function (e) {
+            if (!flagFooterMenuWrap) {
+                flagFooterMenuWrap = true;
+                setTimeout(function(){ flagFooterMenuWrap = false; }, 200);
 
 
-    {% if settings.use_side_cart_summary %}
-    $(document).on('click', '.toggle-cart-summary', function () {
-        //prep for reveal
-        $('#overlay').toggleClass('is-active');
-        $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
-        /*if (isMobile()) {
-            setTimeout(function () {
-                $('#overlay').toggleClass('is-active');
-                $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
-            }, 5000);
-        }*/
-        return false;
+                console.log("Bottom menu clicked, event:");
+                console.log(e);
+
+                var menu = $(this).closest('.menu');
+                if (!menu) {
+                    console.log('Footer toggle handler: parent with class .menu not found');
+                    return;
+                }
+                var cross = menu.find('.cross');
+                if (!cross) {
+                    console.log('Footer toggle handler: not found .cross element');
+                    return;
+                }
+                var nav = menu.find('nav');
+                if (!nav) {
+                    console.log('Footer toggle handler: nav element not found');
+                    return;
+                }
+
+                cross.toggleClass('opened');
+                cross.hasClass('opened') ? cross.css({'transform': 'rotate(45deg)'}) : cross.css({'transform': 'rotate(0)'});
+                nav.toggle();
+            }
+        });
+    }
+
+    var flagCartSummary = false;
+    $(document).on('click touchstart', '.toggle-cart-summary', function (e) {
+        console.log(e.type);
+
+        if (!flagCartSummary) {
+            console.log("Handler works!");
+            flagCartSummary = true;
+            setTimeout(function () { flagCartSummary = false; }, 600);
+
+            //prep for reveal
+            $('#overlay').toggleClass('is-active');
+            $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
+            $('body').toggleClass('body-no-scroll');
+            /*if (isMobile()) {
+                setTimeout(function () {
+                    $('#overlay').toggleClass('is-active');
+                    $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
+                }, 5000);
+            }*/
+            return false;
+        }
     });
     $(document).on('click', '#overlay.is-active', function () {
         //prep for reveal
         $('#overlay').toggleClass('is-active');
         $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
+        $('body').removeClass('body-no-scroll');
         /*if (isMobile()) {
             setTimeout(function () {
                 $('#overlay').toggleClass('is-active');
@@ -175,7 +196,7 @@ $(function($){
         }*/
         return false;
     });
-  {% endif %}
+
   
   
   /// Mobile sub-nav
@@ -350,6 +371,7 @@ $(function($){
         console.log("Updating cart summaries");
         $('#cart-summary').addClass('updating');
         $.get(shopifyAjaxStorePageURL, function (data) {
+            // console.log(data);
             var cartSummarySelector = '#cart-summary';
             var $newCartObj = $($.parseHTML('<!-- cart-summary -->' + data.split('<!-- cart-summary -->')[1] + '<!-- cart-summary -->'))[2];
             var $currCart = $(cartSummarySelector);
@@ -377,10 +399,13 @@ $(function($){
                 });
             });
             $('#cart-summary.updating').removeClass('updating');
+            deferImages();
         });
     }
     function addToCartHandle(data, queue, pressedButton) {
+        console.log(data.status);
         if (data.status == 200) {
+            console.log(queue.length);
             if (queue.length) {
                 var request = queue.shift();
 
@@ -392,27 +417,29 @@ $(function($){
                         quantity: request.quantity
                     },
                     success: function (data) {
-                        addToCartHandle(data, queue);
+                        addToCartHandle(data, queue, pressedButton);
                     },
                     error: function (data) {
-                        addToCartHandle(data, queue);
+                        addToCartHandle(data, queue, pressedButton);
                     }
                 });
             } else { //Queue is over, return to normal state
 
+
                 $('.add-ons-item.active').toggleClass('active').find('.bttn').toggleClass('hidden');
 
+
                 //Enable add button
-                var form = $('form[action="/cart/add"]:not(.noAJAX)');
-                var btn = form.find(':submit').each(function () {
-                    var btn = $(this);
-                    var contentFunc = $(this).is('button') ? 'html' : 'val';
-                    //Set to 'DONE', alter button style, wait a few secs, revert to normal
-                    btn[contentFunc]( {{ 'products.product.added_to_cart_btn' | t | json }} );
-                    setTimeout(function () {
-                        btn.removeAttr('disabled')[contentFunc](btn.data('previous-value'));
-                    }, 4000);
-                }).first();
+                var btn = pressedButton;
+                var contentFunc = $(this).is('button') ? 'html' : 'val';
+
+                console.log(btn);
+                //Set to 'DONE', alter button style, wait a few secs, revert to normal
+                btn.html({{ 'products.product.added_to_cart_btn' | t | json }});
+                setTimeout(function () {
+                    btn.html(btn.data('previous-value'));
+                }, 4000);
+
 
                 if(pressedButton.hasClass('cart-btn')) {
                     pressedButton.addClass('selected');
@@ -420,6 +447,7 @@ $(function($){
                 }
                 $('#overlay').toggleClass('is-active');
                 $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
+                $('body').toggleClass('body-no-scroll');
 
                 //Update persistent cart summaries
                 updateCartSummaries();
@@ -427,6 +455,7 @@ $(function($){
                     setTimeout(function () {
                         $('#overlay').toggleClass('is-active');
                         $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
+                        $('body').toggleClass('body-no-scroll');
                     }, 5000);
                 }
 
@@ -448,25 +477,23 @@ $(function($){
                 var jsonRes = $.parseJSON(data.responseText);
                 window.showQuickPopup(jsonRes.description);
             } else {
-                console.log("Some unknown AJAX error. Disable ajax and submit the old-fashioned way.");
+                console.log("Some unknown AJAX error. Disable ajax.");
+                //TODO Kuz: Implement submit the old-fashioned way.
                 $form.addClass('noAJAX');
             }
         }
     }
-    $('.add-to-cart.buy-now').click(function (evt) {
+    $('.buy-now').click(function (evt) {
         evt.preventDefault();
 
         var self = $(this);
 
-        var form = $('form[action="/cart/add"]:not(.noAJAX)');
         //Disable add button
-        form.find(':submit').attr('disabled', 'disabled').each(function () {
-            var contentFunc = $(this).is('button') ? 'html' : 'val';
-            $(this).data('previous-value', $(this)[contentFunc]())[contentFunc]({{ 'products.product.adding_to_cart' | t | json }});
-        });
+        // var contentFunc = self.is('button') ? 'html' : 'val';
+        self.data('previous-value', self.html()).html({{ "products.product.adding_to_cart" | t | json }});
 
         //Add to cart
-        var product = $(this).data('variant-id');
+        var product = self.data('variant-id');
         var queue = [];
         $('.add-ons-item.active').each(function () {
             queue.push({
@@ -499,10 +526,13 @@ $(function($){
             url: '/cart/update.js',
             data: 'updates[' + id + ']=0',
             success: updateCartSummaries(),
-            error: function(response) {
+            error: function(response,errorType,exceptionObject) {
                 console.log('Removing item from cart error!');
                 console.log(response);
-            }
+                console.log(errorType);
+                console.log(exceptionObject);
+            },
+            dataType: "json"
         });
     });
 
@@ -1025,7 +1055,21 @@ $('a[rel=lightbox]').colorbox({ minWidth: '200', maxWidth: '96%', maxHeight: '96
     }
   }
 
-    $(window).on('load', function(){
+
+
+    // Deferring images
+    function deferImages() {
+        console.log("Defer images invoked");
+        var imgDefer = document.getElementsByTagName('img');
+        for (var i = 0; i < imgDefer.length; i++) {
+            if (imgDefer[i].getAttribute('data-src') && imgDefer[i].getAttribute('src').indexOf('transparent_pixel.png') > -1) {
+                console.log("deferring image: " + imgDefer[i]);
+                imgDefer[i].setAttribute('src', imgDefer[i].getAttribute('data-src'));
+            }
+        }
+    }
+
+    $(window).on('resize', function(){
         fixedHeaderCompensateOffset();
 
         // "You might also be interested in" block number of elements limitation for mobile
@@ -1056,12 +1100,24 @@ $('a[rel=lightbox]').colorbox({ minWidth: '200', maxWidth: '96%', maxHeight: '96
     };
     controlCartUpsell();
 
-    $(document).on('click', '.add-ons-item .bttn', function(){
-      var self = $(this);
-      var addon = self.closest('.add-ons-item');
+    $(document).on('click', '.add-ons-item .bttn, .add-ons-item .price', function (e) {
+        var self = $(this);
+        var addon = self.closest('.add-ons-item');
 
-      addon.toggleClass('active');
-      addon.find('.bttn').toggleClass('hidden');
+        addon.toggleClass('active');
+        addon.find('.bttn').toggleClass('hidden');
+    });
+
+    $(window).on('load', function() {
+        setTimeout(fixedHeaderCompensateOffset, 500);
+
+        // "You might also be interested in" block number of elements limitation for mobile
+        if ($('#related-products').width() <= 769 ){
+            $('.related-product-list .item').not(':lt(2)').hide();
+        }
+
+        deferImages();
+
     });
 
 });

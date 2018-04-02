@@ -1,115 +1,122 @@
 <div class="container">
-  {% comment %}<p class="cart-thk">thank you for shopping at <span>floatie</span> kings! </p>{% endcomment %}
   <h2 class="page-title text-center">{{ 'cart.general.title' | t }}</h2>
+  {% assign c = cart.total_price | times:1 %}
+  {% assign free_shipping_from = settings.free_shipping_from | times:1 %}
+  {% assign dif = free_shipping_from | minus: c | money %}
+
   {% if cart.item_count == 0 %}
 
-  <h2 class="page-title">{{ 'cart.general.empty_title' | t }}</h2>
-  <div class="rte">{{ 'cart.general.empty_subtext_html' | t }}</div>
+    <h2 class="page-title">{{ 'cart.general.no_items' | t }}</h2>
+    <div class="rte">{{ 'cart.general.click_to_continue_html' | t }}</div>
 
-  {% else %}  
-  <div class="reading-column">    
-    <form action="/cart" method="post" id="cartform">
-      <ul class="cart-items plain">
-        <li class="heading border-bottom">
-          <span class="description">{{ 'cart.label.description' | t }}</span>
-          <span class="quantity">{{ 'cart.label.quantity' | t }}</span>
-          <span class="price">total{% comment %}{{ 'cart.label.total' | t }}{% endcomment %}</span>
-        </li>
-        {% for item in cart.items %}
-        <li class="item border-bottom">
-          <div class="description">
-            <a class="image" href="{{ item.url }}">
-              <img src="{{ item | img_url: 'medium' }}"  alt="{{ item.title | escape }}" />
-            </a>
-            <div class="left">
-              <div>{{ item.product.title | link_to: item.product.url }}</div>
-              {% if item.product.variants.size > 1 %}
-              <span class="variant">{{ item.variant.title }}</span>
-              {% endif %}
+  {% else %}
+
+    <div class="reading-column">
+      <form action="/cart" method="post" id="cartform">
+        <ul class="cart-items plain">
+          <li class="heading border-bottom">
+            <span class="description">{{ 'cart.label.description' | t }}</span>
+            <span class="quantity">{{ 'cart.label.quantity' | t }}</span>
+            <span class="price">{{ 'cart.label.total' | t }}</span>
+          </li>
+          {% for item in cart.items %}
+            <li class="item border-bottom">
+              <div class="description">
+                <a class="image" href="{{ item.url }}">
+                  <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}" />
+                </a>
+                <div class="left">
+                  <div>{{ item.product.title | link_to: item.product.url }}</div>
+                  {% if item.product.variants.size > 1 %}
+                    <span class="variant">{{ item.variant.title }}</span>
+                  {% endif %}
+                  {% comment %} Line Item Properties {% endcomment %}
+                  {% for p in item.properties %}
+                    <div class="property">
+                      {% unless p.last == blank %}
+                      <span class="label">{{ p.first }}:</span>
+                      {% if p.last contains '/uploads/' %}
+                        <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                      {% else %}
+                        {{ p.last }}
+                      {% endif %}
+                      <br />
+                      {% endunless %}
+                    </div>
+                  {% endfor %}
+                  <p>
+                    <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="remove feature-col">{{ 'cart.general.remove' | t }}</a>
+                  </p>
+                </div>
+              </div>
               {% comment %}
-              Line Item Properties
+                <div class="quantity">
+                  <input class="select-on-focus" type="text" size="2" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" />
+                </div>
               {% endcomment %}
-              {% for p in item.properties %}
-              <div class="property">
-                {% unless p.last == blank %}
-                <span class="label">{{ p.first }}:</span>
-                {% if p.last contains '/uploads/' %}
-                <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
-                {% else %}
-                {{ p.last }}
-                {% endif %}
-                <br />
-                {% endunless %}
+              <div class="quantity">
+                <input class="left" type="button" onclick="decrementValue(this)" value="-" /><!--
+                --><input class="select-on-focus" type="text" name="quantity" maxlength="2" data-id="{{ item.id }}" value="{{ item.quantity }}" max="10" size="1" name="updates[]" id="number" /><!--
+                --><input class="right" type="button" onclick="incrementValue(this)" value="+" />
               </div>
-              {% endfor %}
-              <p><a href="/cart/change?line={{ forloop.index }}&quantity=0" class="remove feature-col">{{ 'cart.general.remove' | t }}</a></p>
-            </div> 
-          </div>
-          {% comment %}
-          <div class="quantity">
-            <input class="select-on-focus" type="text" size="2" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" />
-          </div>
-          {% endcomment %}
-          <div class="quantity">
-            <input class="left" type="button" onclick="decrementValue(this)" value="-" /><!--
-            --><input class="select-on-focus" type="text" name="quantity" maxlength="2" data-id="{{ item.id }}" value="{{ item.quantity }}" max="10" size="1" name="updates[]" id="number" /><!--
-            --><input class="right" type="button" onclick="incrementValue(this)" value="+" />
-          </div>
 
-          <div class="price{% if item.variant.compare_at_price > item.variant.price %} on-sale{% endif %}">
-            {% if item.variant.compare_at_price > item.variant.price %}<del>{{ item.variant.compare_at_price | money }}</del>{% endif %}
-            <h5>{{ item.line_price | money }}</h5>
-          </div>
-        </li>
-        {% endfor %}
-      </ul>
-      <div class="border-bottom">
-        <div class="row">
-          <input type="submit" style="display:none;" class="alt" id="update-cart" name="update" value="{{ 'cart.general.update' | t }}"/>
-          <div class="full column align-right">
-            <div class="cart_total_left">
-              <label for="checkout">{{ 'cart.label.subtotal' | t }}</label>
+              <div class="price{% if item.variant.compare_at_price > item.variant.price %} on-sale{% endif %}">
+                {% if item.variant.compare_at_price > item.variant.price %}<del>{{ item.variant.compare_at_price | money }}</del>{% endif %}
+                <h5>{{ item.line_price | money }}</h5>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="border-bottom">
+          <div class="row">
+            <input type="submit" style="display:none;" class="alt" id="update-cart" name="update" value="{{ 'cart.general.update' | t }}"/>
+            <div class="full column align-right">
+              <div class="subtotal-wrap">
+                <div class="cart_total_left">
+                  <label for="checkout">{{ 'cart.label.subtotal' | t }}</label>
+                </div>
+                <h2 class="cart_total_right">{{ cart.total_price | money }}</h2>
+              </div>
+
+              {% if free_shipping_from > c %}
+                <div class="shippingmsg2">
+                  <i class="fa fa-exclamation" aria-hidden="true"></i> {{ 'cart.shipping.almost_there' | t }}
+                </div>
+              {% else %}
+                <div class="shippingmsg2" style="font-size:15px;">
+                  <i class="fa fa-check-circle-o" aria-hidden="true"></i> {{ 'cart.shipping.free_shipping_added' | t }}
+                </div>
+              {% endif %}
             </div>
-            <h2 class="cart_total_right">{{ cart.total_price | money }}</h2>
-
-            {% assign c = cart.total_price | times:1 %}
-            {% if c < 7500 %}
-              <div class="shippingmsg2">
-                <i class="fa fa-exclamation" aria-hidden="true"></i> You're almost there to qualify for FREE&nbsp;SHIPPING!
-              </div>
-            {% else %}
-              <div class="shippingmsg2" style="font-size:15px;">
-                <i class="fa fa-check-circle-o" aria-hidden="true"></i> FREE SHIPPING added!
-              </div>
-            {% endif %}
           </div>
         </div>
-      </div>
-      
-      {% if settings['cart_productsection_enable'] %}
-        {% include 'cart-page-products' %}
-      {% endif %} 
-      
-      <div class="shipping-banner cart">
-        <div class="nn-secondary-middle">{{ settings.shipping-banner }}</div>
-      </div>
-      <div class="border-bottom">
-        <div class="row">
-          <div class="column align-center" style="width:100%;margin-bottom: 1rem;">
-            <input style="width:100%" type="submit" id="checkout" name="checkout" value="{{ 'cart.general.checkout' | t }}" />
-          </div>
-          {% comment %}<div class="column align-center" style="width:100%">
-          <p style="font-size:12px">You will be able to use your discount code in the next step</p>
-          </div>{% endcomment %}
-          <div class="column align-center cont" style="width:100%; margin-top: 15px;">
-            <a class="left continue" href="/">keep shopping{% comment %}{{ 'cart.general.continue' | t }}{% endcomment %}</a>
-          </div>
-          <div class="clear"></div>
-        </div>
-      </div>
 
-    </form>
-     
-  </div>        
-  {% endif %}  
+        {% if settings['cart_productsection_enable'] %}
+          {% include 'cart-page-products' %}
+        {% endif %}
+
+        <div class="shipping-banner cart">
+          <div class="nn-secondary-middle">{{ 'cart.shipping.shipping-banner_html' | t }} {{ settings.free_shipping_from | money }}</div>
+        </div>
+        <div class="border-bottom">
+          <div class="row">
+            <div class="column align-center" style="width:100%;margin-bottom: 1rem;">
+              <input style="width:100%" type="submit" id="checkout" name="checkout" value="{{ 'cart.general.checkout' | t }}" />
+            </div>
+            {% comment %}
+              <div class="column align-center" style="width:100%">
+                <p style="font-size:12px">You will be able to use your discount code in the next step</p>
+              </div>
+            {% endcomment %}
+            <div class="column align-center cont" style="width:100%; margin-top: 15px;">
+              <a class="left continue" href="/">{{ 'cart.general.keep' | t }}</a>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  {% endif %}
 </div>

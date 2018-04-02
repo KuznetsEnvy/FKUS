@@ -155,7 +155,7 @@
       </nav>
     </div>
     <div class="cart-wrap">
-      <a class="current-cart {% if template != 'cart' %}toggle-cart-summary{% endif %}">
+      <a class="current-cart toggle-cart-summary">
         <svg id="icon-cart" data-name="Cart icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242.3 242.65">
           <title>icon-cart</title>
           <path class="cls-1" d="M25.65,244.65A23.55,23.55,0,0,1,8.2,236.9a23.1,23.1,0,0,1-5.78-17.39L18.17,74.21a7.73,7.73,0,0,1,8-7.12H51.41l.19-1.79C55.33,29.21,86.35,2,123.75,2a73.32,73.32,0,0,1,48.83,18.37,68.32,68.32,0,0,1,22.92,44.9l.17,1.82h25.18a8.18,8.18,0,0,1,8,7.12l15.76,145.38a23.05,23.05,0,0,1-5.79,17.32l-.07.08a21.65,21.65,0,0,1-16.82,7.66Zm-6.73-23.33v.11a6.51,6.51,0,0,0,6.73,6.73H221.91a6.6,6.6,0,0,0,6.78-6.69v-.13L213.79,83.52H195.85v18.81a8,8,0,0,1-8,8,8.53,8.53,0,0,1-8.52-8.52V83.52H68.29v18.81a8.52,8.52,0,0,1-17,0V83.52H33.82ZM123.75,17.93c-28.28,0-52,20.17-55.14,46.92l-.26,2.23H179.16l-.27-2.24a52.15,52.15,0,0,0-18.14-33.29A56.84,56.84,0,0,0,123.75,17.93Z" transform="translate(-2.35 -2)" />
@@ -174,7 +174,9 @@
 
         {% if template contains 'index' or template contains 'product' %}
 
-        <!-- Replaced .banner-index from here to index template file -->
+          <div class="shipping-banner-top">
+            {{ 'cart.shipping.shipping-banner_html' | t }} <nobr>{{ settings.free_shipping_from | money }}</nobr>
+          </div>
 
         {% else %}
           {% if template contains 'cart' or template contains 'page.support' or template contains 'page.win-cash' or template contains 'page.thank-you' or template contains 'index' %}
@@ -214,7 +216,7 @@
             {% unless template contains 'page.thank-you' %}
               {% if settings.shipping-banner-enable %}
                 <div class="shipping-banner">
-                  <div class="nn-secondary-middle">{{ settings.shipping-banner }}</div>
+                  <div class="nn-secondary-middle">{{ 'cart.shipping.shipping-banner_html' | t }} <nobr>{{ settings.free_shipping_from | money }}</nobr></div>
                 </div>
               {% endif %}
             {% endunless %}

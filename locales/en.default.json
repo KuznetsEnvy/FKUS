@@ -67,6 +67,9 @@
       "memories_last_forever_html": "<span>Make memories that<\/span><br \/><em>last forever<\/em>",
       "bring_best_friend_html": "<span>Bring your<\/span><br \/><em>best friend<\/em>"
     },
+    "sections": {
+      "floatie_bestsellers_html": "<span>Floatie <\/span><em>Bestsellers<\/em>"
+    },
     "misc": {
       "definite_article": "The",
       "summer_story_html": "<nobr>Every summer has<\/nobr> <nobr>it’s own story ;)<\/nobr>",
@@ -250,6 +253,7 @@
       "added_to_cart_btn": "Added",
       "sku": "SKU:",
       "related_title": "YOU MIGHT ALSO BE INTERESTED IN",
+      "designed_in_la_html": "<span>Designed<\/span><span>in L.A.<\/span>",
       "hand_made_html": "<span>Hand<\/span> <span>made<\/span>",
       "high_quality_html": "<span>High<\/span> <span>quality<\/span>",
       "durable_materials_html": "<span>Durable<\/span> <span>materials<\/span>",

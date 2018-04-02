@@ -2,10 +2,9 @@
   <div class="product-item-inside">
     <a {% if product.images.size > 1 %}class="img-wrap" {% endif %}href="{{ product.url }}">
       {% if product.images.size > 1 %}
-        {% assign penultimate = product.images.size | minus: 2 %}
-        <img class="img-swap img-product-{{ product.handle }}" src="{{ product.images[penultimate] | product_img_url: 'large' | split:'?' | first }} "/>
+        <img class="img-swap img-product-{{ product.handle }}" src="{{ product.images[1] | product_img_url: 'large' | split:'?' | first }} "/>
       {% endif %}
-      <img class="img-primary img-product-{{ product.handle }}" src="{{ product.images.last | product_img_url: 'large' | split:'?' | first }} "/>
+      <img class="img-primary img-product-{{ product.handle }}" src="{{ product | img_url: 'large' | split:'?' | first }} "/>
     </a>
     {% if false and product.compare_at_price_max > product.price %}
       <span class="product-label sale">Sale</span>
@@ -22,16 +21,5 @@
       </div>
       <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
     </a>
-  </div>
-  <div class="cart-btn-home visible-desktop">
-    {% if product.available %}
-      <form class="product-form" id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}">
-        <input type="hidden" value="{{ product.first_available_variant.id }}" id="product-select" name="id" class="hidden">
-        <input type="hidden" name="quantity" value="1" />
-        <button name="add" class="add-to-cart buy-now button button--black-gradient cart-btn cart-btn-desktop" id="add">{{ 'products.product.add_to_cart_html' | t }}</button>
-      </form>
-    {% else %}
-      <a href="javascript:void(0)" style="text-align:center" class="back-in-stock add-to-cart buy-now button button--black-gradient cart-btn cart-btn-desktop unavailable">{{ 'products.product.product_unavailable' | t }}</a>
-    {% endif %}
   </div>
 </div>

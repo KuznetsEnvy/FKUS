@@ -1,124 +1,128 @@
 {% assign related_product_image_size = 'large' %}
 {% assign show_related = false %}
-  {% capture related_markup %}
+<div class="debug">
+  <div class="prod_rel_meth">{{ settings.prod_rel_meth }}</div>
+
+  {% assign product_collection = collection %}
+  <div class="collection">{{ collection }}</div>
+  {% unless product_collection %}{% assign need_new_collection = true %}{% else %}{% assign need_new_collection = false %}{% endunless %}
+  <div class="need_new">{{ need_new_collection }}</div>
+  <div class="product_collections">{{ product.collections | json }}</div>
+</div>
+{% capture related_markup %}
   <div id="related-products" class="section padless-bottom border-top">
     <div class="container">
       <h3 class="line-framed">{{ 'products.product.related_title' | t }}</h3>
-      
-        <div class="related-product-list related-{{ settings.prod_rel_meth }} {% if settings.prod_rel_titles %}show-desc{% endif %}" data-normheights=".image-cont" data-normheights-inner="img">
-            {% if settings.prod_rel_meth == 'collection' %}
-          	  <ul class="items">
-                {% assign product_collection = collection %}
-          		{% unless product_collection %}{% assign need_new_collection = true %}{% else %}{% assign need_new_collection = false %}{% endunless %}
-                {% if need_new_collection or product_collection.handle == 'all' or product_collection.handle contains 'frontpage' %}
-                    {% for coll in product.collections %}
-                        {% unless coll.handle == 'all' or coll.handle contains 'frontpage' %}
-          					{% assign product_collection = coll %}
-                        {% endunless %}
-                    {% endfor %}
+      <div class="related-product-list related-{{ settings.prod_rel_meth }} {% if settings.prod_rel_titles %}show-desc{% endif %}" data-normheights=".image-cont" data-normheights-inner="img">
+        {% if settings.prod_rel_meth == 'collection' %}
+          <ul class="items">
+            {% assign product_collection = collection %}
+            {% assign max_product_count = 0 %}
+            {% unless product_collection %}{% assign need_new_collection = true %}{% else %}{% assign need_new_collection = false %}{% endunless %}
+            {% if need_new_collection or product_collection.handle == 'all' or product_collection.handle contains 'frontpage' %}
+              {% for coll in product.collections %}
+                {% unless coll.handle == 'all' or coll.handle contains 'frontpage' %}
+                  {% if coll.all_products_count > max_product_count %}
+                    {% assign product_collection = coll %}
+                    {% assign max_product_count = coll.all_products_count %}
+                  {% endif %}
+                {% endunless %}
+              {% endfor %}
+            {% endif %}
+            <div class="debug">
+              <div class="prod_rel_meth">{{ settings.prod_rel_meth }}</div>
+              <div class="product_collection">{{ product_collection.title }}</div>
+            </div>
+            {% assign prod_rel_count = 0 %}
+            {% assign prod_rel_limit_int = 4 %}
+            {% assign prod_rel_limit_plus_one = prod_rel_limit_int | plus: 1 %}
+            {% paginate product_collection.products by prod_rel_limit_plus_one %}
+              {% for relprod in product_collection.products %}
+                {% if relprod.handle != product.handle and prod_rel_limit_int > prod_rel_count and relprod.available %}
+                  {% assign prod_rel_count = prod_rel_count | plus: 1 %}
+                  {% assign show_related = true %}
+                  <li>
+                    <div class="item products-section">
+                      <a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">{{ relprod.featured_image | product_img_url: related_product_image_size | img_tag: relprod.title }}</a>
+                      <div class="desc ftr">
+                        <a class="title ftc" href="{{ relprod.url | within: collection }}">{{ relprod.title }}</a>
+                        <div class="price ftc ">
+                          <span class="amount">
+                            {% if relprod.compare_at_price_max > relprod.price %}<del>{{ relprod.compare_at_price_max | money }}</del><br />{% endif %}
+                            {{ relprod.price | money }}</span>
+                        </div>
+                      </div>
+                      <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
+                    </div>
+                  </li>
                 {% endif %}
+              {% endfor %}
+            {% endpaginate %}
+          </ul>
+        {% elsif settings.prod_rel_meth == 'tag-coll' %}
+          <ul class="items" style="display:none;">
+            {% for tag in product.tags %}
+              {% if tag contains 'meta-related-collection-' %}
+                {% assign product_collection_handle = tag | remove: 'meta-related-collection-' %}
+                {% assign product_collection = collections[product_collection_handle] %}
                 {% assign prod_rel_count = 0 %}
                 {% assign prod_rel_limit_int = 4 %}
                 {% assign prod_rel_limit_plus_one = prod_rel_limit_int | plus: 1 %}
                 {% paginate product_collection.products by prod_rel_limit_plus_one %}
-                    {% for relprod in product_collection.products %}
-                        {% if relprod.handle != product.handle and prod_rel_limit_int > prod_rel_count %}
-                            {% assign prod_rel_count = prod_rel_count | plus: 1 %}
-                            {% assign show_related = true %}
-                        <li><div class="item products-section"><a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">{{ relprod.featured_image | product_img_url: related_product_image_size | img_tag: relprod.title }}</a>
-                                    <div class="desc ftr">
-                                       {% comment %} <a class="title ftc" href="{{ relprod.url | within: collection }}">{{ relprod.title }}</a>{% endcomment %}
-                                       <a class="title ftc" href="{{ relprod.url | within: collection }}">
-                                            {% if relprod.title contains 'Aaron Kai' %}
-                                                      {% assign title = relprod.title | split: ' ' %}
-                                                      {% assign s =  title | size %}
-                                                      <span style="font-weight:bold;">
-                                                        Aaron Kai
-                                                      </span>
-                                                      {% for i in (2..s) %}
-                                                      {{ title[i] }}
-                                                      {% endfor %}
-                                                      {% else %}
-                                                      {% assign title = relprod.title | split: ' ' %}
-                                                      {% assign s =  title | size %}
-                                                      <span style="font-weight:bold;">
-                                                        {{ title[0] }}
-                                                      </span>
-                                                      {% for i in (1..s) %}
-                                                      {{ title[i] }}
-                                                      {% endfor %}
-                                                      {% endif %}
-                                        </a>
-                                        <div class="price ftc ">
-                                            <span class="amount">{{ relprod.price | money }}</span>        
-                                        </div>
-                                    </div>
-
-                            <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
-                                </div>
-                          </li>
-                        {% endif %}
-                    {% endfor %}
-                {% endpaginate %}
-              </ul>
-            {% elsif settings.prod_rel_meth == 'tag-coll' %}
-          	  <ul class="items" style="display:none;">
-                {% for tag in product.tags %}
-                    {% if tag contains 'meta-related-collection-' %}
-                        {% assign product_collection_handle = tag | remove: 'meta-related-collection-' %}
-                        {% assign product_collection = collections[product_collection_handle] %}
-                        {% assign prod_rel_count = 0 %}
-                        {% assign prod_rel_limit_int = 4 %}
-                        {% assign prod_rel_limit_plus_one = prod_rel_limit_int | plus: 1 %}
-                        {% paginate product_collection.products by prod_rel_limit_plus_one %}
-                            {% for relprod in product_collection.products %}
-                                {% if relprod.handle != product.handle and prod_rel_limit_int > prod_rel_count %}
-                                    {% assign prod_rel_count = prod_rel_count | plus: 1 %}
-                                    {% assign show_related = true %}
-									<li><div class="item"><a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">{{ relprod.featured_image | product_img_url: related_product_image_size | img_tag: relprod.title }}</a><div class="desc"><a href="{{ relprod.url | within: collection }}">{{ relprod.title }}</a></div></div></li>
-                                {% endif %}
-                            {% endfor %}
-                        {% endpaginate %}
+                  {% for relprod in product_collection.products %}
+                    {% if relprod.handle != product.handle and prod_rel_limit_int > prod_rel_count %}
+                      {% assign prod_rel_count = prod_rel_count | plus: 1 %}
+                      {% assign show_related = true %}
+                      <li>
+                        <div class="item">
+                          <a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">{{ relprod.featured_image | product_img_url: related_product_image_size | img_tag: relprod.title }}</a>
+                          <div class="desc"><a href="{{ relprod.url | within: collection }}">{{ relprod.title }}</a></div>
+                        </div>
+                      </li>
                     {% endif %}
-                {% endfor %}
-              </ul>
-            {% elsif settings.prod_rel_meth == 'tag-handle' %}
-                {% for tag in product.tags %}
-                    {% if tag contains 'meta-related-product-' %}{% assign show_related = true %}{% endif %}
-                {% endfor %}
-                <ul class="items"></ul>
-                <script>
-                //Load in related products via ajax
-                $(function(){
-                  Shopify.money_format = {{ shop.money_format | json }};
-                  var related_tags = products.id{{ product.id }}.tags;// {{ product.tags | json }};
-                  var i;
-                  var tags_count = 0;
-                  for(i=0; i<related_tags.length; i++) {
-                    if(related_tags[i].indexOf('meta-related-product-') >= 0) {
-                      tags_count++;
-                      if(tags_count > 7) {
-                         break;
-                         }
-                         var rel_handle = related_tags[i].substring('meta-related-product-'.length);
-                      $.getJSON('/products/'+rel_handle+'.js', function(data) {
-                        //Build product
-                        var $prod = $('<a class="image-cont"/>').attr({ href: data.url, title: data.title });
-                        $('<img/>').attr({ src: data.featured_image.replace(/(\.jpg|\.png|\.jpeg|\.gif)/, '_'+{{ related_product_image_size | json }}+'$1'), alt: data.title }).css('opacity', 0).appendTo($prod);
-                        $prod = $prod.wrap('<div class="item"/>').parent().wrap('<li/>').parent();
-                        $('<div class="desc"/>').append($('<a/>').attr('href', data.url).html(data.title)).appendTo($prod);
-                        $prod.appendTo('#related-products .related-product-list .items').imagesLoaded(function(){
-                          $prod.find('img').animate({opacity: 1}, 200);
-                        });
-                      });
-                    }
+                  {% endfor %}
+                {% endpaginate %}
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% elsif settings.prod_rel_meth == 'tag-handle' %}
+          {% for tag in product.tags %}
+            {% if tag contains 'meta-related-product-' %}{% assign show_related = true %}{% endif %}
+          {% endfor %}
+          <ul class="items"></ul>
+          <script>
+            //Load in related products via ajax
+            $(function(){
+              Shopify.money_format = {{ shop.money_format | json }};
+              var related_tags = products.id{{ product.id }}.tags;// {{ product.tags | json }};
+              var i;
+              var tags_count = 0;
+              for (i = 0; i < related_tags.length; i++) {
+                if (related_tags[i].indexOf('meta-related-product-') >= 0) {
+                  tags_count++;
+                  if (tags_count > 7) {
+                      break;
                   }
-                });
-                </script>
-            {% endif %}
-          	<button name="add" onclick="window.location.href='/'" class="buy-now">SEE MORE</button>
-        </div>
+                  var rel_handle = related_tags[i].substring('meta-related-product-'.length);
+                  $.getJSON('/products/' + rel_handle + '.js', function (data) {
+                      //Build product
+                      var $prod = $('<a class="image-cont"/>').attr({ href: data.url, title: data.title });
+                      $('<img/>').attr({ src: data.featured_image.replace(/(\.jpg|\.png|\.jpeg|\.gif)/, '_'+{{ related_product_image_size | json }}+'$1'), alt: data.title }).css('opacity', 0).appendTo($prod);
+                      $prod = $prod.wrap('<div class="item"/>').parent().wrap('<li/>').parent();
+                      $('<div class="desc"/>').append($('<a/>').attr('href', data.url).html(data.title)).appendTo($prod);
+                      $prod.appendTo('#related-products .related-product-list .items').imagesLoaded(function(){
+                        $prod.find('img').animate({opacity: 1}, 200);
+                      });
+                  });
+                }
+              }
+            });
+          </script>
+        {% endif %}
+
+        <button name="add" onclick="window.location.href='/'" class="add-to-cart">{{ 'pages.buttons.see_more' | t }}</button>
+      </div>
     </div>
   </div><!-- /#related-products -->
-  {% endcapture %}
+{% endcapture %}
 {% if show_related %}{{ related_markup }}{% endif %}
