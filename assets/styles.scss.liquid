@@ -7420,11 +7420,12 @@ b {
 }
 //endregion
 
-@include desktop {
-  .line-framed {
-    overflow: hidden;
-    text-align: center;
 
+.line-framed {
+  overflow: hidden;
+  text-align: center;
+
+  @include desktop {
     &:before,&:after{
       background-color: #999999;
       content: "";
@@ -7444,6 +7445,7 @@ b {
     }
   }
 }
+
 
 
 h2.section-header {
@@ -8368,7 +8370,7 @@ h2.section-header {
     .m-logos-item {
       display: inline-block;
       height: 1.8em;
-      margin: 2em 0.6em 1.5em;
+      margin: 2em 0.3em 1.5em;
 
       @include desktop {
         height: 2.3em;
