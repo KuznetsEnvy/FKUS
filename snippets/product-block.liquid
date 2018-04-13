@@ -9,6 +9,9 @@
     {% if false and product.compare_at_price_max > product.price %}
       <span class="product-label sale">Sale</span>
     {% endif %}
+    {% if product.handle contains 'tube' %}
+      <span class="product-label sale">New in</span>
+    {% endif %}
     <a class="info-wrap" href="{{ product.url }}">
       <div class="product-title">{{ product.title }}</div>
       <div class="price-wrap">

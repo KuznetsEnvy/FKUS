@@ -17,6 +17,18 @@
   {{ 'cart.shipping.shipping-banner_html' | t }} <nobr>{{ settings.free_shipping_from | money }}</nobr>
 </div>
 
+<section class="section products-section product-list">
+  <a name="tubes"></a>
+  <h2 class="section-header line-framed visible-desktop ride-ons"><span>Floatie </span><em>{{ collections['tubes'].title }}</em></h2>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['tubes'].products %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
 <section class="section products-section bestsellers visible-desktop">
   <a name="bestsellers"></a>
   <h2 class="section-header line-framed">{{ 'layout.sections.floatie_bestsellers_html' | t }}</h2>
