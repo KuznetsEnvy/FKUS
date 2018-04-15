@@ -46,6 +46,9 @@
         <div class="border-bottom section padless-top product-title-row">
           <div class="product-title">
             <h1 class="title" itemprop="name">{{ product.title }}</h1>
+            {% if product.handle contains 'tube' %}
+              <span class="product-label new-in">New in</span>
+            {% endif %}
           </div>
           <div class="product-price">
             <div id="price" class="product-price {% if product.variants.size == 1 and product.compare_at_price_max > product.price %}on-sale{% endif %}">

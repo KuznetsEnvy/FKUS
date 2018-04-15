@@ -1,20 +1,16 @@
 <div id="bicolorBanner" class="banner-index">
   <picture>
-    <source media="(min-width: 1920px)" srcset="{{ 'header_banner_no_text_1920.png' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 1650px)" srcset="{{ 'header_banner_no_text_1650.png' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 1440px)" srcset="{{ 'header_banner_no_text_1440.png' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 1024px)" srcset="{{ 'header_banner_no_text_1024.png' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 751px)" srcset="{{ 'header_banner_no_text_768.png' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 300px)" srcset="{{ 'header_banner_textless_750.png' | asset_url | split:"?" | first }}">
-    <img src="{{ 'header_banner_textless_414.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
+    <source media="(min-width: 1920px)" srcset="{{ 'Header_Banner_PoolsOpen.gif' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 1650px)" srcset="{{ 'Header_Banner_PoolsOpen.gif' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 1440px)" srcset="{{ 'Header_Banner_PoolsOpen.gif' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 1024px)" srcset="{{ 'Header_Banner_PoolsOpen.gif' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 751px)" srcset="{{ 'Header_Banner_PoolsOpen.gif' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 300px)" srcset="{{ 'header_banner_PoolsOpen_750.gif' | asset_url | split:"?" | first }}">
+    <img src="{{ 'header_banner_PoolsOpen_750.gif' | asset_url | split:"?" | first }}" alt="Homepage banner">
   </picture>
-  <div id="banner-top-text">
+  <div id="banner-top-text" class="hidden">
     <span>Welcome to the</span> <em>Float Life</em>
   </div>
-</div>
-
-<div class="shipping-banner visible-mobile">
-  {{ 'cart.shipping.shipping-banner_html' | t }} <nobr>{{ settings.free_shipping_from | money }}</nobr>
 </div>
 
 <section class="section products-section product-list">
