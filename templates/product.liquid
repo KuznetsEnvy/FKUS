@@ -57,6 +57,19 @@
             </div>
           </div>
           <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
+
+          <div class="visible-mobile">
+            {% if product.available %}
+              <div class="js-btn-daddy">
+                <button name="add" class="add-to-cart buy-now" id="add" data-variant-id="{{ product.variants.first.id }}">{{ 'products.product.add_to_cart_html' | t }}</button>
+              </div>
+            {% else %}
+              <div class="rte">
+                <a href="javascript:void(0)" style="text-align:center" class="back-in-stock add-to-cart notify button button--black-gradient cart-btn cart-btn-desktop unavailable"> {{'products.product.product_unavailable_html' | t }}</a>
+              </div>
+            {% endif %}
+          </div>
+
           <div class="add-ons-section">
             <div class="header">Add these:</div>
             <div class="add-ons-wrap">
