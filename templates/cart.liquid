@@ -70,12 +70,27 @@
         <div class="border-bottom">
           <div class="row">
             <input type="submit" style="display:none;" class="alt" id="update-cart" name="update" value="{{ 'cart.general.update' | t }}"/>
-            <div class="full column align-right">
+            <div class="full align-right">
               <div class="subtotal-wrap">
                 <div class="cart_total_left">
                   <label for="checkout">{{ 'cart.label.subtotal' | t }}</label>
                 </div>
                 <h2 class="cart_total_right">{{ cart.total_price | money }}</h2>
+              </div>
+
+              <div class="border-bottom visible-mobile">
+                <div class="row">
+                  <div class="align-center" style="width:100%;margin-bottom: 0.5rem; margin-top: 1.5rem;">
+                    <input style="width:100%" type="submit" id="checkout" name="checkout" value="{{ 'cart.general.checkout' | t }}" />
+                  </div>
+                  {% comment %}
+                  {% if additional_checkout_buttons %}
+                    <div class="additional-checkout-buttons">
+                      {{ content_for_additional_checkout_buttons }}
+                    </div>
+                  {% endif %}
+                  {% endcomment %}
+                </div>
               </div>
 
               {% if free_shipping_from > c %}
@@ -100,15 +115,17 @@
         </div>
         <div class="border-bottom">
           <div class="row">
-            <div class="column align-center" style="width:100%;margin-bottom: 1rem;">
+            <div class="align-center" style="width:100%;margin-bottom: 1rem;">
               <input style="width:100%" type="submit" id="checkout" name="checkout" value="{{ 'cart.general.checkout' | t }}" />
             </div>
-            {% comment %}
-              <div class="column align-center" style="width:100%">
-                <p style="font-size:12px">You will be able to use your discount code in the next step</p>
-              </div>
-            {% endcomment %}
-            <div class="column align-center cont" style="width:100%; margin-top: 15px;">
+            <div class="hidden">
+              {% if additional_checkout_buttons %}
+                <div class="additional-checkout-buttons">
+                  {{ content_for_additional_checkout_buttons }}
+                </div>
+              {% endif %}
+            </div>
+            <div class="align-center cont" style="width:100%; margin-top: 15px;">
               <a class="left continue" href="/">{{ 'cart.general.keep' | t }}</a>
             </div>
             <div class="clear"></div>

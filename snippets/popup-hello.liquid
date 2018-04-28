@@ -24,7 +24,9 @@
         <span class="popup-close-btn bottom">{{ 'popups.hello.no_thanks' | t }}</span>
       </form>
     </div>
-    <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+    <!-- This may become outdated. If so, will have to update mc-validate.js from //s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js and change ?1 to ?2 etc. -->
+    <script type='text/javascript' src="{{ 'mc-validate.js' | asset_url | split: '?' | first | append: '?1' }}"></script>
+    <script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
     <!--End mc_embed_signup-->
   </div>
 </div>
@@ -45,79 +47,80 @@
                 }
             }
         };
+    }
 
-        function popupHelloHide() {
-            $('.popup-hello-overlay').hide().removeClass('active');
-            $('body').removeClass('body-no-scroll');
-            Cookies.set('popup_showed', 'true');
+    function popupHelloHide() {
+        $('.popup-hello-overlay').hide().removeClass('active');
+        $('body').removeClass('body-no-scroll');
+        Cookies.set('popup_showed', 'true');
+    }
+    function popupHelloShow( skip_check ) {
+        if (skip_check === undefined) {
+            skip_check = false;
         }
-        function popupHelloShow( skip_check ) {
-            if (skip_check === undefined) {
-                skip_check = false;
-            }
-            var popup_refresh = getUrlParameter('popup_refresh');
-            if (popup_refresh) {
-                Cookies.set('popup_showed', 'true', { expires: -1 }); //Remove the cookie
-            }
-            var popup_showed = Cookies.get('popup_showed');
+        var popup_refresh = getUrlParameter('popup_refresh');
+        if (popup_refresh) {
+            Cookies.set('popup_showed', 'true', { expires: -1 }); //Remove the cookie
+        }
+        var popup_showed = Cookies.get('popup_showed');
 
-            if(skip_check || popup_showed != 'true') {
-                if(!$('.popup-stock-overlay.active').length) {
-                    $('.popup-hello-overlay').css({'display': 'flex'}).addClass('active');
-                    $('body').addClass('body-no-scroll');
-                } else {
-                    console.log('Not showing Hello popup because Stock popup is already shown');
-                }
+        if(skip_check || popup_showed != 'true') {
+            if(!$('.popup-stock-overlay.active').length) {
+                $('.popup-hello-overlay').css({'display': 'flex'}).addClass('active');
+                $('body').addClass('body-no-scroll');
             } else {
-                console.log('Not showing popup because user closed it earlier during this session.')
+                console.log('Not showing Hello popup because Stock popup is already shown');
             }
+        } else {
+            console.log('Not showing popup because user closed it earlier during this session.')
         }
-        function popupHelloProcess() {
-            console.log(new Date($.now()) + " Popup form submitted.");
+    }
+    function popupHelloProcess() {
+        console.log(new Date($.now()) + " Popup form submitted.");
 
 
-            if($('#mce-success-response').is(":visible")) { // This means form submitted successfully.
-                console.log('Successfully submitted!');
-                $('.popup-hello .popup-header').html('{{ "popups.hello.welcome_floatlife" | t }}');
-                $('.popup-hello .popup-message').html('{{ "popups.hello.email_added" | t }}');
-                $('.popup-hello #mc_embed_signup_scroll').hide();
-                $('.popup-hello .popup-close-btn.bottom').hide();
-                $('#mc_embed_signup form').css('justify-content', 'center');
-                return true;
-            }
-            if ( !$('#mce-error-response').is(":visible") && !$('.mce_inline_error').is(":visible")) {
-                console.log('No visible errors. Setting timeout...');
-                setTimeout(popupHelloProcess, 200);
-                return false;
-            }
-            if ($('#mce-success-response').is(":visible")) {
-                console.log('Success message is still shown. Setting timeout...');
-                setTimeout(popupHelloProcess, 200);
-                return false;
-            }
-
-            console.log('End of process function');
+        if($('#mce-success-response').is(":visible")) { // This means form submitted successfully.
+            console.log('Successfully submitted!');
+            $('.popup-hello .popup-header').html('{{ "popups.hello.welcome_floatlife" | t }}');
+            $('.popup-hello .popup-message').html('{{ "popups.hello.email_added" | t }}');
+            $('.popup-hello #mc_embed_signup_scroll').hide();
+            $('.popup-hello .popup-close-btn.bottom').hide();
+            $('#mc_embed_signup form').css('justify-content', 'center');
+            return true;
+        }
+        if ( !$('#mce-error-response').is(":visible") && !$('.mce_inline_error').is(":visible")) {
+            console.log('No visible errors. Setting timeout...');
+            setTimeout(popupHelloProcess, 200);
             return false;
         }
-        function popupHelloInit() {
-            $('.invoke-popup-hello').each(function() {
-                $(this).on('click', function() {
-                    popupHelloShow( true )
-                });
-            });
-            $('.popup-close-btn').each(function() {
-                $(this).on('click', popupHelloHide);
-            });
-            $('.popup-hello-overlay').on('click', function(e){
-                if (e.target !== this)
-                    return;
-                popupHelloHide();
-            });
-
-            var popupHelloTimeoutId = window.setTimeout(popupHelloShow, 5000);
+        if ($('#mce-success-response').is(":visible")) {
+            console.log('Success message is still shown. Setting timeout...');
+            setTimeout(popupHelloProcess, 200);
+            return false;
         }
 
-        window.addEventListener('load', popupHelloInit);
-        document.getElementById('mc-embedded-subscribe-form').addEventListener('submit', popupHelloProcess);
+        console.log('End of process function');
+        return false;
     }
+    function popupHelloInit() {
+        $('.invoke-popup-hello').each(function() {
+            $(this).on('click', function() {
+                popupHelloShow( true )
+            });
+        });
+        $('.popup-close-btn').each(function() {
+            $(this).on('click', popupHelloHide);
+        });
+        $('.popup-hello-overlay').on('click', function(e){
+            if (e.target !== this)
+                return;
+            popupHelloHide();
+        });
+
+        var popupHelloTimeoutId = window.setTimeout(popupHelloShow, 5000);
+    }
+
+    window.addEventListener('load', popupHelloInit);
+    document.getElementById('mc-embedded-subscribe-form').addEventListener('submit', popupHelloProcess);
+
 </script>

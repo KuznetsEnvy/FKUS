@@ -1,0 +1,69 @@
+<div id="bicolorBanner" class="banner-index">
+  {%- capture base -%}
+    banner-discount-{{- page.title | downcase -}}
+  {%- endcapture -%}
+  <picture>
+    <source media="(min-width: 751px)" srcset="{{ base | append: '.png' | asset_url | split: '?' | first }}">
+    <source media="(min-width: 1px)" srcset="{{ base | append: '.png' | asset_url | split:"?" | first }}">
+    <img src="{{ base | append: '.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
+  </picture>
+</div>
+
+<!-- region Countdown -->
+<div class="countdown-stripe-wrap visible-desktop">
+  <div id="countdown-stripe"></div>
+  <em>Use code: {{ page.title | upcase }}</em>
+</div>
+
+<script>
+  //Remembering visit datetime
+
+  var youtubeDiscountVisitingTime = Cookies.get('youtubeDiscountVisitingTime'); // string
+  if (!youtubeDiscountVisitingTime) {
+      var youtubeDiscountVisitingTime = new Date(); // object
+      Cookies.set('youtubeDiscountVisitingTime', youtubeDiscountVisitingTime); // string
+  }
+
+  // Set the date we're counting down to
+  var countDownDate = new Date(youtubeDiscountVisitingTime).getTime() + 16*60*60*1000;
+
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+
+      // Get todays date and time
+      var now = new Date().getTime();
+
+      // Find the distance between now an the count down date
+      var distance = countDownDate - now;
+
+      if (distance < 0) {
+          youtubeDiscountVisitingTime = new Date();
+          Cookies.set('youtubeDiscountVisitingTime', youtubeDiscountVisitingTime);
+          countDownDate = youtubeDiscountVisitingTime.getTime() + 16*60*60*1000;
+      }
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      hours += days*24;
+      if (hours   < 10) {hours   = "0"+hours;}
+      if (minutes < 10) {minutes = "0"+minutes;}
+      if (seconds < 10) {seconds = "0"+seconds;}
+
+      // Display the result in the element with id="demo"
+      document.getElementById("countdown-stripe").innerHTML = "20%  OFF SITEWIDE - <span>HURRY!</span> <strong>" + hours + ":" + minutes + ":" + seconds + "</strong>";
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+          // clearInterval(x);
+          document.getElementById("countdown-stripe").innerHTML = "EXPIRED";
+      }
+  }, 1000);
+</script>
+<!-- endregion -->
+
+
+{% include 'homepage-layout' %}

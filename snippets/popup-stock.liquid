@@ -1,6 +1,6 @@
 <div class="popup-stock-overlay">
   <div class="popup-stock">
-    <span class="popup-close-btn top">X</span>
+    <span class="popup-close-btn top"><span class="fa fa-close"></span></span>
     <!-- Begin MailChimp Signup Form -->
     <div id="mc_embed_signup">
       <form action="https://floatiekings.us13.list-manage.com/subscribe/post?u=48982d426a910167c31a85aa0&amp;id=3a995a35be&PTITLE={{ product.title | url_param_escape }}&PSKU={{ product.selected_or_first_available_variant.sku | url_param_escape }}&PLINK={{ shop.url | url_param_escape }}{{ product.url | url_param_escape }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate popup-stock-form" target="_blank" novalidate>
@@ -20,7 +20,9 @@
         </div>
       </form>
     </div>
-    <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='PTITLE';ftypes[1]='text';fnames[2]='PSKU';ftypes[2]='text';fnames[3]='PLINK';ftypes[3]='url';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+    <!-- This may become outdated. If so, will have to update mc-validate.js from //s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js and change ?1 to ?2 etc. -->
+    <script type='text/javascript' src="{{ 'mc-validate.js' | asset_url | split: '?' | first | append: '?1' }}"></script>
+    <script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='PTITLE';ftypes[1]='text';fnames[2]='PSKU';ftypes[2]='text';fnames[3]='PLINK';ftypes[3]='url';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
     <!--End mc_embed_signup-->
   </div>
 </div>

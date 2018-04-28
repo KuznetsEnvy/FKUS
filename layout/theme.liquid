@@ -108,7 +108,7 @@
   {% include 'judgeme_core' %}
 </head>
 
-<body class="template-{{ template | split: '.' | first }} {{ page_title | handle }}">
+<body class="template-{{ template | split: '.' | first }} {{ page_title | handle }} {% if template contains 'discount' or template contains 'list-collections' %}template-index{% endif %}">
 <div id="loading-overlay" style="z-index: 999; position: fixed; top:0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items:center; background-color: white; display: none;">
   <img src="{{ 'FK_Crown_Loader2.gif' | asset_url | split:'?' | first }}" alt="loading image"/></div>
 <script>

@@ -1,0 +1,287 @@
+
+<section class="section products-section product-list">
+  <a name="tubes"></a>
+  <h2 class="section-header line-framed visible-desktop ride-ons"><span>Floatie </span><em>{{ collections['tubes'].title }}</em></h2>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['tubes'].products %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section products-section bestsellers visible-desktop">
+  <a name="bestsellers"></a>
+  <h2 class="section-header line-framed">{{ 'layout.sections.floatie_bestsellers_html' | t }}</h2>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['bestsellers'].products limit: 2 %}
+        {% include 'product-bestseller' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section products-section product-list">
+  <a name="ride-ons"></a>
+  <a name="fun-rides"></a>
+  <h2 class="section-header line-framed visible-desktop ride-ons"><span>Floatie </span><em>{{ collections['ride-ons'].title }}</em></h2>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['ride-ons'].products %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% section 'as-seen-on' %}
+
+<section class="section products-section product-list">
+  <a name="emojis"></a>
+  <h2 class="section-header line-framed visible-desktop"><span>Floatie </span><em>{{ collections['emojis'].title }}</em></h2>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['emojis'].products %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="banner banner-memories-forever visible-mobile">
+  <div><span>{{ 'layout.banners.memories_last_forever' | t }}</span></div>
+</div>
+
+<section class="section products-section product-list">
+  <a name="snacks"></a>
+  <h2 class="section-header line-framed visible-desktop"><span>Floatie </span><em>{{ collections['snacks'].title }}</em></h2>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['snacks'].products %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class='jdgm-carousel-wrapper'>
+    <h2 class="section-header line-framed"><span>Customer </span><em>Reviews</em></h2>
+
+    {{ shop.metafields.judgeme.featured_carousel }}
+  </div>
+</div>
+
+
+<div class="banner banner-best-friend visible-mobile">
+  <div>{{ 'layout.banners.bring_best_friend_html' | t }}</div>
+</div>
+
+{% comment %}
+  <div class="banners-3-wrap visible-desktop">
+    <div class="banner shop-collection" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
+    <div class="banner shop-collection" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
+    <div class="banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
+  </div>
+
+  <section class="section products-section product-list visible-mobile">
+    <a name="bestsellers"></a>
+    <div class="container">
+      <div class="row grid">
+        {% for product in collections['swans'].products limit: 6 %}
+          {% include 'product-block' %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section products-section product-list visible-mobile">
+    <a name="fun-rides"></a>
+    <div class="container">
+      <div class="row grid">
+        {% for product in collections['fun-rides'].products limit: 2 %}
+          {% include 'product-block' %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endcomment %}
+
+
+<!-- region Countdown -->
+{% comment %}
+  <div id="countdown-stripe" class="visible-desktop"></div>
+  <script>
+      // Set the date we're counting down to
+      var countDownDate = new Date("Sep 20, 2017 00:00:00").getTime();
+
+      // Update the count down every 1 second
+      var x = setInterval(function() {
+
+          // Get todays date and time
+          var now = new Date().getTime();
+
+          // Find the distance between now an the count down date
+          var distance = countDownDate - now;
+
+          // Time calculations for days, hours, minutes and seconds
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          hours += days*24;
+          if (hours   < 10) {hours   = "0"+hours;}
+          if (minutes < 10) {minutes = "0"+minutes;}
+          if (seconds < 10) {seconds = "0"+seconds;}
+
+          // Display the result in the element with id="demo"
+          document.getElementById("countdown-stripe").innerHTML = "Hurry! <span>Sale</span> ends in <strong>" + hours + ":" + minutes + "</strong> hours!";
+
+          // If the count down is finished, write some text
+          if (distance < 0) {
+              clearInterval(x);
+              document.getElementById("countdown-stripe").innerHTML = "EXPIRED";
+          }
+      }, 1000);
+  </script>
+{% endcomment %}
+<!-- endregion -->
+<!--region Old code -->
+{% comment %}
+  <section class="section products-section product-list visible-mobile">
+    <a name="donuts"></a>
+    <div class="container">
+      <div class="row grid">
+        {% for product in collections['donuts'].products limit: 6 %}
+          {% include 'product-block' %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <div class="visible-mobile banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
+    <a href="javascript:void(0)">
+    </a>
+  </div>
+
+
+  <section class="section products-section product-list visible-mobile">
+    <a name="emojis"></a>
+    <div class="container">
+      <div class="row grid">
+        {% for product in collections['emojis'].products limit: 3 %}
+          {% include 'product-block' %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
+    <a href="javascript:void(0)"></a>
+  </div>
+{% endcomment %}
+<!--endregion-->
+
+<!-- Aaron Kai banner -->
+<section id="aron-kai" class="section bottom-banner visible-desktop">
+  <div class="container">
+    <h2 class="section-header line-framed"><em>Exclusive Collaborations</em></h2>
+    <h3 class="align-center">Only on FloatieKings!</h3>
+    <div class="banner">
+      <img src="{{ 'aaronKai-banner.png' | asset_url | split:"?" | first }}" alt="Home AaronKai Banner" />
+    </div>
+  </div>
+</section>
+
+<section class="section products-section product-list">
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['aaron-kai'].products limit: 3 %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Badwood banner -->
+<section class="section bottom-banner">
+  <div class="container">
+    <div class="banner">
+      <img src="{{ 'bottom-banner_new.png' | asset_url | split:"?" | first }}" alt="Home Banner" />
+    </div>
+  </div>
+</section>
+
+<section class="section products-section product-list">
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['ski-mask'].products limit: 1 %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+
+<div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
+  <a href="javascript:void(0)"></a>
+</div>
+
+<section class="section products-section product-list">
+  <div class="container">
+    <h2 class="section-header line-framed"><span>Fun </span><em>Accessories</em></h2>
+    <div class="row grid">
+      {% for product in collections['pump'].products limit: 1 %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<section id="insta">
+  <div class="container"><h2 class="section-header line-framed"><span>As seen on </span><em>Instagram</em></h2></div>
+  <div class="header visible-desktop">
+    {{ 'layout.misc.follow_us_html' | t }} <span class="fa fa-instagram"></span> <strong>floatie</strong>kings
+  </div>
+
+  <div id="instafeed" class="grid">
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_02.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_03.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_04.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_05.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_06.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_07.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_08.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_09.png" alt="Pizza Delivery #FloatieKings"></a>
+  </div>
+  <div class="insta-control visible-mobile">
+    <img class="insta-control-left" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
+    <img align="right" class="insta-control-right" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
+  </div>
+
+</section>
+<script type="text/javascript">
+    function instafeed_ig(callback) {
+      {% assign instafeed_template = '<a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="{{orientation}}" src="{{image}}" alt="{{caption}}" /></a>' %}
+        var feed = new Instafeed({
+            accessToken: '2077099952.1677ed0.9304752d4bff4ab49f5eabae56f5bec8',
+            target: 'instafeed',
+            get: 'user',
+            userId: '2077099952',
+            resolution: 'standard_resolution',
+            limit: 8,
+            sortBy: 'most-recent',
+            template: '{{ instafeed_template }}'
+        });
+
+        feed.run();
+        if(typeof callback === "function") callback();
+    }
+    // window.addEventListener('load', function() { instafeed_ig() });
+
+</script>
