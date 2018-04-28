@@ -6,20 +6,21 @@
     {% for product in collections.all.products %}
     <!-- Item #{{ forloop.index }} -->
     <item>
-    	<title>{{ product.title | strip_html | strip_newlines | replace: '&', 'and' }}</title>
-    	<id>{{product.id}}</id>
-    	<description>{{ product.description | strip_html | strip_newlines }}</description>
-    	<image_link>https:{{product.featured_image | product_img_url: 'master' }}</image_link>
-    	<link>{{shop.url}}{{product.url}}</link>
-    	<price>{{product.price | money_without_currency}} USD</price>
-    	<brand>Floatie Kings</brand>
-    	<availability>{% if product.available == true %}in stock{% else %}out of stock{% endif %}</availability>
-    	<condition>new</condition>
-    	<google_product_category>Home &amp; Garden &gt; Pool &amp; Spa &gt; Pool &amp; Spa Accessories &gt; Pool Floats &amp; Loungers
-</google_product_category>
-    	<product_type>{{ product.type }}</product_type>
+      <title>{{ product.title | strip_html | strip_newlines | replace: '&', 'and' }}</title>
+      <id>shopify_{{product.id}}_{{product.selected_or_first_available_variant.id}}</id>
+      <description>{{ product.description | strip_html | strip_newlines }}</description>
+      <image_link>https:{{product.featured_image | product_img_url: 'master' }}</image_link>
+      <link>{{shop.url}}{{product.url}}</link>
+    <price>{{product.price | money_without_currency}} USD</price>
+    <brand>Floatie Kings</brand>
+    <availability>{% if product.available == true %}in stock{% else %}out of stock{% endif %}</availability>
+    <condition>new</condition>
+    <google_product_category>Home &amp; Garden &gt; Pool &amp; Spa &gt; Pool &amp; Spa Accessories &gt; Pool Floats &amp; Loungers
+    </google_product_category>
+    <product_type>{{ product.type }}</product_type>
+    <item_group_id>{{product.id}}</item_group_id>
     </item>
-	{% endfor %}
-	{% endpaginate %}
+  {% endfor %}
+  {% endpaginate %}
   </channel>
 </rss>
