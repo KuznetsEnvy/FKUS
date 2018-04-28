@@ -23,7 +23,7 @@
             <li class="item border-bottom">
               <div class="description">
                 <a class="image" href="{{ item.url }}">
-                  <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}" />
+                  <img src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}" />
                 </a>
                 <div class="left">
                   <div>{{ item.product.title | link_to: item.product.url }}</div>
@@ -83,13 +83,11 @@
                   <div class="align-center" style="width:100%;margin-bottom: 0.5rem; margin-top: 1.5rem;">
                     <input style="width:100%" type="submit" id="checkout" name="checkout" value="{{ 'cart.general.checkout' | t }}" />
                   </div>
-                  {% comment %}
                   {% if additional_checkout_buttons %}
                     <div class="additional-checkout-buttons">
                       {{ content_for_additional_checkout_buttons }}
                     </div>
                   {% endif %}
-                  {% endcomment %}
                 </div>
               </div>
 
@@ -115,16 +113,16 @@
         </div>
         <div class="border-bottom">
           <div class="row">
-            <div class="align-center" style="width:100%;margin-bottom: 1rem;">
+            <div class="align-center" style="width:100%;margin-bottom: 0.5rem;">
               <input style="width:100%" type="submit" id="checkout" name="checkout" value="{{ 'cart.general.checkout' | t }}" />
             </div>
-            <div class="hidden">
-              {% if additional_checkout_buttons %}
-                <div class="additional-checkout-buttons">
-                  {{ content_for_additional_checkout_buttons }}
-                </div>
-              {% endif %}
-            </div>
+
+            {% if additional_checkout_buttons %}
+              <div class="additional-checkout-buttons">
+                {{ content_for_additional_checkout_buttons }}
+              </div>
+            {% endif %}
+
             <div class="align-center cont" style="width:100%; margin-top: 15px;">
               <a class="left continue" href="/">{{ 'cart.general.keep' | t }}</a>
             </div>

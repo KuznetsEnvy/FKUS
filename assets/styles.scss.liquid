@@ -6832,14 +6832,25 @@ b {
   text-align: center;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 
-  .additional-checkout-button {
-    margin: 0;
+  .additional-checkout-button + .additional-checkout-button {
+    margin: 0 0 0.5em;
   }
 
   .additional-checkout-button--paypal-express, .additional-checkout-button--amazon {
-    width: 49%;
+    width: 100%;
     height: 2.929em;
+
+    @include desktop {
+      width: 49%;
+    }
+  }
+
+  .additional-checkout-button--amazon img {
+    @include desktop {
+      vertical-align: bottom !important;
+    }
   }
 }
 
