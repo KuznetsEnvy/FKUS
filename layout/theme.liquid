@@ -108,7 +108,7 @@
   {% include 'judgeme_core' %}
 </head>
 
-<body class="template-{{ template | split: '.' | first }} {{ page_title | handle }} {% if template contains 'discount' or template contains 'list-collections' %}template-index{% endif %}">
+<body class="template-{{ template | split: '.' | first }} {{ template | split: '.' | join: '-' }} {{ page_title | handle }} {% if template contains 'discount' or template contains 'list-collections' %}template-index{% endif %}">
 <div id="loading-overlay" style="z-index: 999; position: fixed; top:0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items:center; background-color: white; display: none;">
   <img src="{{ 'FK_Crown_Loader2.gif' | asset_url | split:'?' | first }}" alt="loading image"/></div>
 <script>
@@ -142,16 +142,16 @@
   <div class="page-header">
     <a class="text-logo" href="{{ shop.url }}"><strong>Floatie</strong> Kings</a>
     <div class="top-nav">
-      <div id="nav-icon3" class="visible-mobile hidden">
+      <div id="nav-icon3" class="visible-mobile">
         <span></span>
         <span></span>
         <span></span>
         <span></span>
       </div>
       <nav class="visible-desktop">
-        <a href="javascript:void(0)" class="hidden">Shop</a>
-        <a href="javascript:void(0)" class="hidden">Our story</a>
-        <a href="javascript:void(0)" class="hidden invoke-popup-hello">Join the family</a>
+        <a href="/">Shop</a>
+        <a href="/pages/our-story" >Our story</a>
+        <a href="javascript:void(0)" class="invoke-popup-hello">Join the family</a>
       </nav>
     </div>
     <div class="cart-wrap">

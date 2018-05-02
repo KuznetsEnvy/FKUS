@@ -6748,18 +6748,19 @@ b {
 
       a {
         text-transform: uppercase;
-        margin: 0 1.6em;
+        margin: 0.6em 1.6em;
 
         @include desktop {
+          margin: 0 1.6em;
           font-size: 1.12vw;
         }
 
         @include mobile-only {
           display: block;
-        }
 
-        &:hover {
-
+          &.hidden {
+            display: none;
+          }
         }
       }
     }
@@ -7744,6 +7745,9 @@ h2.section-header {
         &.white-swan {
           left: 54%;
           text-align: left;
+        }
+        &.pizza-floatie {
+          left: 11%;
         }
       }
 
@@ -9165,6 +9169,148 @@ $hamburger-height: 4.8vw;
     border: 0.1em solid black;
     padding: 0.1em 1.5em;
     line-height: 240%;
+  }
+}
+
+.page-our-story {
+  #content {
+    text-align: center;
+
+    @include desktop {
+      font-size: 1.38vw;
+    }
+
+    .banner {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      h1 {
+        position: absolute;
+        color: white;
+        font-family: "Have Heart One";
+        font-weight: 400;
+        font-size: 5em;
+      }
+    }
+    #icon-sunset {
+      width: 2.75em;
+      margin-top: 2.75em;
+
+      .cls-3 {
+        fill: $sunglow;
+      }
+    }
+    h2 {
+      font-weight: 400;
+      margin-top: 0.2em;
+
+      @include desktop {
+        font-size: 2.26vw;
+      }
+    }
+    .our-story-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 1.5em 2em;
+      margin-top: 3em;
+
+      @include desktop {
+        grid-template-columns: 1fr 1fr;
+        .ord2 {
+          order: 2;
+        }
+      }
+
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p {
+          margin: 0;
+        }
+
+      }
+      .wrapper {
+        position: relative;
+
+        #our-story-double-seal-badge {
+          position: absolute;
+          width: 6.8em;
+          top: -10%;
+          right: 10%;
+        }
+      }
+
+      a, a:hover, a:visited {
+        color: $jungle-green;
+        font-weight: 700;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .our-story-bottom {
+      margin-top: 5em;
+      display: grid;
+      grid-template-columns: 1fr;
+
+      @include desktop {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      div {
+        position: relative;
+
+        a.overlay {
+          display: inline-flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top:0;
+          left:0;
+          background-color: transparentize(black, 0.5);
+          color: white;
+          cursor: pointer;
+
+          &:hover {
+            color: white;
+            background-color: transparentize($radical-red, 0.5);
+          }
+
+          .title {
+            font-family: "Have Heart One";
+            font-size: 3em;
+            line-height: 65%;
+          }
+          .text {
+            text-transform: uppercase;
+            font-size: 0.9em;
+            margin: 1em 0;
+          }
+          .view-floaties {
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            padding: 1.5em 3.3em;
+            border-radius: 0.3em;
+            background-color: $radical-red;
+            text-transform: uppercase;
+            margin-top: 1.5em
+          }
+        }
+      }
+    }
+  }
+
+  .page-footer {
+    margin-top: 0;
   }
 }
 

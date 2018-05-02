@@ -13,10 +13,10 @@
 
 <section class="section products-section bestsellers visible-desktop">
   <a name="bestsellers"></a>
-  <h2 class="section-header line-framed">{{ 'layout.sections.floatie_bestsellers_html' | t }}</h2>
+  <h2 class="section-header line-framed"><span>Giant </span><em>Pizzas</em></h2>
   <div class="container">
     <div class="row grid">
-      {% for product in collections['bestsellers'].products limit: 2 %}
+      {% for product in collections['giant-pizzas'].products limit: 2 %}
         {% include 'product-bestseller' %}
       {% endfor %}
     </div>
