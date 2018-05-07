@@ -2,11 +2,7 @@
   {%- capture base -%}
     banner-discount-{{- page.title | downcase -}}
   {%- endcapture -%}
-  <picture>
-    <source media="(min-width: 751px)" srcset="{{ base | append: '.png' | asset_url | split: '?' | first }}">
-    <source media="(min-width: 1px)" srcset="{{ base | append: '.png' | asset_url | split:"?" | first }}">
-    <img src="{{ base | append: '.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
-  </picture>
+  <img alt="#FloatieKings" src="{{ base | append: '.png' | asset_img_url: '2048x' | split: '?' | first }}" srcset="{{ base | append: '.png' | asset_img_url: '400x' | split: '?' | first }} 400w, {{ base | append: '.png' | asset_img_url: '750x' | split: '?' | first }} 750w, {{ base | append: '.png' | asset_img_url: '1024x' | split: '?' | first }} 1024w, {{ base | append: '.png' | asset_img_url: '1440x' | split: '?' | first }} 1440w, {{ base | append: '.png' | asset_img_url: '1680x' | split: '?' | first }} 1680w, {{ base | append: '.png' | asset_img_url: '1920x' | split: '?' | first }} 1920w, {{ base | append: '.png' | asset_img_url: '2048x' | split: '?' | first }} 2048w" />
 </div>
 
 <!-- region Countdown -->

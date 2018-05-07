@@ -1,54 +1,47 @@
 <div id="bicolorBanner" class="banner">
   <picture>
-    <source media="(min-width: 1650px)" srcset="{{ 'our-story-bg.png' | asset_img_url: '1920x' | split:"?" | first }}">
-    <source media="(min-width: 1440px)" srcset="{{ 'our-story-bg.png' | asset_img_url: '1650x' | split:"?" | first }}">
-    <source media="(min-width: 1024px)" srcset="{{ 'our-story-bg.png' | asset_img_url: '1440x' | split:"?" | first }}">
-    <source media="(min-width: 751px)" srcset="{{ 'our-story-bg.png' | asset_img_url: '1024x' | split:"?" | first }}">
-    <source media="(min-width: 300px)" srcset="{{ 'our-story-bg.png' | asset_img_url: '750x' | split:"?" | first }}">
-    <img src="{{ 'our-story-bg.png' | asset_img_url: '1024x' | split:"?" | first }}" alt="Homepage banner">
+    <source media="(min-width: 1650px)" srcset="{{ 'join-family-bg.png' | asset_img_url: '1920x' | split:"?" | first }}">
+    <source media="(min-width: 1440px)" srcset="{{ 'join-family-bg.png' | asset_img_url: '1650x' | split:"?" | first }}">
+    <source media="(min-width: 1024px)" srcset="{{ 'join-family-bg.png' | asset_img_url: '1440x' | split:"?" | first }}">
+    <source media="(min-width: 751px)" srcset="{{ 'join-family-bg.png' | asset_img_url: '1024x' | split:"?" | first }}">
+    <source media="(min-width: 300px)" srcset="{{ 'join-family-bg.png' | asset_img_url: '750x350', crop: 'left' | split:"?" | first }}">
+    <img src="{{ 'join-family-bg.png' | asset_img_url: '1024x' | split:"?" | first }}" alt="Homepage banner">
   </picture>
   <h1>{{ page.title }}</h1>
 </div>
 
 <div class="container">
 
-  <svg id="icon-sunset" data-name="FK Sunset" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 479.74">
-    <title>icon-sunset</title>
-    <path class="cls-3" d="M256,16.13a15,15,0,0,0-15,15v60a15,15,0,0,0,30,0v-60A15,15,0,0,0,256,16.13Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M139.33,133.24,96.9,90.82A15,15,0,0,0,75.69,112l42.43,42.43a15,15,0,1,0,21.21-21.22Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M436.31,90.82a15,15,0,0,0-21.21,0l-42.43,42.42a15,15,0,1,0,21.21,21.22L436.31,112A15,15,0,0,0,436.31,90.82Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M343.91,64A15,15,0,0,0,324.24,72L312.52,99.58a15,15,0,0,0,27.62,11.72l11.72-27.61A15,15,0,0,0,343.91,64Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M199.48,99.58,187.75,72a15,15,0,1,0-27.61,11.72l11.72,27.61a15,15,0,1,0,27.62-11.72Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M76,256.13H15a15,15,0,0,0,0,30H76a15,15,0,0,0,0-30Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M497,256.13H436a15,15,0,0,0,0,30h61a15,15,0,0,0,0-30Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M464.61,186.84a15,15,0,0,0-19.53-8.29l-27.81,11.24a15,15,0,0,0,11.24,27.82l27.81-11.24A15,15,0,0,0,464.61,186.84Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M94.73,189.79,66.91,178.55a15,15,0,0,0-11.24,27.82l27.82,11.24a15,15,0,1,0,11.24-27.82Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M502.4,461.37a65.93,65.93,0,0,1-12.83-6.66c-32.19-21.46-75.45-21.46-107.64,0a65.93,65.93,0,0,1-73.36,0,95.88,95.88,0,0,0-106.64,0,65.93,65.93,0,0,1-73.36,0c-32.19-21.46-75.45-21.46-107.64,0a66,66,0,0,1-11.61,6.18,15,15,0,1,0,11.37,27.76,96.86,96.86,0,0,0,16.88-9,67.74,67.74,0,0,1,74.36,0,95.85,95.85,0,0,0,106.64,0,66,66,0,0,1,73.36,0,95.87,95.87,0,0,0,106.64,0,67.74,67.74,0,0,1,74.36,0,95.49,95.49,0,0,0,18.66,9.68,15,15,0,1,0,10.81-28Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M502.4,401.37a65.93,65.93,0,0,1-12.83-6.66c-32.19-21.46-75.45-21.46-107.64,0a65.93,65.93,0,0,1-73.36,0,95.88,95.88,0,0,0-106.64,0,65.93,65.93,0,0,1-73.36,0c-32.19-21.46-75.45-21.46-107.64,0a66,66,0,0,1-11.61,6.18,15,15,0,1,0,11.37,27.76,96.86,96.86,0,0,0,16.88-9,67.74,67.74,0,0,1,74.36,0,95.85,95.85,0,0,0,106.64,0,66,66,0,0,1,73.36,0,95.85,95.85,0,0,0,106.64,0,67.74,67.74,0,0,1,74.36,0,95.49,95.49,0,0,0,18.66,9.68,15,15,0,1,0,10.81-28Z" transform="translate(0 -16.13)"/>
-    <path class="cls-3" d="M502.4,341.38a66,66,0,0,1-12.83-6.67c-32.19-21.46-75.45-21.46-107.64,0a65.91,65.91,0,0,1-10,5.5A135,135,0,0,0,391,271.13c0-74.44-60.56-135-135-135s-135,60.56-135,135a135,135,0,0,0,19.61,69.93,66.75,66.75,0,0,1-12-6.35c-32.19-21.46-75.45-21.46-107.64,0a66,66,0,0,1-11.61,6.18,15,15,0,1,0,11.37,27.76,96.86,96.86,0,0,0,16.88-9,67.74,67.74,0,0,1,74.36,0,95.85,95.85,0,0,0,106.64,0,66,66,0,0,1,73.36,0,95.85,95.85,0,0,0,106.64,0,67.74,67.74,0,0,1,74.36,0,96.08,96.08,0,0,0,18.66,9.69,15,15,0,1,0,10.81-28Zm-171.22,2.95a66.08,66.08,0,0,1-22.61-9.62,95.88,95.88,0,0,0-106.64,0A66.14,66.14,0,0,1,180.54,344a105,105,0,1,1,150.64.29Z" transform="translate(0 -16.13)"/>
-  </svg>
-  <h2>Founded in L.A. <nobr>Inspired by our love of summer.</nobr></h2>
+  <p>Select an option below:</p>
 
-  <div class="our-story-grid">
-
-    <img class="responsively-lazy" alt="" src="{{ 'our-story-1.png' | asset_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'our-story-1.png' | asset_img_url: '100x' }} 100w, {{ 'our-story-1.png' | asset_img_url: '200x' }} 200w, {{ 'our-story-1.png' | asset_img_url: '300x' }} 300w, {{ 'our-story-1.png' | asset_img_url: '400x' }} 400w, {{ 'our-story-1.png' | asset_img_url: '500x' }} 500w, {{ 'our-story-1.png' | asset_img_url: '600x' }} 600w, {{ 'our-story-1.png' | asset_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
-    <div class="our-story-text">
-      <p>Founded in 2015, Floatie Kings was inspired by our love of summer and a dream of spreading California pool party culture across the world. Today, our luxury, custom-designed <a href="javascript:void(0)">pool floats</a> can be spotted at the hottest pool parties and beaches in Ibiza, Miami, Rio, Bali and wherever summer stories are made.</p>
+  <div class="join-family-grid">
+    
+    <div class="creative jf-link">
+      <img class="responsively-lazy" alt="" src="{{ 'join-family-1.png' | asset_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'join-family-1.png' | asset_img_url: '100x' }} 100w, {{ 'join-family-1.png' | asset_img_url: '200x' }} 200w, {{ 'join-family-1.png' | asset_img_url: '300x' }} 300w, {{ 'join-family-1.png' | asset_img_url: '400x' }} 400w, {{ 'join-family-1.png' | asset_img_url: '500x' }} 500w, {{ 'join-family-1.png' | asset_img_url: '600x' }} 600w, {{ 'join-family-1.png' | asset_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <div class="join-family-text">
+        <span>Creative</span>
+      </div>
     </div>
-
-    <div class="wrapper ord2">
-      <img class="responsively-lazy" alt="" src="{{ 'our-story-2.png' | asset_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'our-story-2.png' | asset_img_url: '100x' }} 100w, {{ 'our-story-2.png' | asset_img_url: '200x' }} 200w, {{ 'our-story-2.png' | asset_img_url: '300x' }} 300w, {{ 'our-story-2.png' | asset_img_url: '400x' }} 400w, {{ 'our-story-2.png' | asset_img_url: '500x' }} 500w, {{ 'our-story-2.png' | asset_img_url: '600x' }} 600w, {{ 'our-story-2.png' | asset_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
-      <img id="our-story-double-seal-badge" src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-src="{{ 'our-story-double-seal.svg' | asset_url }}" alt="" />
+    <div class="influencer jf-link invoke-popup-influencer">
+      <img class="responsively-lazy" alt="" src="{{ 'join-family-2.png' | asset_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'join-family-2.png' | asset_img_url: '100x' }} 100w, {{ 'join-family-2.png' | asset_img_url: '200x' }} 200w, {{ 'join-family-2.png' | asset_img_url: '300x' }} 300w, {{ 'join-family-2.png' | asset_img_url: '400x' }} 400w, {{ 'join-family-2.png' | asset_img_url: '500x' }} 500w, {{ 'join-family-2.png' | asset_img_url: '600x' }} 600w, {{ 'join-family-2.png' | asset_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <div class="join-family-text">
+        <span>Influencer</span>
+      </div>
     </div>
-    <div class="our-story-text">
-      <p>From our own premium versions of the classic designs to limited edition colabs with up-and-coming <a href="javascript:void(0)">LA creatives</a>, Floatie Kings pool floats are designed to make a splash in the pool and on your insta feed. Our party-proof double seam technology and included patch kit ensures that the fun will last all summer long. Every Floatie Kings pool float also comes with its own carry bag, so you’re always ready to go.</p>
+    <div class="fan-club jf-link">
+      <img class="responsively-lazy" alt="" src="{{ 'join-family-3.png' | asset_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'join-family-3.png' | asset_img_url: '100x' }} 100w, {{ 'join-family-3.png' | asset_img_url: '200x' }} 200w, {{ 'join-family-3.png' | asset_img_url: '300x' }} 300w, {{ 'join-family-3.png' | asset_img_url: '400x' }} 400w, {{ 'join-family-3.png' | asset_img_url: '500x' }} 500w, {{ 'join-family-3.png' | asset_img_url: '600x' }} 600w, {{ 'join-family-3.png' | asset_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <div class="join-family-text">
+        <span>Fan club</span>
+      </div>
     </div>
-
-    <img class="ord2 responsively-lazy" alt="" src="{{ 'our-story-3.png' | asset_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'our-story-3.png' | asset_img_url: '100x' }} 100w, {{ 'our-story-3.png' | asset_img_url: '200x' }} 200w, {{ 'our-story-3.png' | asset_img_url: '300x' }} 300w, {{ 'our-story-3.png' | asset_img_url: '400x' }} 400w, {{ 'our-story-3.png' | asset_img_url: '500x' }} 500w, {{ 'our-story-3.png' | asset_img_url: '600x' }} 600w, {{ 'our-story-3.png' | asset_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
-    <div class="our-story-text ord2">
-      <p>We’re all about bringing the <a href="javascript:void(0)">#FloatLife</a> to our millions of Floatie Kings fans across the world, from the likes of Selena Gomez and Taylor Swift to the crowds at our <a href="javascript:void(0)">Floatopia</a> pool parties featuring DJ Sam Blacky. We love seeing how our fans are living the #FloatLife, so tag @FloatieKings on Instagram and become part of our story.</p>
+    <div class="wholesale jf-link">
+      <img class="responsively-lazy" alt="" src="{{ 'join-family-4.png' | asset_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'join-family-4.png' | asset_img_url: '100x' }} 100w, {{ 'join-family-4.png' | asset_img_url: '200x' }} 200w, {{ 'join-family-4.png' | asset_img_url: '300x' }} 300w, {{ 'join-family-4.png' | asset_img_url: '400x' }} 400w, {{ 'join-family-4.png' | asset_img_url: '500x' }} 500w, {{ 'join-family-4.png' | asset_img_url: '600x' }} 600w, {{ 'join-family-4.png' | asset_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <img class="responsively-lazy opacity" alt="" src="{{ 'join-family-crown.png' | asset_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'join-family-crown.png' | asset_img_url: '100x' }} 100w, {{ 'join-family-crown.png' | asset_img_url: '200x' }} 200w, {{ 'join-family-crown.png' | asset_img_url: '300x' }} 300w, {{ 'join-family-crown.png' | asset_img_url: '400x' }} 400w, {{ 'join-family-crown.png' | asset_img_url: '500x' }} 500w, {{ 'join-family-crown.png' | asset_img_url: '600x' }} 600w, {{ 'join-family-crown.png' | asset_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <div class="join-family-text">
+        <span>Wholesale</span>
+      </div>
     </div>
-
+    
   </div>
 
 </div>

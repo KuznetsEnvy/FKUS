@@ -51,6 +51,7 @@
 </section>
 
 <div class="banner banner-memories-forever visible-mobile">
+  <img src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-src="{{ 'banner-memories-forever.png' | asset_url | split: '?' | first }}" alt="" />
   <div><span>{{ 'layout.banners.memories_last_forever' | t }}</span></div>
 </div>
 
@@ -76,114 +77,9 @@
 
 
 <div class="banner banner-best-friend visible-mobile">
+  <img src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-src="{{ 'banner-bg-bring-your-friend.png' | asset_url | split: '?' | first }}" alt="" />
   <div>{{ 'layout.banners.bring_best_friend_html' | t }}</div>
 </div>
-
-{% comment %}
-  <div class="banners-3-wrap visible-desktop">
-    <div class="banner shop-collection" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
-    <div class="banner shop-collection" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
-    <div class="banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;"><a href="javascript:void(0)"></a></div>
-  </div>
-
-  <section class="section products-section product-list visible-mobile">
-    <a name="bestsellers"></a>
-    <div class="container">
-      <div class="row grid">
-        {% for product in collections['swans'].products limit: 6 %}
-          {% include 'product-block' %}
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-
-  <section class="section products-section product-list visible-mobile">
-    <a name="fun-rides"></a>
-    <div class="container">
-      <div class="row grid">
-        {% for product in collections['fun-rides'].products limit: 2 %}
-          {% include 'product-block' %}
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-{% endcomment %}
-
-
-<!-- region Countdown -->
-{% comment %}
-  <div id="countdown-stripe" class="visible-desktop"></div>
-  <script>
-      // Set the date we're counting down to
-      var countDownDate = new Date("Sep 20, 2017 00:00:00").getTime();
-
-      // Update the count down every 1 second
-      var x = setInterval(function() {
-
-          // Get todays date and time
-          var now = new Date().getTime();
-
-          // Find the distance between now an the count down date
-          var distance = countDownDate - now;
-
-          // Time calculations for days, hours, minutes and seconds
-          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-          hours += days*24;
-          if (hours   < 10) {hours   = "0"+hours;}
-          if (minutes < 10) {minutes = "0"+minutes;}
-          if (seconds < 10) {seconds = "0"+seconds;}
-
-          // Display the result in the element with id="demo"
-          document.getElementById("countdown-stripe").innerHTML = "Hurry! <span>Sale</span> ends in <strong>" + hours + ":" + minutes + "</strong> hours!";
-
-          // If the count down is finished, write some text
-          if (distance < 0) {
-              clearInterval(x);
-              document.getElementById("countdown-stripe").innerHTML = "EXPIRED";
-          }
-      }, 1000);
-  </script>
-{% endcomment %}
-<!-- endregion -->
-<!--region Old code -->
-{% comment %}
-  <section class="section products-section product-list visible-mobile">
-    <a name="donuts"></a>
-    <div class="container">
-      <div class="row grid">
-        {% for product in collections['donuts'].products limit: 6 %}
-          {% include 'product-block' %}
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-
-  <div class="visible-mobile banner shop-collection" style="background: url({{ 'shop-donuts.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
-    <a href="javascript:void(0)">
-    </a>
-  </div>
-
-
-  <section class="section products-section product-list visible-mobile">
-    <a name="emojis"></a>
-    <div class="container">
-      <div class="row grid">
-        {% for product in collections['emojis'].products limit: 3 %}
-          {% include 'product-block' %}
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-
-  <div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-emojis.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
-    <a href="javascript:void(0)"></a>
-  </div>
-{% endcomment %}
-<!--endregion-->
 
 <!-- Aaron Kai banner -->
 <section id="aron-kai" class="section bottom-banner visible-desktop">
@@ -191,7 +87,7 @@
     <h2 class="section-header line-framed"><em>Exclusive Collaborations</em></h2>
     <h3 class="align-center">Only on FloatieKings!</h3>
     <div class="banner">
-      <img src="{{ 'aaronKai-banner.png' | asset_url | split:"?" | first }}" alt="Home AaronKai Banner" />
+      <img src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-src="{{ 'aaronKai-banner.png' | asset_url | split:"?" | first }}" alt="Home AaronKai Banner" />
     </div>
   </div>
 </section>
@@ -210,7 +106,7 @@
 <section class="section bottom-banner">
   <div class="container">
     <div class="banner">
-      <img src="{{ 'bottom-banner_new.png' | asset_url | split:"?" | first }}" alt="Home Banner" />
+      <img src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-src="{{ 'bottom-banner_new.png' | asset_url | split:"?" | first }}" alt="Home Banner" />
     </div>
   </div>
 </section>
@@ -227,8 +123,8 @@
 
 
 
-<div class="banner shop-collection visible-mobile" style="background: url({{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}) center center no-repeat; background-size: cover;">
-  <a href="javascript:void(0)"></a>
+<div class="banner shop-collection visible-mobile">
+  <img src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-src="{{ 'shop-fun-rides.png' | asset_url | split: '?' | first }}" alt="" />
 </div>
 
 <section class="section products-section product-list">
@@ -242,7 +138,6 @@
   </div>
 </section>
 
-
 <section id="insta">
   <div class="container"><h2 class="section-header line-framed"><span>As seen on </span><em>Instagram</em></h2></div>
   <div class="header visible-desktop">
@@ -250,18 +145,18 @@
   </div>
 
   <div id="instafeed" class="grid">
-    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_02.png" alt="Pizza Delivery #FloatieKings"></a>
-    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_03.png" alt="Pizza Delivery #FloatieKings"></a>
-    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_04.png" alt="Pizza Delivery #FloatieKings"></a>
-    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_05.png" alt="Pizza Delivery #FloatieKings"></a>
-    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_06.png" alt="Pizza Delivery #FloatieKings"></a>
-    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_07.png" alt="Pizza Delivery #FloatieKings"></a>
-    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_08.png" alt="Pizza Delivery #FloatieKings"></a>
-    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square" src="https://cdn.shopify.com/s/files/1/0934/6050/files/FK_Desktop_Feb23_09.png" alt="Pizza Delivery #FloatieKings"></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square responsively-lazy" alt="#FloatieKings" src="{{ 'FK_insta_2018-03_01.png' | file_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'FK_insta_2018-03_01.png' | file_img_url: '100x' }} 100w, {{ 'FK_insta_2018-03_01.png' | file_img_url: '200x' }} 200w, {{ 'FK_insta_2018-03_01.png' | file_img_url: '300x' }} 300w, {{ 'FK_insta_2018-03_01.png' | file_img_url: '400x' }} 400w, {{ 'FK_insta_2018-03_01.png' | file_img_url: '500x' }} 500w, {{ 'FK_insta_2018-03_01.png' | file_img_url: '600x' }} 600w, {{ 'FK_insta_2018-03_01.png' | file_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square responsively-lazy" alt="#FloatieKings" src="{{ 'FK_insta_2018-03_02.png' | file_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'FK_insta_2018-03_02.png' | file_img_url: '100x' }} 100w, {{ 'FK_insta_2018-03_02.png' | file_img_url: '200x' }} 200w, {{ 'FK_insta_2018-03_02.png' | file_img_url: '300x' }} 300w, {{ 'FK_insta_2018-03_02.png' | file_img_url: '400x' }} 400w, {{ 'FK_insta_2018-03_02.png' | file_img_url: '500x' }} 500w, {{ 'FK_insta_2018-03_02.png' | file_img_url: '600x' }} 600w, {{ 'FK_insta_2018-03_02.png' | file_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square responsively-lazy" alt="#FloatieKings" src="{{ 'FK_insta_2018-03_03.png' | file_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'FK_insta_2018-03_03.png' | file_img_url: '100x' }} 100w, {{ 'FK_insta_2018-03_03.png' | file_img_url: '200x' }} 200w, {{ 'FK_insta_2018-03_03.png' | file_img_url: '300x' }} 300w, {{ 'FK_insta_2018-03_03.png' | file_img_url: '400x' }} 400w, {{ 'FK_insta_2018-03_03.png' | file_img_url: '500x' }} 500w, {{ 'FK_insta_2018-03_03.png' | file_img_url: '600x' }} 600w, {{ 'FK_insta_2018-03_03.png' | file_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square responsively-lazy" alt="#FloatieKings" src="{{ 'FK_insta_2018-03_04.png' | file_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'FK_insta_2018-03_04.png' | file_img_url: '100x' }} 100w, {{ 'FK_insta_2018-03_04.png' | file_img_url: '200x' }} 200w, {{ 'FK_insta_2018-03_04.png' | file_img_url: '300x' }} 300w, {{ 'FK_insta_2018-03_04.png' | file_img_url: '400x' }} 400w, {{ 'FK_insta_2018-03_04.png' | file_img_url: '500x' }} 500w, {{ 'FK_insta_2018-03_04.png' | file_img_url: '600x' }} 600w, {{ 'FK_insta_2018-03_04.png' | file_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square responsively-lazy" alt="#FloatieKings" src="{{ 'FK_insta_2018-03_05.png' | file_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'FK_insta_2018-03_05.png' | file_img_url: '100x' }} 100w, {{ 'FK_insta_2018-03_05.png' | file_img_url: '200x' }} 200w, {{ 'FK_insta_2018-03_05.png' | file_img_url: '300x' }} 300w, {{ 'FK_insta_2018-03_05.png' | file_img_url: '400x' }} 400w, {{ 'FK_insta_2018-03_05.png' | file_img_url: '500x' }} 500w, {{ 'FK_insta_2018-03_05.png' | file_img_url: '600x' }} 600w, {{ 'FK_insta_2018-03_05.png' | file_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square responsively-lazy" alt="#FloatieKings" src="{{ 'FK_insta_2018-03_06.png' | file_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'FK_insta_2018-03_06.png' | file_img_url: '100x' }} 100w, {{ 'FK_insta_2018-03_06.png' | file_img_url: '200x' }} 200w, {{ 'FK_insta_2018-03_06.png' | file_img_url: '300x' }} 300w, {{ 'FK_insta_2018-03_06.png' | file_img_url: '400x' }} 400w, {{ 'FK_insta_2018-03_06.png' | file_img_url: '500x' }} 500w, {{ 'FK_insta_2018-03_06.png' | file_img_url: '600x' }} 600w, {{ 'FK_insta_2018-03_06.png' | file_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square responsively-lazy" alt="#FloatieKings" src="{{ 'FK_insta_2018-03_07.png' | file_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'FK_insta_2018-03_07.png' | file_img_url: '100x' }} 100w, {{ 'FK_insta_2018-03_07.png' | file_img_url: '200x' }} 200w, {{ 'FK_insta_2018-03_07.png' | file_img_url: '300x' }} 300w, {{ 'FK_insta_2018-03_07.png' | file_img_url: '400x' }} 400w, {{ 'FK_insta_2018-03_07.png' | file_img_url: '500x' }} 500w, {{ 'FK_insta_2018-03_07.png' | file_img_url: '600x' }} 600w, {{ 'FK_insta_2018-03_07.png' | file_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></a>
+    <a class="grid-item" href="https://www.instagram.com/floatiekings/" target="_blank"><img class="square responsively-lazy" alt="#FloatieKings" src="{{ 'FK_insta_2018-03_08.png' | file_img_url: '1024x' | split:"?" | first }}" data-srcset="{{ 'FK_insta_2018-03_08.png' | file_img_url: '100x' }} 100w, {{ 'FK_insta_2018-03_08.png' | file_img_url: '200x' }} 200w, {{ 'FK_insta_2018-03_08.png' | file_img_url: '300x' }} 300w, {{ 'FK_insta_2018-03_08.png' | file_img_url: '400x' }} 400w, {{ 'FK_insta_2018-03_08.png' | file_img_url: '500x' }} 500w, {{ 'FK_insta_2018-03_08.png' | file_img_url: '600x' }} 600w, {{ 'FK_insta_2018-03_08.png' | file_img_url: '1024x' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></a>
   </div>
   <div class="insta-control visible-mobile">
-    <img class="insta-control-left" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
-    <img align="right" class="insta-control-right" src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
+    <img class="insta-control-left" src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
+    <img align="right" class="insta-control-right" src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-src="{{ 'icon-chevron-right.svg' | asset_url | split: '?' | first }}" />
   </div>
 
 </section>

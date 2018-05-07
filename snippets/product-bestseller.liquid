@@ -1,5 +1,5 @@
 <div class="product-block">
-  <a class="img-wrap" href="{{ product.url }}"><img src="{{ product | img_url: 'large' | split:'?' | first }} "/>
+  <a class="img-wrap" href="{{ product.url }}"><img src="{{ product | img_url: 'large' | split:'?' | first | append: '?1' }} "/>
     <div class="label {{ product.handle }}">
       <div class="bestseller-title">
         {% if product.metafields.info['bestseller_text'] != blank %}
@@ -10,5 +10,8 @@
       </div>
       <div class="bestseller-shop">{{ 'pages.buttons.shop_now' | t}}</div>
     </div>
+    {% if product.handle contains 'neapolitan' %}
+      <span class="product-label new-in">New in</span>
+    {% endif %}
   </a>
 </div>
