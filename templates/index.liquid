@@ -1,12 +1,18 @@
-<div id="bicolorBanner" class="banner-index">
+<div id="bicolorBanner" class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
   <picture>
-    <source media="(min-width: 751px)" srcset="{{ 'Header_Banner_PoolsOpen.gif' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 300px)" srcset="{{ 'header_banner_PoolsOpen_750.gif' | asset_url | split:"?" | first }}">
-    <img src="{{ 'Header_Banner_PoolsOpen.gif' | asset_url | split:"?" | first }}" alt="Homepage banner">
+    <source media="(min-width: 1920px)" srcset="{{ 'header_banner_textless_2336.png' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 1650px)" srcset="{{ 'header_banner_textless_1920.png' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 1400px)" srcset="{{ 'header_banner_textless_1650.png' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 1024px)" srcset="{{ 'header_banner_textless_1440.png' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 751px)" srcset="{{ 'header_banner_textless_1024.png' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 300px)" srcset="{{ 'header_banner_textless_750.png' | asset_url | split:"?" | first }}">
+    <img src="{{ 'header_banner_textless_414.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
   </picture>
-  <div id="banner-top-text" class="hidden">
-    <span>Welcome to the</span> <em>Float Life</em>
+
+  <div id="banner-top-text">
+    <span>Welcome to the</span> <em>Float Life!</em>
   </div>
+
 </div>
 
 {% include 'homepage-layout' %}
