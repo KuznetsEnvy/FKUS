@@ -1,0 +1,251 @@
+<div class="popup-creative-overlay">
+  <div class="popup-creative">
+    <span class="popup-close-btn top"><span class="fa fa-close"></span></span>
+
+    <!-- Begin MailChimp Signup Form -->
+    <div class="mc-form-wrap">
+      <form action="https://floatiekings.us13.list-manage.com/subscribe/post?u=48982d426a910167c31a85aa0&amp;id=ead2edfb42" method="post" id="popup-creative-form" name="mc-embedded-subscribe-form" class="validate popup-creative-form" target="_blank">
+        <h2>Creative</h2>
+        <p class="popup-message">Join our team of talented creatives as a Photographer or Videographer.</p>
+
+        <input type="hidden" value="US" name="SOURCE" />
+        <div>
+          <label for="mce-EMAIL">Email Address  <span class="asterisk">*</span></label>
+          <input type="email" name="EMAIL" id="mce-EMAIL" placeholder="{{ 'popups.hello.your_email' | t }}" title="The domain portion of the email address is invalid (the portion after the @)." pattern="^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*(\.\w{2,})+$" required>
+        </div>
+        <div>
+          <label for="mce-FNAME">First Name <span class="asterisk">*</span></label>
+          <input type="text" name="FNAME" class="" id="mce-FNAME" placeholder="{{ 'popups.hello.first_name' | t }}" title="First Name is a required field" pattern="[a-zA-Z0-9.\-]{2,}" required>
+        </div>
+        <div>
+          <label for="mce-LNAME">Last Name <span class="asterisk">*</span></label>
+          <input type="text" name="LNAME" class="" id="mce-LNAME" placeholder="Last Name" title="Last Name is a required field" pattern="[a-zA-Z0-9.\-]{2,}" required>
+        </div>
+        <div class="size1of2">
+          <label for="mce-BIRTHDAY-month">Birthday </label>
+          <div class="datefield">
+            <span class="subfield dayfield"><input class="datepart " type="text" pattern="[0-9]*" value="" placeholder="DD" size="2" maxlength="2" name="BIRTHDAY[day]" id="mce-BIRTHDAY-day"></span> /
+            <span class="subfield monthfield"><input class="datepart " type="text" pattern="[0-9]*" value="" placeholder="MM" size="2" maxlength="2" name="BIRTHDAY[month]" id="mce-BIRTHDAY-month"></span> /
+            <span class="subfield yearfield"><input class="datepart " type="text" pattern="[0-9]*" value="" placeholder="YYYY" size="4" maxlength="4" name="BIRTHDAY[year]" id="mce-BIRTHDAY-year"></span>
+            <!--<span class="small-meta nowrap">( dd / mm / yyyy )</span>-->
+          </div>
+        </div>
+        <div>
+          <label for="mce-SPECIALTY">Specialty </label>
+          <select name="SPECIALTY" class="" id="mce-SPECIALTY">
+            <option value=""></option>
+            <option value="Photographer">Photographer</option>
+            <option value="Videographer">Videographer</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+        <div>
+          <label for="mce-INSTAGRAM">Instagram handle  <span class="asterisk">*</span></label>
+          <input type="text" name="INSTAGRAM" id="mce-INSTAGRAM" required>
+        </div>
+        <div>
+          <label for="mce-SAMPLES">Portfolio or samples link</label>
+          <input type="text" value="" name="SAMPLES" class="" id="mce-SAMPLES">
+        </div>
+        <div>
+          <label for="mce-REFERER">How did you know about FloatieKings? </label>
+          <input type="text" value="" name="REFERER" class="" id="mce-REFERER">
+        </div>
+        <div class="mc-status"></div>
+        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_48982d426a910167c31a85aa0_ead2edfb42" tabindex="-1" value=""></div>
+        <div><input type="submit" value="Submit" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+      </form>
+
+    </div>
+    <div class="popup-creative-confirmation" style="display: none;">
+      <h2 class="popup-header">{{ "popups.hello.welcome_floatlife" | t }}</h2>
+      <p class="popup-message">{{ "popups.hello.email_added" | t }}</p>
+    </div>
+    <!--End mc_embed_signup-->
+
+  </div>
+</div>
+<script>
+
+    // Display the form status
+    var displayMailChimpStatus = function (data) {
+        console.log(data); //TODO Kuz: Remove this
+
+        // Make sure the data is in the right format
+        if (!data.result || !data.msg ) return;
+
+        // Get the status message content area
+        var mcStatus = document.querySelector('.mc-status');
+        if (!mcStatus) return;
+
+        // Update our status message
+        if (data.result === 'error') {
+            mcStatus.innerHTML = data.msg;
+        }
+
+        if (data.result === 'success') {
+            console.log('Successfully submitted!');
+            $('.popup-creative-form').hide();
+            $('.popup-creative-confirmation').show();
+
+        }
+    };
+
+    // Serialize the form data into a query string
+    // Forked and modified from https://stackoverflow.com/a/30153391/1293256
+    var serialize = function (form) {
+
+        // Setup our serialized data
+        var serialized = '';
+
+        // Loop through each field in the form
+        for (i = 0; i < form.elements.length; i++) {
+
+            var field = form.elements[i];
+
+            // Don't serialize fields without a name, submits, buttons, file and reset inputs, and disabled fields
+            if (!field.name || field.disabled || field.type === 'file' || field.type === 'reset' || field.type === 'submit' || field.type === 'button') continue;
+
+            // Convert field data to a query string
+            if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
+                serialized += '&' + encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value);
+            }
+        }
+
+        return serialized;
+
+    };
+
+    // Submit the form
+    var submitMailChimpForm = function (form) {
+
+        // Get the Submit URL
+        var url = form.getAttribute('action');
+        url = url.replace('/post?u=', '/post-json?u=');
+        url += serialize(form) + '&c=displayMailChimpStatus';
+
+        // Create script with url and callback (if specified)
+        var script = window.document.createElement( 'script' );
+        script.src = url;
+
+        // Insert script tag into the DOM (append to <head>)
+        var ref = window.document.getElementsByTagName( 'script' )[ 0 ];
+        ref.parentNode.insertBefore( script, ref );
+
+        // After the script is loaded (and executed), remove it
+        script.onload = function () {
+            this.remove();
+        };
+
+
+    };
+
+
+
+
+    document.getElementById('popup-creative-form').addEventListener('submit', function(event) {
+
+      // Only run on forms flagged for validation
+      if (!event.target.classList.contains('validate')) return;
+
+      // Prevent form from submitting
+      event.preventDefault();
+
+
+      // Otherwise, let the form submit normally
+      // You could also bolt in an Ajax form submit process here
+      submitMailChimpForm(event.target);
+
+
+    }, false);
+
+    // function to obtain GET parameter from the address line
+    if (typeof getUrlParameter !== "function") {
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+    }
+
+    function popupCreativeHide() {
+        $('.popup-creative-overlay').hide().removeClass('active');
+        $('body').removeClass('body-no-scroll');
+    }
+    function popupCreativeShowedGet() {
+        var popup_refresh = getUrlParameter('popup_refresh');
+        if (popup_refresh) {
+            Cookies.set('popup_creative_showed', 'true', { expires: -1 }); //Remove the cookie
+        }
+        var popup_creative_showed = Cookies.get('popup_creative_showed');
+
+        if (popup_creative_showed == 'true')
+            return true;
+        else
+            return false;
+
+    }
+    function popupCreativeShow() {
+
+        if(!$('.popup-stock-overlay.active').length) {
+            $('.popup-creative-overlay').show().addClass('active');
+            $('body').addClass('body-no-scroll');
+        } else {
+            console.log('Not showing Hello popup because Stock popup is already shown');
+        }
+
+    }
+    function popupCreativeProcess() {
+        console.log(new Date($.now()) + " Popup form submitted.");
+
+
+        if($('#mce-success-response').is(":visible")) { // This means form submitted successfully.
+            console.log('Successfully submitted!');
+            $('.popup-creative-form').addClass('hidden');
+            $('.popup-creative-confirmation').removeClass('hidden');
+            return true;
+        }
+        if ( !$('#mce-error-response').is(":visible") && !$('.mce_inline_error').is(":visible")) {
+            console.log('No visible errors. Setting timeout...');
+            setTimeout(popupCreativeProcess, 200);
+            return false;
+        }
+        if ($('#mce-success-response').is(":visible")) {
+            console.log('Success message is still shown. Setting timeout...');
+            setTimeout(popupCreativeProcess, 200);
+            return false;
+        }
+
+        console.log('End of process function');
+        return false;
+    }
+    function popupCreativeInit() {
+        $('.invoke-popup-creative').each(function() {
+            $(this).on('click', function() {
+                popupCreativeShow();
+            });
+        });
+        $('.popup-close-btn').each(function() {
+            $(this).on('click', popupCreativeHide);
+        });
+        $('.popup-creative-overlay').on('click', function(e){
+            if (e.target !== this)
+                return;
+            popupCreativeHide();
+        });
+    }
+
+    window.addEventListener('load', popupCreativeInit);
+    // document.getElementById('mc-embedded-subscribe-form').addEventListener('submit', popupCreativeProcess);
+
+</script>
