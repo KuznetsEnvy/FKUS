@@ -135,3 +135,13 @@
     </div>
   {% endif %}
 </div>
+<script>
+    function youtubeApplyDiscountCode() {
+        var coupon = Cookies.get('youtubeDiscountCode');
+        if (coupon) {
+            $('#cartform').append('<input type="hidden" name="discount" value="' + coupon + '" />');
+        }
+    }
+    document.getElementById('jquery-cookies').addEventListener('load', youtubeApplyDiscountCode);
+
+</script>

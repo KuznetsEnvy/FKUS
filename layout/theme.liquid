@@ -109,6 +109,10 @@
 
   <link rel="stylesheet" href="{{ 'responsivelyLazy.min.css' | asset_url | split: '?' | first }}">
   <script async src="{{ 'responsivelyLazy.min.js' | asset_url | split: '?' | first }}"></script>
+
+  {% if template contains 'index' %}
+    <meta name=“google-site-verification” content=“ej_9Tn_HhftOv20PcNyvhVHL38yF-Rju5LoQi-tY3lU” />
+  {% endif %}
 </head>
 
 <body class="template-{{ template | split: '.' | first }} {{ template | split: '.' | join: '-' }} {{ page_title | handle }} {% if template contains 'discount' or template contains 'list-collections' %}template-index{% endif %}">
@@ -242,6 +246,7 @@
 {% if template contains 'join-family' %}
   {% include 'popup-influencer' %}
   {% include 'popup-creative' %}
+  {% include 'popup-wholesale' %}
 {% endif %}
 
 {% include 'mobile-navigation' %}
@@ -359,6 +364,6 @@
   </script>
 {% endif %}
 
-<script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script><script>window.Beacon('init', '205b524c-0e1f-4507-8c0a-dbf65d85e7a9')</script>
+<!--<script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script><script>window.Beacon('init', '205b524c-0e1f-4507-8c0a-dbf65d85e7a9')</script>-->
 </body>
 </html>

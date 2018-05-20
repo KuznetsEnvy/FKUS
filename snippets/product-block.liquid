@@ -2,9 +2,9 @@
   <div class="product-item-inside">
     <a {% if product.images.size > 1 %}class="img-wrap" {% endif %}href="{{ product.url }}">
       {% if product.images.size > 1 %}
-        <img class="img-swap img-product-{{ product.handle }}" src="{{ product.images.last | product_img_url: 'large' | split:'?' | first }} "/>
+        <img class="img-swap img-product-{{ product.handle }}" src="{{ product | img_url: 'large' | split:'?' | first }} "/>
       {% endif %}
-      <img class="img-primary img-product-{{ product.handle }}" src="{{ product | img_url: 'large' | split:'?' | first }} "/>
+      <img class="img-primary img-product-{{ product.handle }}" src="{{ product.images.last | product_img_url: 'large' | split:'?' | first }} "/>
     </a>
     {% if false and product.compare_at_price_max > product.price %}
       <span class="product-label sale">Sale</span>

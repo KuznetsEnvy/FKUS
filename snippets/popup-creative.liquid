@@ -69,14 +69,13 @@
 <script>
 
     // Display the form status
-    var displayMailChimpStatus = function (data) {
-        console.log(data); //TODO Kuz: Remove this
+    function popupCreativeDisplayStatus(data) {
 
         // Make sure the data is in the right format
         if (!data.result || !data.msg ) return;
 
         // Get the status message content area
-        var mcStatus = document.querySelector('.mc-status');
+        var mcStatus = document.querySelector('.popup-creative .mc-status');
         if (!mcStatus) return;
 
         // Update our status message
@@ -90,91 +89,58 @@
             $('.popup-creative-confirmation').show();
 
         }
-    };
+    }
 
     // Serialize the form data into a query string
     // Forked and modified from https://stackoverflow.com/a/30153391/1293256
-    var serialize = function (form) {
+    if (typeof serialize !== "function") {
+        function serialize(form) {
 
-        // Setup our serialized data
-        var serialized = '';
+            // Setup our serialized data
+            var serialized = '';
 
-        // Loop through each field in the form
-        for (i = 0; i < form.elements.length; i++) {
+            // Loop through each field in the form
+            for (i = 0; i < form.elements.length; i++) {
 
-            var field = form.elements[i];
+                var field = form.elements[i];
 
-            // Don't serialize fields without a name, submits, buttons, file and reset inputs, and disabled fields
-            if (!field.name || field.disabled || field.type === 'file' || field.type === 'reset' || field.type === 'submit' || field.type === 'button') continue;
+                // Don't serialize fields without a name, submits, buttons, file and reset inputs, and disabled fields
+                if (!field.name || field.disabled || field.type === 'file' || field.type === 'reset' || field.type === 'submit' || field.type === 'button') continue;
 
-            // Convert field data to a query string
-            if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
-                serialized += '&' + encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value);
-            }
-        }
-
-        return serialized;
-
-    };
-
-    // Submit the form
-    var submitMailChimpForm = function (form) {
-
-        // Get the Submit URL
-        var url = form.getAttribute('action');
-        url = url.replace('/post?u=', '/post-json?u=');
-        url += serialize(form) + '&c=displayMailChimpStatus';
-
-        // Create script with url and callback (if specified)
-        var script = window.document.createElement( 'script' );
-        script.src = url;
-
-        // Insert script tag into the DOM (append to <head>)
-        var ref = window.document.getElementsByTagName( 'script' )[ 0 ];
-        ref.parentNode.insertBefore( script, ref );
-
-        // After the script is loaded (and executed), remove it
-        script.onload = function () {
-            this.remove();
-        };
-
-
-    };
-
-
-
-
-    document.getElementById('popup-creative-form').addEventListener('submit', function(event) {
-
-      // Only run on forms flagged for validation
-      if (!event.target.classList.contains('validate')) return;
-
-      // Prevent form from submitting
-      event.preventDefault();
-
-
-      // Otherwise, let the form submit normally
-      // You could also bolt in an Ajax form submit process here
-      submitMailChimpForm(event.target);
-
-
-    }, false);
-
-    // function to obtain GET parameter from the address line
-    if (typeof getUrlParameter !== "function") {
-        var getUrlParameter = function getUrlParameter(sParam) {
-            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
-
-            for (i = 0; i < sURLVariables.length; i++) {
-                sParameterName = sURLVariables[i].split('=');
-
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                // Convert field data to a query string
+                if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
+                    serialized += '&' + encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value);
                 }
             }
+
+            return serialized;
+
+        }
+    }
+
+    // Submit the form
+    if (typeof submitMailChimpForm !== "function") {
+        function submitMailChimpForm(form, callback) {
+
+            // Get the Submit URL
+            var url = form.getAttribute('action');
+            url = url.replace('/post?u=', '/post-json?u=');
+            url += serialize(form) + '&c=' + callback;
+
+            // Create script with url and callback (if specified)
+            var script = window.document.createElement('script');
+            script.src = url;
+
+            // Insert script tag into the DOM (append to <head>)
+            var ref = window.document.getElementsByTagName('script')[0];
+            ref.parentNode.insertBefore(script, ref);
+
+            // After the script is loaded (and executed), remove it
+            script.onload = function () {
+                this.remove();
+            };
+
+
         };
     }
 
@@ -182,52 +148,9 @@
         $('.popup-creative-overlay').hide().removeClass('active');
         $('body').removeClass('body-no-scroll');
     }
-    function popupCreativeShowedGet() {
-        var popup_refresh = getUrlParameter('popup_refresh');
-        if (popup_refresh) {
-            Cookies.set('popup_creative_showed', 'true', { expires: -1 }); //Remove the cookie
-        }
-        var popup_creative_showed = Cookies.get('popup_creative_showed');
-
-        if (popup_creative_showed == 'true')
-            return true;
-        else
-            return false;
-
-    }
     function popupCreativeShow() {
-
-        if(!$('.popup-stock-overlay.active').length) {
-            $('.popup-creative-overlay').show().addClass('active');
-            $('body').addClass('body-no-scroll');
-        } else {
-            console.log('Not showing Hello popup because Stock popup is already shown');
-        }
-
-    }
-    function popupCreativeProcess() {
-        console.log(new Date($.now()) + " Popup form submitted.");
-
-
-        if($('#mce-success-response').is(":visible")) { // This means form submitted successfully.
-            console.log('Successfully submitted!');
-            $('.popup-creative-form').addClass('hidden');
-            $('.popup-creative-confirmation').removeClass('hidden');
-            return true;
-        }
-        if ( !$('#mce-error-response').is(":visible") && !$('.mce_inline_error').is(":visible")) {
-            console.log('No visible errors. Setting timeout...');
-            setTimeout(popupCreativeProcess, 200);
-            return false;
-        }
-        if ($('#mce-success-response').is(":visible")) {
-            console.log('Success message is still shown. Setting timeout...');
-            setTimeout(popupCreativeProcess, 200);
-            return false;
-        }
-
-        console.log('End of process function');
-        return false;
+        $('.popup-creative-overlay').show().addClass('active');
+        $('body').addClass('body-no-scroll');
     }
     function popupCreativeInit() {
         $('.invoke-popup-creative').each(function() {
@@ -235,17 +158,26 @@
                 popupCreativeShow();
             });
         });
-        $('.popup-close-btn').each(function() {
-            $(this).on('click', popupCreativeHide);
-        });
-        $('.popup-creative-overlay').on('click', function(e){
-            if (e.target !== this)
-                return;
+        $('.popup-creative .popup-close-btn').on('click', function(e){
             popupCreativeHide();
         });
+        $('.popup-creative-overlay').on('click', function(e){
+            if (e.target !== this) return;
+            popupCreativeHide();
+        });
+
     }
 
     window.addEventListener('load', popupCreativeInit);
-    // document.getElementById('mc-embedded-subscribe-form').addEventListener('submit', popupCreativeProcess);
+    document.getElementById('popup-creative-form').addEventListener('submit', function(event) {
+        // Prevent form from submitting
+        event.preventDefault();
+
+        // Otherwise, let the form submit normally
+        // You could also bolt in an Ajax form submit process here
+        submitMailChimpForm(event.target, 'popupCreativeDisplayStatus');
+
+
+    }, false);
 
 </script>

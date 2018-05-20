@@ -2,62 +2,87 @@
   {%- capture base -%}
     banner-discount-{{- page.title | downcase -}}
   {%- endcapture -%}
-  <img alt="#FloatieKings" src="{{ base | append: '.png' | asset_img_url: '2048x' | split: '?' | first }}" srcset="{{ base | append: '.png' | asset_img_url: '400x' | split: '?' | first }} 400w, {{ base | append: '.png' | asset_img_url: '750x' | split: '?' | first }} 750w, {{ base | append: '.png' | asset_img_url: '1024x' | split: '?' | first }} 1024w, {{ base | append: '.png' | asset_img_url: '1440x' | split: '?' | first }} 1440w, {{ base | append: '.png' | asset_img_url: '1680x' | split: '?' | first }} 1680w, {{ base | append: '.png' | asset_img_url: '1920x' | split: '?' | first }} 1920w, {{ base | append: '.png' | asset_img_url: '2048x' | split: '?' | first }} 2048w" />
+  <picture>
+    <source media="(min-width: 1920px)" srcset="{{ base | append: '.png' | asset_img_url: '1920x' | split: '?' | first }}">
+    <source media="(min-width: 1650px)" srcset="{{ base | append: '.png' | asset_img_url: '1650x' | split: '?' | first }}">
+    <source media="(min-width: 1440px)" srcset="{{ base | append: '.png' | asset_img_url: '1440x' | split: '?' | first }}">
+    <source media="(min-width: 1024px)" srcset="{{ base | append: '.png' | asset_img_url: '1024x' | split: '?' | first }}">
+    <source media="(min-width: 768px)" srcset="{{ base | append: '.png' | asset_img_url: '768x' | split: '?' | first }}">
+    <source media="(min-width: 751px)" srcset="{{ base | append: '-mobile.png' | asset_img_url: '751x' | split: '?' | first }}">
+    <source media="(min-width: 425px)" srcset="{{ base | append: '-mobile.png' | asset_img_url: '767x' | split: '?' | first }}">
+    <source media="(min-width: 375px)" srcset="{{ base | append: '-mobile.png' | asset_img_url: '425x' | split: '?' | first }}">
+    <source media="(min-width: 1px)" srcset="{{ base | append: '-mobile.png' | asset_img_url: '320x' | split: '?' | first }}">
+    <img src="{{ base | append: '.png' | asset_img_url: '2048x' | split: '?' | first }}" alt="#FloatieKings">
+  </picture>
 </div>
 
 <!-- region Countdown -->
-<div class="countdown-stripe-wrap visible-desktop">
+<div class="countdown-stripe-wrap">
   <div id="countdown-stripe"></div>
   <em>Use code: {{ page.title | upcase }}</em>
 </div>
 
 <script>
-  //Remembering visit datetime
+    function youTubeDiscountTimer() {
+        //Remembering visit datetime
 
-  var youtubeDiscountVisitingTime = Cookies.get('youtubeDiscountVisitingTime'); // string
-  if (!youtubeDiscountVisitingTime) {
-      var youtubeDiscountVisitingTime = new Date(); // object
-      Cookies.set('youtubeDiscountVisitingTime', youtubeDiscountVisitingTime); // string
-  }
+        var youtubeDiscountVisitingTime = Cookies.get('youtubeDiscountVisitingTime'); // string
+        var youtubeDiscountCode = '{{ page.title | upcase }}';
+        if (!youtubeDiscountVisitingTime) {
+            var youtubeDiscountVisitingTime = new Date(); // object
+            Cookies.set('youtubeDiscountVisitingTime', youtubeDiscountVisitingTime); // string
+        }
 
-  // Set the date we're counting down to
-  var countDownDate = new Date(youtubeDiscountVisitingTime).getTime() + 16*60*60*1000;
+        // Set the date we're counting down to
+        var countDownDate = new Date(youtubeDiscountVisitingTime).getTime() + 16 * 60 * 60 * 1000;
+        var cookieExpires = new Date(countDownDate);
+        Cookies.set('youtubeDiscountCode', youtubeDiscountCode, {expires: cookieExpires});
 
-  // Update the count down every 1 second
-  var x = setInterval(function() {
+        // Update the count down every 1 second
+        var x = setInterval(function () {
 
-      // Get todays date and time
-      var now = new Date().getTime();
+            // Get todays date and time
+            var now = new Date().getTime();
 
-      // Find the distance between now an the count down date
-      var distance = countDownDate - now;
+            // Find the distance between now an the count down date
+            var distance = countDownDate - now;
 
-      if (distance < 0) {
-          youtubeDiscountVisitingTime = new Date();
-          Cookies.set('youtubeDiscountVisitingTime', youtubeDiscountVisitingTime);
-          countDownDate = youtubeDiscountVisitingTime.getTime() + 16*60*60*1000;
-      }
+            if (distance < 0) {
+                youtubeDiscountVisitingTime = new Date();
+                Cookies.set('youtubeDiscountVisitingTime', youtubeDiscountVisitingTime);
+                countDownDate = youtubeDiscountVisitingTime.getTime() + 16 * 60 * 60 * 1000;
+            }
 
-      // Time calculations for days, hours, minutes and seconds
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      hours += days*24;
-      if (hours   < 10) {hours   = "0"+hours;}
-      if (minutes < 10) {minutes = "0"+minutes;}
-      if (seconds < 10) {seconds = "0"+seconds;}
+            hours += days * 24;
+            if (hours < 10) {
+                hours = "0" + hours;
+            }
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
 
-      // Display the result in the element with id="demo"
-      document.getElementById("countdown-stripe").innerHTML = "20%  OFF SITEWIDE - <span>HURRY!</span> <strong>" + hours + ":" + minutes + ":" + seconds + "</strong>";
+            // Display the result in the element with id="demo"
+            document.getElementById("countdown-stripe").innerHTML = "20%  OFF SITEWIDE - <span>HURRY!</span> <strong>" + hours + ":" + minutes + ":" + seconds + "</strong>";
 
-      // If the count down is finished, write some text
-      if (distance < 0) {
-          // clearInterval(x);
-          document.getElementById("countdown-stripe").innerHTML = "EXPIRED";
-      }
-  }, 1000);
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                // clearInterval(x);
+                document.getElementById("countdown-stripe").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    }
+
+    document.getElementById('jquery-cookies').addEventListener('load', youTubeDiscountTimer);
+
 </script>
 <!-- endregion -->
 

@@ -1,10 +1,9 @@
-
 <section class="section products-section product-list">
-  <a name="tubes"></a>
-  <h2 class="section-header line-framed visible-desktop ride-ons"><span>Floatie </span><em>{{ collections['tubes'].title }}</em></h2>
+  <a name="top-sellers"></a>
+  <h2 class="section-header line-framed visible-desktop ride-ons"><span>Floatie </span><em>{{ collections['top-sellers'].title }}</em></h2>
   <div class="container">
     <div class="row grid">
-      {% for product in collections['tubes'].products %}
+      {% for product in collections['top-sellers'].products %}
         {% include 'product-block' %}
       {% endfor %}
     </div>
@@ -18,6 +17,52 @@
     <div class="row grid">
       {% for product in collections['giant-pizzas'].products limit: 2 %}
         {% include 'product-bestseller' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section visible-desktop">
+  <h2 class="section-header"><span>Celebrity spotting </span><em>Hall of Fame</em></h2>
+  <div class="celebrities">
+    <div class="celebrity-item">
+      <img class="responsively-lazy" alt="" src="{{ 'celeb-DianeKruger.png' | asset_img_url: '1024x1024', crop: 'center' | split:"?" | first }}" data-srcset="{{ 'celeb-DianeKruger.png' | asset_img_url: '100x100', crop: 'center' }} 100w, {{ 'celeb-DianeKruger.png' | asset_img_url: '200x200', crop: 'center' }} 200w, {{ 'celeb-DianeKruger.png' | asset_img_url: '300x300', crop: 'center' }} 300w, {{ 'celeb-DianeKruger.png' | asset_img_url: '400x400', crop: 'center' }} 400w, {{ 'celeb-DianeKruger.png' | asset_img_url: '500x500', crop: 'center' }} 500w, {{ 'celeb-DianeKruger.png' | asset_img_url: '600x600', crop: 'center' }} 600w, {{ 'celeb-DianeKruger.png' | asset_img_url: '1024x1024', crop: 'center' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <div class="overlay"><span class="fa fa-instagram"></span><span class="celebrity-name">Diane Kruger</span></div>
+      <a class="overlay">
+        <div class="title">Shop flamingo tube<br />_</div>
+      </a>
+    </div>
+    <div class="celebrity-item">
+      <img class="responsively-lazy" alt="" src="{{ 'celeb-JustinBieber.png' | asset_img_url: '1024x1024', crop: 'center' | split:"?" | first }}" data-srcset="{{ 'celeb-JustinBieber.png' | asset_img_url: '100x100', crop: 'center' }} 100w, {{ 'celeb-JustinBieber.png' | asset_img_url: '200x200', crop: 'center' }} 200w, {{ 'celeb-JustinBieber.png' | asset_img_url: '300x300', crop: 'center' }} 300w, {{ 'celeb-JustinBieber.png' | asset_img_url: '400x400', crop: 'center' }} 400w, {{ 'celeb-JustinBieber.png' | asset_img_url: '500x500', crop: 'center' }} 500w, {{ 'celeb-JustinBieber.png' | asset_img_url: '600x600', crop: 'center' }} 600w, {{ 'celeb-JustinBieber.png' | asset_img_url: '1024x1024', crop: 'center' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <div class="overlay"><span class="fa fa-instagram"></span><span class="celebrity-name">Justin Bieber</span></div>
+      <a class="overlay">
+        <div class="title">Shop flamingo<br />_</div>
+      </a>
+    </div>
+    <div class="celebrity-item">
+      <img class="responsively-lazy" alt="" src="{{ 'celeb-KendallJenner.png' | asset_img_url: '1024x1024', crop: 'center' | split:"?" | first }}" data-srcset="{{ 'celeb-KendallJenner.png' | asset_img_url: '100x100', crop: 'center' }} 100w, {{ 'celeb-KendallJenner.png' | asset_img_url: '200x200', crop: 'center' }} 200w, {{ 'celeb-KendallJenner.png' | asset_img_url: '300x300', crop: 'center' }} 300w, {{ 'celeb-KendallJenner.png' | asset_img_url: '400x400', crop: 'center' }} 400w, {{ 'celeb-KendallJenner.png' | asset_img_url: '500x500', crop: 'center' }} 500w, {{ 'celeb-KendallJenner.png' | asset_img_url: '600x600', crop: 'center' }} 600w, {{ 'celeb-KendallJenner.png' | asset_img_url: '1024x1024', crop: 'center' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <div class="overlay"><span class="fa fa-instagram"></span><span class="celebrity-name">Kendall Jenner</span></div>
+      <a class="overlay">
+        <div class="title">Shop what?<br />_</div>
+      </a>
+    </div>
+    <div class="celebrity-item">
+      <img class="responsively-lazy" alt="" src="{{ 'celeb-ReeseWitherspoon.png' | asset_img_url: '1024x1024', crop: 'center' | split:"?" | first }}" data-srcset="{{ 'celeb-ReeseWitherspoon.png' | asset_img_url: '100x100', crop: 'center' }} 100w, {{ 'celeb-ReeseWitherspoon.png' | asset_img_url: '200x200', crop: 'center' }} 200w, {{ 'celeb-ReeseWitherspoon.png' | asset_img_url: '300x300', crop: 'center' }} 300w, {{ 'celeb-ReeseWitherspoon.png' | asset_img_url: '400x400', crop: 'center' }} 400w, {{ 'celeb-ReeseWitherspoon.png' | asset_img_url: '500x500', crop: 'center' }} 500w, {{ 'celeb-ReeseWitherspoon.png' | asset_img_url: '600x600', crop: 'center' }} 600w, {{ 'celeb-ReeseWitherspoon.png' | asset_img_url: '1024x1024', crop: 'center' }} 700w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+      <div class="overlay"><span class="fa fa-instagram"></span><span class="celebrity-name">Reese Witherspoon</span></div>
+      <a class="overlay">
+        <div class="title">Shop what product?<br />_</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section products-section product-list">
+  <a name="tubes"></a>
+  <h2 class="section-header line-framed visible-desktop ride-ons"><span>Floatie </span><em>{{ collections['tubes'].title }}</em></h2>
+  <div class="container">
+    <div class="row grid">
+      {% for product in collections['tubes'].products %}
+        {% include 'product-block' %}
       {% endfor %}
     </div>
   </div>
