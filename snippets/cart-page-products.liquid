@@ -49,7 +49,7 @@
                       {% endfor %}
                       <a href="/cart/add?id={{ all_products[product].first_available_variant.id }}&quantity=1" data-variant-id="{{ all_products[product].first_available_variant.id }}" class="add-to-cart cart-btn buy-now select {% if selected %}selected{% endif %}">{% if selected %}{{ 'pages.buttons.selected' | t }}{% else %}{{ 'pages.buttons.select' | t }}{% endif %}</a>
                     {% else %}
-                      <a href="javascript:void(0)" class="add-to-cart cart-btn back-in-stock">{{ 'products.product.product_unavailable_html' | t }}</a>
+                      <a href="javascript:void(0)" class="add-to-cart cart-btn invoke-popup-stock">{{ 'products.product.product_unavailable_html' | t }}</a>
                     {% endif %}
                   </div>
                   <div class="clear"></div>

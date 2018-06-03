@@ -1,4 +1,4 @@
-<div id="bicolorBanner" class="banner-index">
+<div class="banner-index">
   {%- capture base -%}
     banner-discount-{{- page.title | downcase -}}
   {%- endcapture -%}
@@ -82,6 +82,8 @@
     }
 
     document.getElementById('jquery-cookies').addEventListener('load', youTubeDiscountTimer);
+    console.log('jquery-cookies');
+    console.log(document.getElementById('jquery-cookies'));
 
 </script>
 <!-- endregion -->

@@ -1,24 +1,16 @@
 <footer id="page-footer" class="page-footer">
   <div class="container wrap">
-    <div class="logo-col"><a href="{{ shop.url }}"><img {% comment %}src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-{% endcomment %}src="{{ 'FK-logo-square.svg' | asset_url }}" alt=""></a></div>
+    <div class="logo-col"><a href="{{ shop.url }}"><img {% comment %}src="{{ 'transparent_pixel.png' | asset_url | split:"?" | first }}" data-{% endcomment %}src="{{ 'FK-logo-square.svg' | asset_url | split:"?" | first }}" alt=""></a></div>
     <div class="social-col">{% include 'social-links' %}</div>
     <div class="menu b-nav1">
       <div class="wrap"><div class="plug visible-mobile"><!--This is needed for correct flexbox alignment--></div><h3>Shop</h3><div class="cross visible-mobile"></div></div>
       <nav>
         <a href="/">All styles</a>
-        <a href="javascript:void(0)" class="hidden">Best sellers</a>
-        <a href="javascript:void(0)" class="hidden">New arrivals</a>
-        <a href="javascript:void(0)" class="hidden">Accessories</a>
-        <a href="/pages/reviews" class="hidden">Reviews</a>
-        <a href="javascript:void(0)" class="hidden">Sale</a>
       </nav>
     </div>
     <div class="menu b-nav2">
       <div class="wrap"><div class="plug visible-mobile"><!--This is needed for correct flexbox alignment--></div><h3>Company</h3><div class="cross visible-mobile"></div></div>
       <nav>
-        <a href="javascript:void(0)" class="hidden">Our story</a>
-        <a href="javascript:void(0)" class="hidden">Floatopia</a>
-        <a href="javascript:void(0)" class="hidden">Become a stockist</a>
         <a href="javascript:void(0)" class="invoke-popup-hello">Join the family</a>
       </nav>
     </div>

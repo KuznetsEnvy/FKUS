@@ -65,7 +65,8 @@
     "banners": {
       "memories_last_forever": "Make memories that last forever",
       "memories_last_forever_html": "<span>Make memories that<\/span><br \/><em>last forever<\/em>",
-      "bring_best_friend_html": "<span>Bring your<\/span><br \/><em>best friend<\/em>"
+      "bring_best_friend_html": "<span>Bring your<\/span><br \/><em>best friend<\/em>",
+      "welcome_to_the_float_life_html": "<span>Welcome to the<\/span> <em>Float Life<\/em>"
     },
     "sections": {
       "floatie_bestsellers_html": "<span>Floatie <\/span><em>Bestsellers<\/em>"
@@ -74,6 +75,16 @@
       "definite_article": "The",
       "summer_story_html": "<nobr>Every summer has<\/nobr> <nobr>it’s own story ;)<\/nobr>",
       "follow_us_html": "<em>Follow us<\/em> at"
+    },
+    "bestsellers": {
+      "header": "#Floatie Bestsellers",
+      "full_title": "The {{ title }}"
+    },
+    "general": {
+      "company_title_html": "<strong>Floatie<\/strong>Kings"
+    },
+    "instagram": {
+      "instagram_title_html": "<span>As seen on <\/span><em>Instagram<\/em>"
     }
   },
   "blogs": {
@@ -114,8 +125,8 @@
     "general": {
       "title": "My Cart",
       "title_short": "Cart",
-      "review_cart": "REVIEW YOUR CART",
-      "empty": "YOUR CART IS EMPTY",
+      "review_cart": "Review your cart",
+      "empty": "Your cart is empty",
       "no_items": "You have no items in your cart",
       "update": "Update",
       "remove": "Remove",
@@ -123,7 +134,7 @@
       "keep": "Keep shopping",
       "click_to_continue_html": "<a href=\"\/\">Click here<\/a> to continue shopping.",
       "checkout": "Checkout",
-      "to_checkout": "PROCEED TO CHECKOUT"
+      "to_checkout": "Proceed to checkout"
     },
     "label": {
       "description": "Items",
@@ -135,7 +146,7 @@
     },
     "shipping": {
       "shipping-banner_html": "<b>Free shipping<\/b> for all orders over",
-      "got_free_shipping": "YOU HAVE EARNED FREE SHIPPING",
+      "got_free_shipping": "You have earned free shipping",
       "add_for_free_shipping": "Add {{ dif }} for Free shipping.",
       "add_for_free_shipping_html": "Add {{ dif }} for <b>Free shipping<\/b>.",
       "free_shipping_added": "FREE SHIPPING added!",
@@ -221,7 +232,7 @@
       "hello_gorgeous": "Hello gorgeous!",
       "want_invites_html": "Want <span>exclusive invites<\/span> to special deals and Floatie Kings events?",
       "first_name": "Name",
-      "last_name": "Surname",
+      "last_name": "Last Name",
       "your_email": "Your Email",
       "submit": "Join the Float Life",
       "no_thanks": "No thanks, I don't like to have fun or get amazing deals",
@@ -239,7 +250,8 @@
     "general": {
       "from": "From",
       "quick_buy_html": "Quick shop",
-      "full_details": "Full details"
+      "full_details": "Full details",
+      "add_these": "Add these:"
     },
     "product": {
       "back_to_html": "Back to:",
@@ -255,13 +267,26 @@
       "added_to_cart_btn": "Added",
       "sku": "SKU:",
       "related_title": "YOU MIGHT ALSO BE INTERESTED IN",
+      "number_one_brand_html": "The <em>No.1<\/em> Pool Float Brand<span class=\"visible-desktop\"> In The World!<\/span>",
+      "improved_quality_html": "<span>NEW Improved quality with <em>Double Seal Technology<\/em>.<\/span>",
       "designed_in_la_html": "<span>Designed<\/span><span>in L.A.<\/span>",
       "hand_made_html": "<span>Hand<\/span> <span>made<\/span>",
       "high_quality_html": "<span>High<\/span> <span>quality<\/span>",
       "durable_materials_html": "<span>Durable<\/span> <span>materials<\/span>",
       "easy_setup_html": "<span>Easy<\/span> <span>setup<\/span>",
       "secure_checkout_html": "<span>Secure<\/span> <span>checkout<\/span>",
-      "fast_shipping_html": "<span>Fast<\/span> <span>shipping<\/span>"
+      "fast_shipping_html": "<span>Fast<\/span> <span>shipping<\/span>",
+      "double_seam_technology_html": "<span>Double-seam<\/span><span>technology<\/span>",
+      "every_purchase_includes": "Every purchase includes:",
+      "includes_1": "Giant Inflatable Floatie",
+      "includes_2": "First Aid Patch Kit",
+      "includes_3": "Floatie Carry Bag",
+      "includes_4": "Floatiekings User Manual",
+      "pump_includes": "THE SuperPump2000 INCLUDES:",
+      "pump_includes_1": "3 x Nozzle Attachments",
+      "pump_includes_2": "Electric Air Pump",
+      "pump_includes_3": "US / EU Power Compatible",
+      "pump_includes_4": ""
     },
     "variant": {
       "out_of_stock": "out of stock",

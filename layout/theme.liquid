@@ -1,13 +1,15 @@
 <!doctype html>
-<!--[if IE 8]>
-<html class="no-js ie8" lang="en"> <![endif]-->
-<!--[if IE 9]>
-<html class="no-js ie9" lang="en"> <![endif]-->
-<!--[if (gt IE 10)|!(IE)]><!-->
+<!--[if IE]>
+<html class="no-js ie" lang="en"> <![endif]-->
+<!--[if !(IE)]><!-->
 <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  {{ 'geolizr-lib.js' | asset_url | script_tag }}
+  <!--geolizr-lib.js-->
+  <script id="geolizr-lib" src="{{ 'geolizr-lib.js' | asset_url }}" type="text/javascript" defer></script>
+  <!--/geolizr-lib.js-->
+  <!--geolizr-redirect-->
   {% include 'geolizr-redirect' %}
+  <!--/geolizr-redirect-->
 
   <!-- Canopy v1.0.10 -->
   <meta charset="utf-8"/>
@@ -15,7 +17,7 @@
   <!--[if IE]>
   <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/><![endif]-->
 
-  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png"/>
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url | split: '?' | first }}" type="image/png"/>
 
   <title>
     {{ page_title }}{% if current_tags %} &ndash; {{ 'general.meta.tagged' | t }} "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t }} {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
@@ -26,45 +28,41 @@
   {% endif %}
   <meta name="google-site-verification" content="7_hBlyoMBrJA-t3GikJzqVY1SlNa84j0gvInIV42WS0"/>
   <meta name="google-site-verification" content="llbVWBEQ_JnNIeMNkq6UuWfaVcjN3TK1h45sbi7HRnA"/>
-  {% comment %}
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>{% endcomment %}
+  {% comment %}<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>{% endcomment %}
   <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=yes"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="msvalidate.01" content="0C0638265DB078357F8582F42D67896E"/>
   <link rel="canonical" href="{{ canonical_url }}"/>
-  <!--link href="{{ 'styles.wufoo.scss.liquid' | asset_url }}" rel="stylesheet"-->
+
+  <script type="text/javascript">
+      /**
+       * to defer the loading of stylesheets this should go before the </body>
+       * tag and before any javaScript file inclusion (for performance)
+       * */
+      function loadStyleSheet(src) {
+          if (document.createStyleSheet) document.createStyleSheet(src);
+          else {
+              var stylesheet = document.createElement('link');
+              stylesheet.href = src;
+              stylesheet.rel = 'stylesheet';
+              stylesheet.type = 'text/css';
+              document.getElementsByTagName('head')[0].appendChild(stylesheet);
+          }
+      }
+
+      loadStyleSheet("{{ 'styles.scss.css' | asset_url }}");
+      {% if template contains 'product' %}
+        loadStyleSheet("{{ 'jquery.bxslider.css' | asset_url | split:'?' | first }}");
+      {% endif %}
+
+  </script>
 
   {% include 'fb-open-graph-tags' %}
   {% include 'twitter-card' %}
 
-  {% comment %} Google Fonts {% endcomment %}
-  {% assign gfonts = '' %}
-  {% assign setting_indexes = 'body_font|heading_font|nav_font|logo_font' | split: '|' %}
-  {% for index in setting_indexes %}
-    {% if settings[index] contains 'GWF' %}
-      {% assign custom_index = index | append: '_custom' %}
-      {% capture gfonts %}{{ gfonts }}|{% if settings[index] contains 'GWF|CUSTOM' %}{{ settings[custom_index] }}{% else %}{{ settings[index] | split: '|' | last }}{% endif %}{% endcapture %}
-    {% endif %}
-  {% endfor %}
-  {% if gfonts != '' %}
-    {% assign gfonts = gfonts | remove_first: '|' | replace: ' ', '+' | replace: "'", '' %}
-    <!--link href="//fonts.googleapis.com/css?family={{ gfonts }}" rel="stylesheet" type="text/css" -->
-  {% endif %}
-
-  {{ 'styles.scss.css' | asset_url | stylesheet_tag }}
-
-
-
-  <script id="jquery" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" defer></script>
-  <script id="jquery-cookies" src="{{ 'js.cookies-2.2.0.js' | asset_url | split:"?" | first }}" defer></script>
-  <script src="{{ 'exitintent.js' | asset_url | split:'?' | first }}" defer></script>
-  <!--{{ 'api.jquery.js' | shopify_asset_url | script_tag }}-->
-  <!--script src="{{ 'api.jquery.js' | asset_url }}" defer></script-->
-
   <!--[if lt IE 9]>
   {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
   {{ 'selectivizr-min.js' | asset_url | script_tag }}
-  {{ 'ie8.css' | asset_url | stylesheet_tag }}
   <![endif]-->
 
   {% if template contains 'customers' %}
@@ -72,22 +70,16 @@
     {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
   {% endif %}
 
-  <script src="{{ 'option_selection.js' | shopify_asset_url }}" defer></script>
-  <script id="bxslider" src="{{ 'jquery.bxslider.min.js' | asset_url | split:'?' | first }}" defer></script>
-  {{ 'jquery.bxslider.css' | asset_url | split:'?' | first | stylesheet_tag }}
 
+  <!-- content_for_header -->
   {{ content_for_header }}
+  <!-- /content_for_header -->
 
   <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', '');
       products = {};
       Shopify.money_format = {{ shop.money_format | json }};
   </script>
-  {% if template contains 'product' %}
-    <!--{{ 'jquery.elevatezoom.js' | asset_url | script_tag }}-->
-    <script src="{{ 'jquery.elevatezoom.js' | asset_url }}" defer></script>
-  {% endif %}
-  {% comment %}{{ 'parallax.js' | asset_url | script_tag }}{% endcomment %}
 
   <!-- Pinterest Pixel Code -->
   <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
@@ -95,57 +87,42 @@
   <!-- Pinterest visitor -->
   <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=8HcMxz0bQxu&value=0.00&quantity=1"/>
 
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-instagram/0.3.1/instagram.min.js" defer></script>
-  <script src="{{ 'main-belen.js' | asset_url }}" defer></script>
-  <!-- BeginConsistentCartAddon -->{{ "consistent_cart_addon.min.js" | asset_url | split:'?' | first | script_tag }}
+  {% comment %}
+  <!-- BeginConsistentCartAddon --><script src="{{ "consistent_cart_addon.min.js" | asset_url | split:'?' | first }}" defer></script>
   <script>{% if customer %}Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}';
       Shopify.customer_logged_in = true;
       Shopify.customer_email = "{{ customer.email }}";
     {% else %}Shopify.customer_logged_in = false;
       Shopify.customer_email = "";{% endif %}</script><!-- EndConsistentCartAddon -->
-  <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js" defer></script>
+  {% endcomment %}
 
+  <script id="jquery" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" defer></script>
+  {% unless template contains 'index' %}
+    <script id="jquery-cookies" src="{{ 'js.cookies-2.2.0.min.js' | asset_url | split:"?" | first }}" defer></script>
+  {% endunless %}
   {% include 'judgeme_core' %}
 
-  <link rel="stylesheet" href="{{ 'responsivelyLazy.min.css' | asset_url | split: '?' | first }}">
+  {% comment %}Included contents of this script to styles.scss.liquid <link rel="stylesheet" href="{{ 'responsivelyLazy.min.css' | asset_url | split: '?' | first }}">{% endcomment %}
   <script async src="{{ 'responsivelyLazy.min.js' | asset_url | split: '?' | first }}"></script>
 
   {% if template contains 'index' %}
     <meta name=“google-site-verification” content=“ej_9Tn_HhftOv20PcNyvhVHL38yF-Rju5LoQi-tY3lU” />
   {% endif %}
 </head>
-
 <body class="template-{{ template | split: '.' | first }} {{ template | split: '.' | join: '-' }} {{ page_title | handle }} {% if template contains 'discount' or template contains 'list-collections' %}template-index{% endif %}">
 <div id="loading-overlay" style="z-index: 999; position: fixed; top:0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items:center; background-color: white; display: none;">
-  <img src="{{ 'FK_Crown_Loader2.gif' | asset_url | split:'?' | first }}" alt="loading image"/></div>
+  <img src="{{ 'FK_Crown_Loader2.gif' | asset_url | split:'?' | first }}" alt="loading"/></div>
 <script>
     document.getElementById("loading-overlay").style.display = "flex";
 
-    window.onload = function () {
+    function fkShowSite() {
         document.getElementById("loading-overlay").style.display = "none";
-      {% if template contains 'product' %}
-        var initBxSlider = function () {
-            $(function () {
-                var autostart = $('.bxslider li').length > 1 ? true : false;
+    }
 
-                $('.bxslider').bxSlider({
-                    responsive: true,
-                    touchEnabled: true,
-                    auto: true,
-                    adaptiveHeight: true,
-                    autoStart: autostart,
-                    pager: autostart,
-                    pagerCustom: '.bx-pager',
-                    controls: false,
-                    speed: 1000
-                });
-            });
-        }();
-      {% endif %}
-    };
+    window.addEventListener("load", fkShowSite);
 </script>
 
-<div id="header" class="cart" style="width:100%;">
+<div id="header" class="cart">
   <div class="page-header">
     <a class="text-logo" href="{{ shop.url }}"><strong>Floatie</strong> Kings</a>
     <div class="top-nav">
@@ -162,7 +139,7 @@
       </nav>
     </div>
     <div class="cart-wrap">
-      <a class="current-cart toggle-cart-summary">
+      <a class="current-cart {% if template != 'cart' %}toggle-cart-summary{% endif %}">
         <svg id="icon-cart" data-name="Cart icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242.3 242.65">
           <title>icon-cart</title>
           <path class="cls-1" d="M25.65,244.65A23.55,23.55,0,0,1,8.2,236.9a23.1,23.1,0,0,1-5.78-17.39L18.17,74.21a7.73,7.73,0,0,1,8-7.12H51.41l.19-1.79C55.33,29.21,86.35,2,123.75,2a73.32,73.32,0,0,1,48.83,18.37,68.32,68.32,0,0,1,22.92,44.9l.17,1.82h25.18a8.18,8.18,0,0,1,8,7.12l15.76,145.38a23.05,23.05,0,0,1-5.79,17.32l-.07.08a21.65,21.65,0,0,1-16.82,7.66Zm-6.73-23.33v.11a6.51,6.51,0,0,0,6.73,6.73H221.91a6.6,6.6,0,0,0,6.78-6.69v-.13L213.79,83.52H195.85v18.81a8,8,0,0,1-8,8,8.53,8.53,0,0,1-8.52-8.52V83.52H68.29v18.81a8.52,8.52,0,0,1-17,0V83.52H33.82ZM123.75,17.93c-28.28,0-52,20.17-55.14,46.92l-.26,2.23H179.16l-.27-2.24a52.15,52.15,0,0,0-18.14-33.29A56.84,56.84,0,0,0,123.75,17.93Z" transform="translate(-2.35 -2)" />
@@ -182,64 +159,38 @@
         {% if template contains 'index' or template contains 'product' %}
 
           <div class="shipping-banner-top">
-            ☀️ {{ 'cart.shipping.shipping-banner_html' | t }} <nobr>{{ settings.free_shipping_from | money }}</nobr> ☀️
+            ☀️ Last Month's <a href="/products/peacock">Best Seller</a> ☀️
+            {% comment %}☀️ {{ 'cart.shipping.shipping-banner_html' | t }} <nobr>{{ settings.free_shipping_from | money }}</nobr> ☀️{% endcomment %}
           </div>
 
         {% else %}
-          {% if template contains 'cart' or template contains 'page.support' or template contains 'page.win-cash' or template contains 'page.thank-you' or template contains 'index' %}
-            <div class="cart-header">
-              {% if template contains 'cart' %}
-                {% if settings.cart_banner %}
-                  <div id="bicolorBanner" class="banner-index">
-                    <picture>
-                      <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}">
-                      <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url | split:"?" | first }}">
-                      <img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="Sunglasses Original Bicolor">
-                    </picture>
-                  </div>
-                {% endif %}
-              {% elsif template contains 'page.support' %}
-                {% if settings.cart_banner %}
-                  <img src="{{ 'support-banner.jpg' | asset_url | split:"?" | first }}" alt="support-banner"/>
-                {% endif %}
-              {% elsif template contains 'page.win-cash' or template contains 'page.thank-you' %}
-                {% if settings.win_banner %}
-                  <picture>
-                    <source media="(min-width: 768px)" srcset="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}">
-                    <source media="(min-width: 200px)" srcset="{{ 'Mobile-Win-Header.jpg' | asset_url | split:"?" | first }}">
-                    <img src="{{ 'win-cash.jpg' | asset_url | split:"?" | first }}" alt="{{ settings.win-cash-alt }}"/>
-                  </picture>
-                {% endif %}
-              {% endif %}
-          {% else %}
-            <div class="header">
+
+          {% if template contains 'cart' %}
+            <div class="banner">
+              <picture>
+                <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}">
+                <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url | split:"?" | first }}">
+                <img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="Sunglasses Original Bicolor">
+              </picture>
+            </div>
+          {% elsif template contains 'page.support' %}
+            <div class="banner">
+              <img src="{{ 'support-banner.jpg' | asset_url | split:"?" | first }}" alt="support-banner"/>
+            </div>
           {% endif %}
 
-          {% if template contains 'page.win-cash' %}
-            <div class="shipping-banner">
-              <div class="nn-secondary-middle">{{ settings.win-cash-banner }}</div>
-            </div>
-          {% else %}
-            {% unless template contains 'page.thank-you' %}
-              {% if settings.shipping-banner-enable %}
-                <div class="shipping-banner">
-                  <div class="nn-secondary-middle">{{ 'cart.shipping.shipping-banner_html' | t }} <nobr>{{ settings.free_shipping_from | money }}</nobr></div>
-                </div>
-              {% endif %}
-            {% endunless %}
-          {% endif %}
-          <div id="header" style="display:none;"></div>
-        </div><!-- /.header -->
         {% endif %}
+
+        <!-- content_for_layout -->
         {{ content_for_layout }}
-      </div><!-- /.cart-header -->
+        <!-- /content_for_layout -->
+
       </div><!-- /#content -->
     </div><!-- /#page-wrap-content -->
-    {% include 'footer' %}
-  </div> <!--  page-wrap-inner  -->
+  </div><!-- /#page-wrap-inner -->
 </div><!-- /#page-wrap -->
 
-
+{% include 'footer' %}
 
 {% include 'popup-stock' %}
 {% include 'popup-hello' %}
@@ -247,39 +198,16 @@
   {% include 'popup-influencer' %}
   {% include 'popup-creative' %}
   {% include 'popup-wholesale' %}
+  {% include 'popup-discount' %}
 {% endif %}
 
-{% include 'mobile-navigation' %}
-
-
+<script id="jquery-ui" src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js" defer></script>
+<script src="{{ 'api.jquery.js' | shopify_asset_url }}" defer></script>
 <script src="{{ 'libs.js' | asset_url | split:"?" | first }}" defer></script>
 <script src="{{ 'scripts.js' | asset_url }}" defer></script>
 {% comment %}<script src="{{ 'instafeed.min.js' | asset_url | split:"?" | first }}" defer></script>{% endcomment %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.0.23/script/jquery.jscrollpane.min.js" defer></script>
 
 <input type="hidden" name="_pc_params" value="{{ shop.permanent_domain }}:{{ customer.id }}"/>
-{% if template contains 'product' %}
-
-  <script type="text/javascript">
-      document.getElementById('jquery').addEventListener('load', function () {
-          $(document).ready(function () {
-              var wd = $(document).width();
-              if (wd > 768) {
-                  $("#zoom").elevateZoom({
-                      zoomType: "inner",
-                      cursor: "crosshair"
-                  });
-              }
-              if (wd < 481) {
-                  var w = $('.product-gallery img').width();
-                  $('.product-gallery').addClass('tablerow').height(w);
-              }
-          });
-      });
-  </script>
-
-
-{% endif %}
 {% if template contains 'product' or template contains 'cart' %}
   <script type="text/javascript">
       function incrementValue(btn) {
@@ -295,7 +223,6 @@
           window.location.href = '/cart/change?quantity=' + value + '&id=' + id;
         {% endif %}
       }
-
       function decrementValue(btn) {
           var val = jQuery(btn).parents('.quantity').find('#number').val();
           var value = parseInt(val, 10);
@@ -352,17 +279,6 @@
 </script>
 
 <script src="https://use.fontawesome.com/791a439b99.js"></script>
-
-{% if gfonts != '' %}
-  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
-  <script>
-      WebFont.load({
-          google: {
-              families: ["{{ gfonts }}"]
-          }
-      });
-  </script>
-{% endif %}
 
 <!--<script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script><script>window.Beacon('init', '205b524c-0e1f-4507-8c0a-dbf65d85e7a9')</script>-->
 </body>

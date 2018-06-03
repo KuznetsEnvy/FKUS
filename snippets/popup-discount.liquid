@@ -1,44 +1,46 @@
-<div class="popup-hello-overlay">
-  <div class="popup-hello">
+<div class="popup-discount-overlay">
+  <div class="popup-discount">
     <span class="popup-close-btn top"><span class="fa fa-close"></span></span>
     <!-- Begin MailChimp Signup Form -->
-    <div id="mc_embed_signup">
-      <form action="https://floatiekings.us13.list-manage.com/subscribe/post?u=48982d426a910167c31a85aa0&amp;id=c3358ccf20" method="post" id="popup-hello-form" name="mc-embedded-subscribe-form" class="validate popup-hello-form" target="_blank">
 
+    <form action="https://floatiekings.us13.list-manage.com/subscribe/post?u=48982d426a910167c31a85aa0&amp;id=c3358ccf20" method="post" id="popup-discount-form" name="mc-embedded-subscribe-form" class="validate popup-discount-form" target="_blank">
+
+      {% comment %}
         <h2 class="popup-header">{{ 'popups.hello.hello_gorgeous' | t }}</h2>
         <p class="popup-message">{{ 'popups.hello.want_invites_html' | t }}</p>
+      {% endcomment %}
 
-        <div id="mc_embed_signup_scroll">
-          <div class="mc-field-group">
-            <input type="text" value="" name="FNAME" class="" id="mce-FNAME" placeholder="{{ 'popups.hello.first_name' | t }}">
-            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="{{ 'popups.hello.your_email' | t }}">
-          </div>
-          <div class="mc-status"></div> <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_48982d426a910167c31a85aa0_c3358ccf20" tabindex="-1" value=""></div>
-          <div class="clear"><input type="submit" value="{{ 'popups.hello.submit' | t }}" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-        </div>
 
-        <span class="popup-close-btn bottom">{{ 'popups.hello.no_thanks' | t }}</span>
-      </form>
+      <div id="mc_embed_signup_scroll">
+        <input type="text" name="FNAME" id="mce-FNAME" placeholder="{{ 'popups.hello.first_name' | t }}">
+        <input type="email" name="EMAIL" id="mce-EMAIL" placeholder="{{ 'popups.hello.your_email' | t }}" title="The domain portion of the email address is invalid (the portion after the @)." pattern="^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*(\.\w{2,})+$" required>
+
+        <div class="mc-status"></div><!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_48982d426a910167c31a85aa0_c3358ccf20" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Give me 20%" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+      </div>
+
+      {% comment %}<span class="popup-close-btn bottom">{{ 'popups.hello.no_thanks' | t }}</span>{% endcomment %}
+    </form>
+
+    <div class="popup-discount-confirmation" style="display:none;">
+      Thank you.
     </div>
-    <div class="popup-hello-confirmation" style="display: none;">
-      <h2 class="popup-header">{{ "popups.hello.welcome_floatlife" | t }}</h2>
-      <p class="popup-message">{{ "popups.hello.email_added" | t }}</p>
-    </div>
+
     <!--End mc_embed_signup-->
   </div>
 </div>
 <script>
 
     // Display the form status
-    var popupHelloDisplayStatus = function (data) {
+    var popupDiscountDisplayStatus = function (data) {
         console.log(data); //TODO Kuz: Remove this
 
         // Make sure the data is in the right format
         if (!data.result || !data.msg ) return;
 
         // Get the status message content area
-        var mcStatus = document.querySelector('.popup-hello .mc-status');
+        var mcStatus = document.querySelector('.popup-discount .mc-status');
         if (!mcStatus) return;
 
         // Update our status message
@@ -48,9 +50,8 @@
 
         if (data.result === 'success') {
             console.log('Successfully submitted!');
-            $('.popup-hello #mc_embed_signup').hide();
-            $('.popup-hello-form').hide();
-            $('.popup-hello-confirmation').show();
+            $('.popup-discount-form').hide();
+            $('.popup-discount-confirmation').show();
 
         }
     };
@@ -125,57 +126,57 @@
             }
         }
     }
-    function popupHelloHide() {
-        $('.popup-hello-overlay').hide().removeClass('active');
+    function popupDiscountHide() {
+        $('.popup-discount-overlay').hide().removeClass('active');
         $('body').removeClass('body-no-scroll');
-        Cookies.set('popup_hello_showed', 'true');
+        Cookies.set('popup_discount_showed', 'true');
     }
-    function popupHelloShow( skip_check ) {
+    function popupDiscountShow( skip_check ) {
         if (skip_check === undefined) {
             skip_check = false;
         }
         var popup_refresh = getUrlParameter('popup_refresh');
         if (popup_refresh) {
-            Cookies.set('popup_hello_showed', 'true', { expires: -1 }); //Remove the cookie
+            Cookies.set('popup_discount_showed', 'true', { expires: -1 }); //Remove the cookie
         }
-        var popup_hello_showed = Cookies.get('popup_hello_showed');
+        var popup_discount_showed = Cookies.get('popup_discount_showed');
 
-        if(skip_check || popup_hello_showed != 'true') {
+        if(skip_check || popup_discount_showed != 'true') {
             if(!$('.popup-stock-overlay.active, .popup-influencer-overlay.active, .popup-creative-overlay.active, .popup-wholesale-overlay.active').length) {
-                $('.popup-hello-overlay').css({'display': 'flex'}).addClass('active');
+                $('.popup-discount-overlay').css({'display': 'flex'}).addClass('active');
                 $('body').addClass('body-no-scroll');
             } else {
-                console.log('Not showing Hello popup because other popup is already visible');
+                console.log('Not showing Discount popup because other popup is already visible');
             }
         } else {
-            console.log('Not showing Hello popup because user closed it earlier during this session.')
+            console.log('Not showing Discount popup because user closed it earlier during this session.')
         }
     }
-    function popupHelloInit() {
-        $('.invoke-popup-hello').each(function() {
+    function popupDiscountInit() {
+        $('.invoke-popup-discount').each(function() {
             $(this).on('click', function() {
-                popupHelloShow( true )
+                popupDiscountShow( true )
             });
         });
-        $('.popup-hello .popup-close-btn').on('click', function(e){
-            popupHelloHide();
+        $('.popup-discount .popup-close-btn').on('click', function(e){
+            popupDiscountHide();
         });
-        $('.popup-hello-overlay').on('click', function(e){
+        $('.popup-discount-overlay').on('click', function(e){
             if (e.target !== this) return;
-            popupHelloHide();
+            popupDiscountHide();
         });
 
-        window.setTimeout(popupHelloShow, 5000);
+        // window.setTimeout(popupDiscountShow, 5000);
     }
 
-    window.addEventListener('load', popupHelloInit);
-    document.getElementById('popup-hello-form').addEventListener('submit', function(event) {
+    window.addEventListener('load', popupDiscountInit);
+    document.getElementById('popup-discount-form').addEventListener('submit', function(event) {
         // Prevent form from submitting
         event.preventDefault();
 
         // Otherwise, let the form submit normally
         // You could also bolt in an Ajax form submit process here
-        submitMailChimpForm(event.target, 'popupHelloDisplayStatus');
+        submitMailChimpForm(event.target, 'popupDiscountDisplayStatus');
 
 
     }, false);

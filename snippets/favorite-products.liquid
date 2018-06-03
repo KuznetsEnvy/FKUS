@@ -46,7 +46,7 @@
                 {% if all_products[product].available %}
                   <a href="/cart/add?id={{ all_products[product].first_available_variant.id }}&quantity=1" class="add-to-cart cart-btn buy-now select" >Select</a>
                 {% else %}
-                  <a href="javascript:void(0)" class="add-to-cart cart-btn select back-in-stock" >{{'products.product.product_unavailable_html' | t }}</a>
+                  <a href="javascript:void(0)" class="add-to-cart cart-btn select invoke-popup-stock" >{{'products.product.product_unavailable_html' | t }}</a>
                 {% endif %}
               </div>
               <div class="clear"></div>
