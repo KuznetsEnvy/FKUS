@@ -203,19 +203,19 @@
             <ul>
               {% if small_1_image != blank and small_1_text != blank %}
                 <li class="info-sec-small-1">
-                  <img title="{{ small_1_text | escape }}" alt="{{ small_1_text | escape }}" src="{{ small_1_image | split:'?' | first }}" />
+                  <img title="{{ small_1_text | escape }}" alt="{{ small_1_text | escape }}" class="responsively-lazy" src="{{ small_1_image | split:'?' | first | replace: '.jpg', '_300x300.jpg' }}" data-srcset="{{ small_1_image | split:'?' | first | replace: '.jpg', '_55x55.jpg' }} 55w, {{ small_1_image | split:'?' | first | replace: '.jpg', '_75x75.jpg' }} 75w, {{ small_1_image | split:'?' | first | replace: '.jpg', '_125x125.jpg' }} 125w, {{ small_1_image | split:'?' | first | replace: '.jpg', '_150x150.jpg' }} 150w, {{ small_1_image | split:'?' | first | replace: '.jpg', '_300x300.jpg' }} 300w, {{ small_1_image | split:'?' | first | replace: '.jpg', '_400x400.jpg' }} 400w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
                     <span class="nn-secondary-middle">{{ small_1_text }}</span>
                 </li>
                 {% endif %}
                 {% if small_2_image != blank and small_2_text != blank %}
                 <li class="info-sec-small-2">
-                  <img src="{{ small_2_image | split:'?' | first }}" title="{{ small_2_text | escape }}" />
+                  <img title="{{ small_2_text | escape }}" alt="{{ small_2_text | escape }}" class="responsively-lazy" src="{{ small_2_image | split:'?' | first | replace: '.jpg', '_300x300.jpg' }}" data-srcset="{{ small_2_image | split:'?' | first | replace: '.jpg', '_55x55.jpg' }} 55w, {{ small_2_image | split:'?' | first | replace: '.jpg', '_75x75.jpg' }} 75w, {{ small_2_image | split:'?' | first | replace: '.jpg', '_125x125.jpg' }} 125w, {{ small_2_image | split:'?' | first | replace: '.jpg', '_150x150.jpg' }} 150w, {{ small_2_image | split:'?' | first | replace: '.jpg', '_300x300.jpg' }} 300w, {{ small_2_image | split:'?' | first | replace: '.jpg', '_400x400.jpg' }} 400w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
                     <span class="nn-secondary-middle">{{ small_2_text }}</span>
                 </li>
                 {% endif %}
                 {% if small_3_image != blank and small_3_text != blank %}
                 <li class="info-sec-small-3">
-                  <img src="{{ small_3_image | split:'?' | first }}" title="{{ small_3_text | escape }}" />
+                  <img title="{{ small_3_text | escape }}" alt="{{ small_3_text | escape }}" class="responsively-lazy" src="{{ small_3_image | split:'?' | first | replace: '.jpg', '_300x300.jpg' }}" data-srcset="{{ small_3_image | split:'?' | first | replace: '.jpg', '_55x55.jpg' }} 55w, {{ small_3_image | split:'?' | first | replace: '.jpg', '_75x75.jpg' }} 75w, {{ small_3_image | split:'?' | first | replace: '.jpg', '_125x125.jpg' }} 125w, {{ small_3_image | split:'?' | first | replace: '.jpg', '_150x150.jpg' }} 150w, {{ small_3_image | split:'?' | first | replace: '.jpg', '_300x300.jpg' }} 300w, {{ small_3_image | split:'?' | first | replace: '.jpg', '_400x400.jpg' }} 400w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
                     <span class="nn-secondary-middle">{{ small_3_text }}</span>
                 </li>
                 {% endif %}
@@ -226,7 +226,7 @@
           {% assign large_text = info.large_text %}
           {% if large != blank %}
             <div class="info-sec-large">
-              <img src="{{ info.large | split:'?' | first }}" title="{{ product.title | escape }}" />
+              <img title="{{ product.title | escape }}" alt="{{ product.title | escape }}" class="responsively-lazy" src="{{ info.large | split:'?' | first | replace: '.jpg', '_1920x.jpg' }}" data-srcset="{{ info.large | split:'?' | first | replace: '.jpg', '_300x.jpg' }} 300w, {{ info.large | split:'?' | first | replace: '.jpg', '_390x.jpg' }} 390w, {{ info.large | split:'?' | first | replace: '.jpg', '_580x.jpg' }} 580w, {{ info.large | split:'?' | first | replace: '.jpg', '_690x.jpg' }} 690w, {{ info.large | split:'?' | first | replace: '.jpg', '_820x.jpg' }} 820w, {{ info.large | split:'?' | first | replace: '.jpg', '_1160x.jpg' }} 1160w, {{ info.large | split:'?' | first | replace: '.jpg', '_1400x.jpg' }} 1400w, {{ info.large | split:'?' | first | replace: '.jpg', '_1680x.jpg' }} 1680w, {{ info.large | split:'?' | first | replace: '.jpg', '_1920x.jpg' }} 1920w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
               {% comment %}<div class="p-info-note">
                 {% unless product.handle contains 'pump' %}
                   <span class="heading">{{ 'products.product.every_purchase_includes' | t }}</span>
@@ -406,7 +406,9 @@
               <div id="instafeed" class="grid product">
                 {% for image in product.metafields.gallery %}
                   {% if image != blank and image.last != blank and image.last != 'blank' %}
-                    <div class="grid-item"><img src="{{ image.last  | split:'?' | first }}" alt="{{ product.title | escape }}"/></div>
+                    <div class="grid-item">
+                      <img alt="{{ product.title | escape }}" class="responsively-lazy" src="{{ image.last | split:'?' | first | replace: '.jpg', '_600x600.jpg' }}" data-srcset="{{ image.last | split:'?' | first | replace: '.jpg', '_200x200.jpg' }} 200w, {{ image.last | split:'?' | first | replace: '.jpg', '_400x400.jpg' }} 400w, {{ image.last | split:'?' | first | replace: '.jpg', '_600x600.jpg' }} 600w, {{ image.last | split:'?' | first | replace: '.jpg', '_800x800.jpg' }} 800w, {{ image.last | split:'?' | first | replace: '.jpg', '_1000x1000.jpg' }} 1000w, {{ image.last | split:'?' | first | replace: '.jpg', '_1200x1200.jpg' }} 1200w, {{ image.last | split:'?' | first | replace: '.jpg', '_1400x1400.jpg' }} 1400w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+                    </div>
                   {% endif %}
                 {% endfor %}
               </div>
