@@ -26,12 +26,16 @@
           {% if product.images.size > 1 %}
             <ul class="bxslider">
               {% for image in product.images %}
-                <li><img class="main-img" src="{{ image | product_img_url: '1024x1024' | split: '?' | first }}" alt="{{ image.alt | escape }}" /></li>
+                <li>
+                  <img alt="{{ image.alt | escape }}" class="main-img" src="{{ image | product_img_url: '1024x1024' | split:'?' | first }}" srcset="{{ image | product_img_url: '300x300' | split:'?' | first }} 300w, {{ image | product_img_url: '350x350' | split:'?' | first }} 350w, {{ image | product_img_url: '400x400' | split:'?' | first }} 400w, {{ image | product_img_url: '500x500' | split:'?' | first }} 500w, {{ image | product_img_url: '550x550' | split:'?' | first }} 550w, {{ image | product_img_url: '600x600' | split:'?' | first }} 600w, {{ image | product_img_url: '655x655' | split:'?' | first }} 655w, {{ image | product_img_url: '690x690' | split:'?' | first }} 690w, {{ image | product_img_url: '715x715' | split:'?' | first }} 715w, {{ image | product_img_url: '715x715' | split:'?' | first }} 715w, {{ image | product_img_url: '800x800' | split:'?' | first }} 800w, {{ image | product_img_url: '900x900' | split:'?' | first }} 900w, {{ image | product_img_url: '1000x1000' | split:'?' | first }} 1000w, {{ image | product_img_url: '1100x1100' | split:'?' | first }} 1100w, {{ image | product_img_url: '1200x1200' | split:'?' | first }} 1200w, {{ image | product_img_url: '1300x1300' | split:'?' | first }} 1300w, {{ image | product_img_url: '1400x1400' | split:'?' | first }} 1400w" sizes="(min-width: 768px) 34vw, 93,75vw" />
+                </li>
               {% endfor %}
             </ul>
             <div class="bx-pager">
               {% for image in product.images %}
-                <a href="" data-slide-index="{{ forloop.index0 }}"><img src="{{ image | product_img_url: '180x180' | split: '?' | first }}" alt="" /></a>
+                <a href="" data-slide-index="{{ forloop.index0 }}">
+                  <img alt="" class="responsively-lazy" src="{{ image | product_img_url: '180x180' | split:'?' | first }}" data-srcset="{{ image | product_img_url: '40x40' }} 40w, {{ image | product_img_url: '60x60' }} 60w, {{ image | product_img_url: '80x80' }} 80w, {{ image | product_img_url: '100x100' }} 100w, {{ image | product_img_url: '120x120' }} 120w, {{ image | product_img_url: '140x140' }} 140w, {{ image | product_img_url: '160x160' }} 160w, {{ image | product_img_url: '180x180' }} 180w, {{ image | product_img_url: '200x200' }} 200w, {{ image | product_img_url: '220x220' }} 220w, {{ image | product_img_url: '240x240' }} 240w" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+                </a>
               {% endfor %}
             </div>
           {% else %}
@@ -199,19 +203,19 @@
             <ul>
               {% if small_1_image != blank and small_1_text != blank %}
                 <li class="info-sec-small-1">
-                  <img src="{{ small_1_image }}" title="{{ small_1_text | escape }}" />
+                  <img title="{{ small_1_text | escape }}" alt="{{ small_1_text | escape }}" src="{{ small_1_image | split:'?' | first }}" />
                     <span class="nn-secondary-middle">{{ small_1_text }}</span>
                 </li>
                 {% endif %}
                 {% if small_2_image != blank and small_2_text != blank %}
                 <li class="info-sec-small-2">
-                  <img src="{{ small_2_image }}" title="{{ small_2_text | escape }}" />
+                  <img src="{{ small_2_image | split:'?' | first }}" title="{{ small_2_text | escape }}" />
                     <span class="nn-secondary-middle">{{ small_2_text }}</span>
                 </li>
                 {% endif %}
                 {% if small_3_image != blank and small_3_text != blank %}
                 <li class="info-sec-small-3">
-                  <img src="{{ small_3_image }}" title="{{ small_3_text | escape }}" />
+                  <img src="{{ small_3_image | split:'?' | first }}" title="{{ small_3_text | escape }}" />
                     <span class="nn-secondary-middle">{{ small_3_text }}</span>
                 </li>
                 {% endif %}
@@ -222,7 +226,7 @@
           {% assign large_text = info.large_text %}
           {% if large != blank %}
             <div class="info-sec-large">
-              <img src="{{ info.large }}" title="{{ product.title | escape }}" />
+              <img src="{{ info.large | split:'?' | first }}" title="{{ product.title | escape }}" />
               {% comment %}<div class="p-info-note">
                 {% unless product.handle contains 'pump' %}
                   <span class="heading">{{ 'products.product.every_purchase_includes' | t }}</span>
@@ -402,7 +406,7 @@
               <div id="instafeed" class="grid product">
                 {% for image in product.metafields.gallery %}
                   {% if image != blank and image.last != blank and image.last != 'blank' %}
-                    <div class="grid-item"><img src="{{ image.last }}" alt="{{ product.title | escape }}"/></div>
+                    <div class="grid-item"><img src="{{ image.last  | split:'?' | first }}" alt="{{ product.title | escape }}"/></div>
                   {% endif %}
                 {% endfor %}
               </div>

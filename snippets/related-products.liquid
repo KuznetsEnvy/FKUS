@@ -13,6 +13,7 @@
   <div id="related-products" class="section padless-bottom border-top">
     <div class="container">
       <h3 class="line-framed">{{ 'products.product.related_title' | t }}</h3>
+      {% comment %}{#TODO Kuz: fix this related-product-list class in CSS and #}{% endcomment %}
       <div class="related-product-list related-{{ settings.prod_rel_meth }} {% if settings.prod_rel_titles %}show-desc{% endif %}" data-normheights=".image-cont" data-normheights-inner="img">
         {% if settings.prod_rel_meth == 'collection' %}
           <ul class="items">
@@ -43,7 +44,9 @@
                   {% assign show_related = true %}
                   <li>
                     <div class="item products-section">
-                      <a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">{{ relprod.featured_image | product_img_url: related_product_image_size | img_tag: relprod.title }}</a>
+                      <a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">
+                        <img alt="{{ relprod.title }}" src="{{ relprod.featured_image | product_img_url: '480x' | split:'?' | first }}" srcset="{{ relprod.featured_image | product_img_url: '140x' | split:'?' | first }} 140w, {{ relprod.featured_image | product_img_url: '175x' | split:'?' | first }} 175w, {{ relprod.featured_image | product_img_url: '190x' | split:'?' | first }} 190w, {{ relprod.featured_image | product_img_url: '230x' | split:'?' | first }} 230w, {{ relprod.featured_image | product_img_url: '320x' | split:'?' | first }} 320w, {{ relprod.featured_image | product_img_url: '370x' | split:'?' | first }} 370w, {{ relprod.featured_image | product_img_url: '430x' | split:'?' | first }} 430w" sizes="(min-width: 768px) 21.76vw, 46.67vw" />
+                      </a>
                       <div class="desc ftr">
                         <a class="title ftc" href="{{ relprod.url | within: collection }}">{{ relprod.title }}</a>
                         <div class="price ftc ">
@@ -75,7 +78,9 @@
                       {% assign show_related = true %}
                       <li>
                         <div class="item">
-                          <a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">{{ relprod.featured_image | product_img_url: related_product_image_size | img_tag: relprod.title }}</a>
+                          <a class="image-cont" href="{{ relprod.url | within: collection }}" title="{{ relprod.title }}">
+                            <img alt="{{ relprod.title }}" src="{{ relprod.featured_image | product_img_url: '480x' | split:'?' | first }}" srcset="{{ relprod.featured_image | product_img_url: '140x' | split:'?' | first }} 140w, {{ relprod.featured_image | product_img_url: '175x' | split:'?' | first }} 175w, {{ relprod.featured_image | product_img_url: '190x' | split:'?' | first }} 190w, {{ relprod.featured_image | product_img_url: '230x' | split:'?' | first }} 230w, {{ relprod.featured_image | product_img_url: '320x' | split:'?' | first }} 320w, {{ relprod.featured_image | product_img_url: '370x' | split:'?' | first }} 370w, {{ relprod.featured_image | product_img_url: '430x' | split:'?' | first }} 430w" sizes="(min-width: 768px) 21.76vw, 46.67vw" />
+                          </a>
                           <div class="desc"><a href="{{ relprod.url | within: collection }}">{{ relprod.title }}</a></div>
                         </div>
                       </li>
@@ -107,6 +112,7 @@
                   $.getJSON('/products/' + rel_handle + '.js', function (data) {
                       //Build product
                       var $prod = $('<a class="image-cont"/>').attr({ href: data.url, title: data.title });
+                      var source = data.featured_image.replace(/(\.jpg|\.png|\.jpeg|\.gif)/, '_'+{{ related_product_image_size | json }}+'$1');
                       $('<img/>').attr({ src: data.featured_image.replace(/(\.jpg|\.png|\.jpeg|\.gif)/, '_'+{{ related_product_image_size | json }}+'$1'), alt: data.title }).css('opacity', 0).appendTo($prod);
                       $prod = $prod.wrap('<div class="item"/>').parent().wrap('<li/>').parent();
                       $('<div class="desc"/>').append($('<a/>').attr('href', data.url).html(data.title)).appendTo($prod);

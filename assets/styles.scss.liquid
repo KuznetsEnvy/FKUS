@@ -1161,6 +1161,11 @@ ul.plain {
   overflow: hidden;
   white-space: nowrap;
 
+  &.show-desc .item .desc {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
   ul {
     padding: 0;
     margin: 0;
@@ -2411,11 +2416,7 @@ span.product-label {
   display: none
 }
 
-.show-desc.related-product-list .item .desc {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
+
 .instagram-section .follow {
   display: inline-block;
   margin-top: 0.4em
@@ -2550,17 +2551,6 @@ span.product-label {
   }
   .quick-buy-wrap {
     display: none
-  }
-  .related-product-list {
-    ul {
-      li {
-        width: 15.4%;
-
-        &:nth-child(n+7) {
-          display: none;
-        }
-      }
-    }
   }
 }
 

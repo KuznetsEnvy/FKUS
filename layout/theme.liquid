@@ -26,6 +26,9 @@
   {% if page_description %}
     <meta name="description" content="{{ page_description | escape }}"/>
   {% endif %}
+  {% if template contains 'index' %}
+    <meta name="google-site-verification" content="ej_9Tn_HhftOv20PcNyvhVHL38yF-Rju5LoQi-tY3lU" />
+  {% endif %}
   <meta name="google-site-verification" content="7_hBlyoMBrJA-t3GikJzqVY1SlNa84j0gvInIV42WS0"/>
   <meta name="google-site-verification" content="llbVWBEQ_JnNIeMNkq6UuWfaVcjN3TK1h45sbi7HRnA"/>
   {% comment %}<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>{% endcomment %}
@@ -103,11 +106,7 @@
   {% include 'judgeme_core' %}
 
   {% comment %}Included contents of this script to styles.scss.liquid <link rel="stylesheet" href="{{ 'responsivelyLazy.min.css' | asset_url | split: '?' | first }}">{% endcomment %}
-  <script async src="{{ 'responsivelyLazy.min.js' | asset_url | split: '?' | first }}"></script>
-
-  {% if template contains 'index' %}
-    <meta name=“google-site-verification” content=“ej_9Tn_HhftOv20PcNyvhVHL38yF-Rju5LoQi-tY3lU” />
-  {% endif %}
+  {% comment %}Added to scripts.js.liquid<script async src="{{ 'responsivelyLazy.min.js' | asset_url | split: '?' | first }}"></script>{% endcomment %}
 </head>
 <body class="template-{{ template | split: '.' | first }} {{ template | split: '.' | join: '-' }} {{ page_title | handle }} {% if template contains 'discount' or template contains 'list-collections' %}template-index{% endif %}">
 <div id="loading-overlay" style="z-index: 999; position: fixed; top:0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items:center; background-color: white; display: none;">
@@ -157,28 +156,10 @@
       <div id="content" data-template="{{ template }}">
 
         {% if template contains 'index' or template contains 'product' %}
-
           <div class="shipping-banner-top">
             ☀️ Last Month's <a href="/products/peacock">Best Seller</a> ☀️
             {% comment %}☀️ {{ 'cart.shipping.shipping-banner_html' | t }} <nobr>{{ settings.free_shipping_from | money }}</nobr> ☀️{% endcomment %}
           </div>
-
-        {% else %}
-
-          {% if template contains 'cart' %}
-            <div class="banner">
-              <picture>
-                <source media="(min-width: 64em)" srcset="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}">
-                <source media="(min-width: 300px)" srcset="{{ 'Cart-Header-Mobile.jpg' | asset_url | split:"?" | first }}">
-                <img src="{{ 'cart-banner.jpg' | asset_url | split:"?" | first }}" alt="Sunglasses Original Bicolor">
-              </picture>
-            </div>
-          {% elsif template contains 'page.support' %}
-            <div class="banner">
-              <img src="{{ 'support-banner.jpg' | asset_url | split:"?" | first }}" alt="support-banner"/>
-            </div>
-          {% endif %}
-
         {% endif %}
 
         <!-- content_for_layout -->
@@ -203,7 +184,7 @@
 
 <script id="jquery-ui" src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js" defer></script>
 <script src="{{ 'api.jquery.js' | shopify_asset_url }}" defer></script>
-<script src="{{ 'libs.js' | asset_url | split:"?" | first }}" defer></script>
+{% comment %}Added to scripts.js.liquid<script src="{{ 'libs.js' | asset_url | split:"?" | first }}" defer></script>{% endcomment %}
 <script src="{{ 'scripts.js' | asset_url }}" defer></script>
 {% comment %}<script src="{{ 'instafeed.min.js' | asset_url | split:"?" | first }}" defer></script>{% endcomment %}
 

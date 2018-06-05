@@ -1,12 +1,14 @@
 <div class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
   <picture>
-    <source media="(min-width: 1920px)" srcset="{{ 'header_banner_textless_2336.png' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 1650px)" srcset="{{ 'header_banner_textless_1920.png' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 1400px)" srcset="{{ 'header_banner_textless_1650.png' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 1024px)" srcset="{{ 'header_banner_textless_1440.png' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 751px)" srcset="{{ 'header_banner_textless_1024.png' | asset_url | split:"?" | first }}">
-    <source media="(min-width: 300px)" srcset="{{ 'header_banner_textless_750.png' | asset_url | split:"?" | first }}">
-    <img src="{{ 'header_banner_textless_414.png' | asset_url | split:"?" | first }}" alt="Homepage banner">
+    <source media="(min-width: 1785px)" srcset="{{ 'header_banner_textless.png' | asset_img_url: '1920x' | split:"?" | first }}">
+    <source media="(min-width: 1545px)" srcset="{{ 'header_banner_textless.png' | asset_img_url: '1650x' | split:"?" | first }}">
+    <source media="(min-width: 1212px)" srcset="{{ 'header_banner_textless.png' | asset_img_url: '1440x' | split:"?" | first }}">
+    <source media="(min-width: 896px)" srcset="{{ 'header_banner_textless.png' | asset_img_url: '1024x' | split:"?" | first }}">
+    <source media="(min-width: 752px)" srcset="{{ 'header_banner_textless.png' | asset_img_url: '768x' | split:"?" | first }}">
+    <source media="(min-width: 414px)" srcset="{{ 'header_banner_textless-mobile.png' | asset_img_url: '414x' | split:"?" | first }}">
+    <source media="(min-width: 375px)" srcset="{{ 'header_banner_textless-mobile.png' | asset_img_url: '375x' | split:"?" | first }}">
+    <source media="(min-width: 300px)" srcset="{{ 'header_banner_textless-mobile.png' | asset_img_url: '320x' | split:"?" | first }}">
+    <img src="{{ 'header_banner_textless-mobile.png' | asset_img_url: '320x' | split:"?" | first }}" alt="Homepage banner">
   </picture>
 
   <div id="banner-top-text">
