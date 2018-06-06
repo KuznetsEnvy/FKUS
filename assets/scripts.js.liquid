@@ -663,53 +663,16 @@ typeof d.responsivelyLazyScrollAttached&&(d.responsivelyLazyScrollAttached=!0,d.
 
 $(function($){
   /// Extensions
-  
-  $.fn.replaceImageWithOneOfNewSrc = function(newSrc) {
-    //Avoids blank.gif breaking imagesLoaded with Firefox event bug
-    var newTag = $(this).clone().wrap('<div />').parent().html();
-    newTag = newTag.replace(/(src=")([^"]*)/gi, "$1" + newSrc);
-    var $newTag = $(newTag);
-    $(this).after($newTag).remove();
-    return $newTag;
-  };
-  
-  //Fade out image, replace src, fade back in when loaded
-  $.fn.fadeToAnotherImage = function(newSrc, callback){
-    var $img = $(this);
-    var oldHeight = $img.height();
-    var doFade = !$img.parent().hasClass('heightkeeper') && $img.attr('src') != newSrc;
-    if(doFade) {
-      $img.wrap(
-        $('<div class="heightkeeper" />').css({ height: oldHeight, overflow: 'hidden' })
-      ).stop(true,true).animate({opacity:0}, 200, function(){
-        $img = $img.replaceImageWithOneOfNewSrc(newSrc);
-        $img.imagesLoaded(function(){
-          $img.stop(true,true).animate({opacity:1}, 200);
-          $img.parent().stop(true,true).animate({height: $img.height()}, 500, function(){
-            $img.unwrap();
-            if(callback) callback($img);
-          });
-        });
-      });
-      return true;
-    } else {
-      return false;
-    }
-  };
-  
+
   function isMobile() {
     return $(window).width() < 768; //blunt check for mobile view
   }
-  
-  
+
   /// Restyle any dropdowns
-  
-  $('select:not(#product-select)').selectReplace().closest('.selector-wrapper').addClass('has-pretty-select');
-  
-  
+  // $('select:not(#product-select)').selectReplace().closest('.selector-wrapper').addClass('has-pretty-select');
+
   /// Toggle classes
-  
-  $(document).on('click', '[data-toggle-class]', function(e){
+  $(document).on('click', '[data-toggle-class]', function (e) {
     e.preventDefault();
     var spl = $(this).data('toggle-class').split('|');
     $(spl[1]).toggleClass(spl[0]);
@@ -717,8 +680,8 @@ $(function($){
   });
 
   $(document).on('click', '#nav-icon3', function () {
-      $(this).toggleClass('open');
-      $('.top-nav nav').toggle('slide', {direction: 'left'}, 200);
+    $(this).toggleClass('open');
+    $('.top-nav nav').toggle('slide', {direction: 'left'}, 200);
   });
 
   $(document).on('click', '.insta-control-right', function () {
@@ -731,355 +694,356 @@ $(function($){
       c_left.show();
     }
 
-    instafeed.animate({scrollLeft: pos_old + 250}, 800, function() {
-        var pos_new = instafeed.scrollLeft();
+    instafeed.animate({scrollLeft: pos_old + 250}, 800, function () {
+      var pos_new = instafeed.scrollLeft();
 
-        if (pos_new - pos_old < 250) {
-            self.hide();
-        }
+      if (pos_new - pos_old < 250) {
+        self.hide();
+      }
     });
-
   });
 
   $(document).on('click', '.insta-control-left', function () {
-      var self = $(this);
-      var instafeed = $('#instafeed');
-      var c_right = $('.insta-control-right');
-      var pos_old = instafeed.scrollLeft();
+    var self = $(this);
+    var instafeed = $('#instafeed');
+    var c_right = $('.insta-control-right');
+    var pos_old = instafeed.scrollLeft();
 
-      if (c_right.is(':hidden')) {
-          c_right.show();
-      }
-
-      instafeed.animate({scrollLeft: pos_old - 250}, 800, function() {
-          var pos_new = instafeed.scrollLeft();
-          if (pos_new - pos_old > -250) {
-              self.hide();
-          }
-      });
-  });
-
-    if ($(window).width() < 768) {
-        var flagFooterMenuWrap = false;
-        $(document).on('click touchstart', '#page-footer .menu .wrap', function (e) {
-            if (!flagFooterMenuWrap) {
-                flagFooterMenuWrap = true;
-                setTimeout(function(){ flagFooterMenuWrap = false; }, 200);
-
-
-                console.log("Bottom menu clicked, event:");
-                console.log(e);
-
-                var menu = $(this).closest('.menu');
-                if (!menu) {
-                    console.log('Footer toggle handler: parent with class .menu not found');
-                    return;
-                }
-                var cross = menu.find('.cross');
-                if (!cross) {
-                    console.log('Footer toggle handler: not found .cross element');
-                    return;
-                }
-                var nav = menu.find('nav');
-                if (!nav) {
-                    console.log('Footer toggle handler: nav element not found');
-                    return;
-                }
-
-                cross.toggleClass('opened');
-                cross.hasClass('opened') ? cross.css({'transform': 'rotate(45deg)'}) : cross.css({'transform': 'rotate(0)'});
-                nav.toggle();
-            }
-        });
+    if (c_right.is(':hidden')) {
+      c_right.show();
     }
 
-    var flagCartSummary = false;
-    $(document).on('click touchstart', '.toggle-cart-summary', function (e) {
-        console.log(e.type);
+    instafeed.animate({scrollLeft: pos_old - 250}, 800, function () {
+      var pos_new = instafeed.scrollLeft();
+      if (pos_new - pos_old > -250) {
+        self.hide();
+      }
+    });
+  });
 
-        if (!flagCartSummary) {
-            console.log("Handler works!");
-            flagCartSummary = true;
-            setTimeout(function () { flagCartSummary = false; }, 600);
+  if ($(window).width() < 768) {
+    var flagFooterMenuWrap = false;
+    $(document).on('click touchstart', '#page-footer .menu .wrap', function (e) {
+      if (!flagFooterMenuWrap) {
+        flagFooterMenuWrap = true;
+        setTimeout(function () {
+          flagFooterMenuWrap = false;
+        }, 200);
 
-            //prep for reveal
+
+        // console.log("Bottom menu clicked, event:");
+        // console.log(e);
+
+        var menu = $(this).closest('.menu');
+        if (!menu) {
+          // console.log('Footer toggle handler: parent with class .menu not found');
+          return;
+        }
+        var cross = menu.find('.cross');
+        if (!cross) {
+          // console.log('Footer toggle handler: not found .cross element');
+          return;
+        }
+        var nav = menu.find('nav');
+        if (!nav) {
+          // console.log('Footer toggle handler: nav element not found');
+          return;
+        }
+
+        cross.toggleClass('opened');
+        cross.hasClass('opened') ? cross.css({'transform': 'rotate(45deg)'}) : cross.css({'transform': 'rotate(0)'});
+        nav.toggle();
+      }
+    });
+  }
+
+  var flagCartSummary = false;
+  $(document).on('click touchstart', '.toggle-cart-summary', function (e) {
+    console.log(e.type);
+
+    if (!flagCartSummary) {
+      console.log("Handler works!");
+      flagCartSummary = true;
+      setTimeout(function () {
+        flagCartSummary = false;
+      }, 600);
+
+      //prep for reveal
+      $('#overlay').toggleClass('is-active');
+      $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
+      $('body').toggleClass('body-no-scroll');
+      /*if (isMobile()) {
+          setTimeout(function () {
+              $('#overlay').toggleClass('is-active');
+              $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
+          }, 5000);
+      }*/
+      return false;
+    }
+  });
+  $(document).on('click', '#overlay.is-active', function () {
+    //prep for reveal
+    $('#overlay').toggleClass('is-active');
+    $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
+    $('body').removeClass('body-no-scroll');
+    /*if (isMobile()) {
+        setTimeout(function () {
             $('#overlay').toggleClass('is-active');
             $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
-            $('body').toggleClass('body-no-scroll');
-            /*if (isMobile()) {
-                setTimeout(function () {
-                    $('#overlay').toggleClass('is-active');
-                    $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
-                }, 5000);
-            }*/
-            return false;
-        }
-    });
-    $(document).on('click', '#overlay.is-active', function () {
-        //prep for reveal
-        $('#overlay').toggleClass('is-active');
-        $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
-        $('body').removeClass('body-no-scroll');
-        /*if (isMobile()) {
-            setTimeout(function () {
-                $('#overlay').toggleClass('is-active');
-                $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
-            }, 5000);
-        }*/
-        return false;
-    });
-  
+        }, 5000);
+    }*/
+    return false;
+  });
+
   /// Dropdowns that redirect
-  
   $('select.redirect').on('change', function(){
     window.location = $(this).val();
   });
 
   /// In-page links
-  
-  $(document).on('click', 'a[href^="#"]:not([href="#"])', function(){
+  $(document).on('click', 'a[href^="#"]:not([href="#"])', function () {
     var $target = $($(this).attr('href')).first();
-    if($target.length == 1) {
+    if ($target.length == 1) {
       $('html:not(:animated),body:not(:animated)').animate({
         scrollTop: $target.offset().top
-      }, 500 );
+      }, 500);
     }
     return false;
   });
-  
-  
+
+
   /// Revealables (sharing, cart in header, sidebar)
-  
-  $(document).on('click', '[data-revealable]', function(){
+  $(document).on('click', '[data-revealable]', function () {
     $(this).closest($(this).data('revealable')).toggleClass('show');
     $(window).trigger('resize');
     return false;
   });
-  
-  
+
+
   /// Show a short-lived text popup above an element
-  window.showQuickPopup = function(message){
+  window.showQuickPopup = function (message) {
     var $popup = $('<div class="simple-popup"/>');
     $popup.html(message).hide();
     $('#page-wrap-inner').append($popup);
-    $popup.css({ marginTop: - $popup.outerHeight() - 10, marginLeft: -($popup.outerWidth())/2});
-    $popup.fadeIn(200).delay(3500).fadeOut(400, function(){
+    $popup.css({marginTop: -$popup.outerHeight() - 10, marginLeft: -($popup.outerWidth()) / 2});
+    $popup.fadeIn(200).delay(3500).fadeOut(400, function () {
       $(this).remove();
     });
   };
 
-    /// Ajax product forms
-    var shopifyAjaxAddURL = '/cart/add.js';
-    var shopifyAjaxCartURL = '/cart.js';
-    var shopifyAjaxStorePageURL = '/search';
+  /// Ajax product forms
+  var shopifyAjaxAddURL = '/cart/add.js';
+  var shopifyAjaxCartURL = '/cart.js';
+  var shopifyAjaxStorePageURL = '/search';
 
-    function updateCartSummaries() {
-        console.log("Updating cart summaries");
-        $('#cart-summary').addClass('updating');
-        $.get(shopifyAjaxStorePageURL, function (data) {
-            // console.log(data);
-            var cartSummarySelector = '#cart-summary';
-            var $newCartObj = $($.parseHTML('<!-- cart-summary -->' + data.split('<!-- cart-summary -->')[1] + '<!-- cart-summary -->'))[2];
-            var $currCart = $(cartSummarySelector);
-            $currCart.html($newCartObj);
+  function updateCartSummaries() {
+    console.log("Updating cart summaries");
+    $('#cart-summary').addClass('updating');
+    $.get(shopifyAjaxStorePageURL, function (data) {
+      // console.log(data);
+      var cartSummarySelector = '#cart-summary';
+      var $newCartObj = $($.parseHTML('<!-- cart-summary -->' + data.split('<!-- cart-summary -->')[1] + '<!-- cart-summary -->'))[2];
+      var $currCart = $(cartSummarySelector);
+      $currCart.html($newCartObj);
 
-            $.getJSON('/cart.js', function (cart, textStatus) {
-                var total_price = cart.total_price;
-                var carttext = cart.item_count;
-                $(".cart-count").text(carttext);
+      $.getJSON('/cart.js', function (cart, textStatus) {
+        var total_price = cart.total_price;
+        var carttext = cart.item_count;
+        $(".cart-count").text(carttext);
 
-                $('#cart-summary .remove').unbind('click');
-                $(document).on('click', '#cart-summary .remove', function () {
-                    console.log("Remove button clicked!");
-                    var id = $(this).data('id');
-                    $.ajax({
-                        type: "POST",
-                        url: '/cart/update.js',
-                        data: 'updates[' + id + ']=0',
-                        success: updateCartSummaries(),
-                        error: function(response) {
-                            console.log('Removing item from cart error!');
-                            console.log(response);
-                        }
-                    });
-                });
-            });
-            $('#cart-summary.updating').removeClass('updating');
-            deferImages();
-        });
-    }
-    function addToCartHandle(data, queue, pressedButton) {
-        console.log(data.status);
-        if (data.status == 200) {
-            console.log(queue.length);
-            if (queue.length) {
-                var request = queue.shift();
-
-                $.ajax({
-                    type: "POST",
-                    url: shopifyAjaxAddURL,
-                    data: {
-                        id: request.variantId,
-                        quantity: request.quantity
-                    },
-                    success: function (data) {
-                        addToCartHandle(data, queue, pressedButton);
-                    },
-                    error: function (data) {
-                        addToCartHandle(data, queue, pressedButton);
-                    }
-                });
-            } else { //Queue is over, return to normal state
-
-
-                $('.add-ons-item.active').toggleClass('active').find('.bttn').toggleClass('hidden');
-
-
-                //Enable add button
-                var btn = pressedButton;
-                var contentFunc = $(this).is('button') ? 'html' : 'val';
-
-                console.log(btn);
-                //Set to 'DONE', alter button style, wait a few secs, revert to normal
-                btn.html({{ 'products.product.added_to_cart_btn' | t | json }});
-                setTimeout(function () {
-                    btn.html(btn.data('previous-value'));
-                }, 4000);
-
-
-                if(pressedButton.hasClass('cart-btn')) {
-                    pressedButton.addClass('selected');
-                    pressedButton.html('Selected');
-                }
-                $('#overlay').toggleClass('is-active');
-                $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
-                $('body').toggleClass('body-no-scroll');
-
-                //Update persistent cart summaries
-                updateCartSummaries();
-                if (isMobile()) {
-                    setTimeout(function () {
-                        $('#overlay').toggleClass('is-active');
-                        $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
-                        $('body').toggleClass('body-no-scroll');
-                    }, 5000);
-                }
-
-            }
-
-        } else if (data.status == 422) {
-            console.log('Error: Data status 422');
-
-            //Enable add button
-            var form = $('form[action="/cart/add"]:not(.noAJAX)');
-            var firstBtn = form.find(':submit').removeAttr('disabled').each(function () {
-                var btn = $(this);
-                var contentFunc = btn.is('button') ? 'html' : 'val';
-                btn[contentFunc](btn.data('previous-value'));
-            }).first;
-
-            //Not added, show message
-            if (typeof(data) != 'undefined' && typeof(data.status) != 'undefined') {
-                var jsonRes = $.parseJSON(data.responseText);
-                window.showQuickPopup(jsonRes.description);
-            } else {
-                console.log("Some unknown AJAX error. Disable ajax.");
-                //TODO Kuz: Implement submit the old-fashioned way.
-                $form.addClass('noAJAX');
-            }
-        }
-    }
-    $('.buy-now').click(function (evt) {
-        evt.preventDefault();
-
-        var self = $(this);
-
-        //Disable add button
-        // var contentFunc = self.is('button') ? 'html' : 'val';
-        self.data('previous-value', self.html()).html({{ "products.product.adding_to_cart" | t | json }});
-
-        //Add to cart
-        var product = self.data('variant-id');
-        var queue = [];
-        $('.add-ons-item.active').each(function () {
-            queue.push({
-                variantId: $(this).data('variant-id'),
-                quantity: 1
-            });
-        });
-
-        $.ajax({
-            type: "POST",
-            url: shopifyAjaxAddURL,
-            data: {
-                id: product,
-                quantity: 1
-            },
-            success: function (data) {
-                addToCartHandle(data, queue, self);
-            },
-            error: function (data) {
-                addToCartHandle(data, queue, self);
-            }
-        });
-    });
-
-    $(document).on('click', '#cart-summary .remove', function () {
-        console.log("Remove button clicked!");
-        var id = $(this).data('id');
-        $.ajax({
+        $('#cart-summary .remove').unbind('click');
+        $(document).on('click', '#cart-summary .remove', function () {
+          console.log("Remove button clicked!");
+          var id = $(this).data('id');
+          $.ajax({
             type: "POST",
             url: '/cart/update.js',
             data: 'updates[' + id + ']=0',
             success: updateCartSummaries(),
-            error: function(response,errorType,exceptionObject) {
-                console.log('Removing item from cart error!');
-                console.log(response);
-                console.log(errorType);
-                console.log(exceptionObject);
-            },
-            dataType: "json"
+            error: function (response) {
+              console.log('Removing item from cart error!');
+              console.log(response);
+            }
+          });
         });
+      });
+      $('#cart-summary.updating').removeClass('updating');
+      deferImages();
+    });
+  }
+
+  function addToCartHandle(data, queue, pressedButton) {
+    console.log(data.status);
+    if (data.status == 200) {
+      console.log(queue.length);
+      if (queue.length) {
+        var request = queue.shift();
+
+        $.ajax({
+          type: "POST",
+          url: shopifyAjaxAddURL,
+          data: {
+            id: request.variantId,
+            quantity: request.quantity
+          },
+          success: function (data) {
+            addToCartHandle(data, queue, pressedButton);
+          },
+          error: function (data) {
+            addToCartHandle(data, queue, pressedButton);
+          }
+        });
+      } else { //Queue is over, return to normal state
+
+
+        $('.add-ons-item.active').toggleClass('active').find('.bttn').toggleClass('hidden');
+
+
+        //Enable add button
+        var btn = pressedButton;
+        var contentFunc = $(this).is('button') ? 'html' : 'val';
+
+        console.log(btn);
+        //Set to 'DONE', alter button style, wait a few secs, revert to normal
+        btn.html({{ 'products.product.added_to_cart_btn' | t | json }});
+        setTimeout(function () {
+          btn.html(btn.data('previous-value'));
+        }, 4000);
+
+
+        if (pressedButton.hasClass('cart-btn')) {
+          pressedButton.addClass('selected');
+          pressedButton.html('Selected');
+        }
+        $('#overlay').toggleClass('is-active');
+        $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
+        $('body').toggleClass('body-no-scroll');
+
+        //Update persistent cart summaries
+        updateCartSummaries();
+        if (isMobile()) {
+          setTimeout(function () {
+            $('#overlay').toggleClass('is-active');
+            $('#cart-summary').toggle('slide', {direction: 'right'}, 200);
+            $('body').toggleClass('body-no-scroll');
+          }, 5000);
+        }
+
+      }
+
+    } else if (data.status == 422) {
+      console.log('Error: Data status 422');
+
+      //Enable add button
+      var form = $('form[action="/cart/add"]:not(.noAJAX)');
+      var firstBtn = form.find(':submit').removeAttr('disabled').each(function () {
+        var btn = $(this);
+        var contentFunc = btn.is('button') ? 'html' : 'val';
+        btn[contentFunc](btn.data('previous-value'));
+      }).first;
+
+      //Not added, show message
+      if (typeof(data) != 'undefined' && typeof(data.status) != 'undefined') {
+        var jsonRes = $.parseJSON(data.responseText);
+        window.showQuickPopup(jsonRes.description);
+      } else {
+        console.log("Some unknown AJAX error. Disable ajax.");
+        //TODO Kuz: Implement submit the old-fashioned way.
+        $form.addClass('noAJAX');
+      }
+    }
+  }
+
+  $('.buy-now').click(function (evt) {
+    evt.preventDefault();
+
+    var self = $(this);
+
+    //Disable add button
+    // var contentFunc = self.is('button') ? 'html' : 'val';
+    self.data('previous-value', self.html()).html({{ "products.product.adding_to_cart" | t | json }});
+
+    //Add to cart
+    var product = self.data('variant-id');
+    var queue = [];
+    $('.add-ons-item.active').each(function () {
+      queue.push({
+        variantId: $(this).data('variant-id'),
+        quantity: 1
+      });
     });
 
-    /// Side-cart quantities
-
-    $(document).on('change', '#cart-summary .cart-summary-item input', function () {
-        var $statusDivs = $(this).closest('.cart-summary-item').add('#cart-summary').addClass('updating');
-        var quantities = [];
-        $('#cart-summary .cart-summary-item input').each(function () {
-            quantities.push($(this).val());
-        });
-        $.post('/cart/update.js', {updates: quantities}, function (data) {
-            //Update total
-            $('#cart-summary .cart-summary-subtotal .amount').html(Shopify.formatMoney(data.total_price, {{shop.money_format | json}}));
-            //Remove if qty=0
-            $('#cart-summary .cart-summary-item input').filter(function () {
-                return $(this).val() == 0
-            }).closest('.cart-summary-item').animate({opacity: 0}, 250, function () {
-                $(this).remove()
-            });
-            updateCartSummaries();
-        }, 'json').always(function () {
-            $statusDivs.removeClass('updating')
-        });
+    $.ajax({
+      type: "POST",
+      url: shopifyAjaxAddURL,
+      data: {
+        id: product,
+        quantity: 1
+      },
+      success: function (data) {
+        addToCartHandle(data, queue, self);
+      },
+      error: function (data) {
+        addToCartHandle(data, queue, self);
+      }
     });
-  
+  });
+
+  $(document).on('click', '#cart-summary .remove', function () {
+    console.log("Remove button clicked!");
+    var id = $(this).data('id');
+    $.ajax({
+      type: "POST",
+      url: '/cart/update.js',
+      data: 'updates[' + id + ']=0',
+      success: updateCartSummaries(),
+      error: function (response, errorType, exceptionObject) {
+        console.log('Removing item from cart error!');
+        console.log(response);
+        console.log(errorType);
+        console.log(exceptionObject);
+      },
+      dataType: "json"
+    });
+  });
+
+  /// Side-cart quantities
+  $(document).on('change', '#cart-summary .cart-summary-item input', function () {
+    var $statusDivs = $(this).closest('.cart-summary-item').add('#cart-summary').addClass('updating');
+    var quantities = [];
+    $('#cart-summary .cart-summary-item input').each(function () {
+      quantities.push($(this).val());
+    });
+    $.post('/cart/update.js', {updates: quantities}, function (data) {
+      //Update total
+      $('#cart-summary .cart-summary-subtotal .amount').html(Shopify.formatMoney(data.total_price, {{ shop.money_format | json }}));
+      //Remove if qty=0
+      $('#cart-summary .cart-summary-item input').filter(function () {
+        return $(this).val() == 0
+      }).closest('.cart-summary-item').animate({opacity: 0}, 250, function () {
+        $(this).remove()
+      });
+      updateCartSummaries();
+    }, 'json').always(function () {
+      $statusDivs.removeClass('updating')
+    });
+  });
+
   /// Heights in grids
-  
-  $(window).on('debouncedresize load', function(){
-    $('[data-normheights]').each(function(){
+
+  $(window).on('debouncedresize load', function () {
+    $('[data-normheights]').each(function () {
       var $items = $(this).find($(this).data('normheights')),
-          childFilter = $(this).data('normheights-inner'),
-          tallest = 0,
-          lastYOffset = 0,
-          row = [];
-      $items.each(function(index){
+        childFilter = $(this).data('normheights-inner'),
+        tallest = 0,
+        lastYOffset = 0,
+        row = [];
+      $items.each(function (index) {
         var $img = $(this).find(childFilter);
         var yOffset = $(this).position().top;
-        if(index == 0) {
+        if (index == 0) {
           lastYOffset = yOffset;
-        } else if(yOffset != lastYOffset) {
+        } else if (yOffset != lastYOffset) {
           $(row).css('min-height', tallest);
           yOffset = $(this).position().top;
           row.length = 0;
@@ -1088,7 +1052,7 @@ $(function($){
         lastYOffset = yOffset;
         row.push(this);
         var h = $img.height();
-        if(h > tallest) tallest = h;
+        if (h > tallest) tallest = h;
       });
       $(row).css('min-height', tallest);
     });
@@ -1096,9 +1060,9 @@ $(function($){
 
   /// Select contents on focus
 
-  $(document).on('focusin click', 'input.select-on-focus', function(){
+  $(document).on('focusin click', 'input.select-on-focus', function () {
     $(this).select();
-  }).on('mouseup', 'input.select-on-focus', function(e){
+  }).on('mouseup', 'input.select-on-focus', function (e) {
     e.preventDefault(); //Prevent mouseup killing select()
   });
 
