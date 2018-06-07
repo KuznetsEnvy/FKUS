@@ -22,6 +22,19 @@
   </div>
 </section>
 
+<section class="section products-section product-list">
+  <h2 class="section-header line-framed ride-ons"><span>Floatie </span><em>Kids</em></h2>
+  <div class="container">
+    <div class="row grid">
+      {% assign forkids = "dragon,t-rex" | split:"," %}
+      {% for item in forkids %}
+        {% assign product = all_products[item] %}
+        {% include 'product-block' %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <h2 class="section-header"><span>Celebrity spotting </span><em>Hall of Fame</em></h2>
   <div class="celebrities">

@@ -1,5 +1,11 @@
 <div class="banner-index" style="{% if template contains 'product' %}display:none;{% endif %}">
   <picture>
+    <source media="(min-width: 752px)" srcset="{{ 'header_banner_sale_kids-launch.gif' | asset_url | split:"?" | first }}">
+    <source media="(min-width: 300px)" srcset="{{ 'header_banner_sale_kids-launch-mobile.gif' | asset_url | split:"?" | first }}">
+    <img src="{{ 'header_banner_sale_kids-launch.gif' | asset_url | split:"?" | first }}" alt="Homepage banner">
+  </picture>
+  {% comment %}
+  <picture>
     <source media="(min-width: 1785px)" srcset="{{ 'header_banner_textless.png' | asset_img_url: '1920x' | split:"?" | first }}">
     <source media="(min-width: 1545px)" srcset="{{ 'header_banner_textless.png' | asset_img_url: '1650x' | split:"?" | first }}">
     <source media="(min-width: 1212px)" srcset="{{ 'header_banner_textless.png' | asset_img_url: '1440x' | split:"?" | first }}">
@@ -14,7 +20,7 @@
   <div id="banner-top-text">
     <span>Float</span> <em>Like a King</em>
   </div>
-
+  {% endcomment %}
 </div>
 
 {% include 'homepage-layout' %}
