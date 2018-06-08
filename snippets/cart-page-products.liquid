@@ -23,14 +23,14 @@
           {% assign product = settings[featured_products_product] %}
           {% if settings[featured_products_product] != blank %}
             <div class="product-grid-item">
-              <a class="image none-hover" href="{{ all_products[product].url }}">
+              <div class="image">
                 <img src="{{ all_products[product].featured_image | img_url: '1024x1024' }}" alt="{{ all_products[product].title }}"/>
-              </a>
+              </div>
               <div class="ftw ft-nm">
                 <div class="ftr">
-                  <a class="title" href="{{ all_products[product].url }}">
+                  <div class="title">
                     <span>{{ all_products[product].title }}</span>
-                  </a>
+                  </div>
                   <div class="price">
                     {% if all_products[product].compare_at_price_max > all_products[product].price %}
                       <span class="normal">{{ 'pages.upsell.normal_price' | t }}</span>
